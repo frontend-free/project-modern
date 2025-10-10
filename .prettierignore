@@ -10,5 +10,4 @@ _*
 *.svg
 browserslist
 LICENSE
-package*.json
 pnpm-lock.yaml

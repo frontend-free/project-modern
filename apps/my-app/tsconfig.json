@@ -18,8 +18,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["node"]
+    "types": ["vite/client", "./vite-env.d.ts", "./react-pages.d.ts", "node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
+  "include": ["src", "packages/*/src/**/*"],
   "exclude": ["node_modules", "dist"],
   "references": [
     {

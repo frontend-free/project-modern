@@ -1,3 +1,4 @@
 module.exports = {
-  extends: [require.resolve('@lib/create-app/.stylelintrc')],
+  extends: ['@fe-free/style-lint'],
 };
+

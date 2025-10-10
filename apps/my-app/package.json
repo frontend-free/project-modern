@@ -1,0 +1,52 @@
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "vite build",
+    "dev": "vite --port 4000"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "@ant-design/pro-components": "2.8.9",
+    "@fe-free/core": "^2.7.1",
+    "@fe-free/file": "^2.7.1",
+    "@fe-free/tool": "^2.7.1",
+    "@lib/api": "workspace:^",
+    "@lib/app": "workspace:^",
+    "@micro-zoe/micro-app": "1.0.0-rc.26",
+    "ahooks": "3.8.4",
+    "antd": "^5.27.4",
+    "axios": "^1.7.9",
+    "classnames": "^2.5.1",
+    "dayjs": "^1.11.12",
+    "js-cookie": "^3.0.5",
+    "lodash-es": "^4.17.21",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router": "^6.27.0",
+    "react-router-dom": "^6.25.1"
+  },
+  "devDependencies": {
+    "@fe-free/vite-plugin-remove-svg-color": "^1.3.4",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "code-inspector-plugin": "^0.19.2",
+    "dotenv-expand": "^11.0.6",
+    "fs-extra": "^11.2.0",
+    "path": "^0.12.7",
+    "postcss": "^8.4.40",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^9.6.0",
+    "sass": "^1.77.8",
+    "tailwindcss": "^3.4.7",
+    "vite": "^5.3.5",
+    "vite-plugin-react-router-pages": "^1.1.4",
+    "vite-plugin-svgr": "^4.3.0"
+  }
+}

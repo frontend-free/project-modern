@@ -1,0 +1,26 @@
+diff --git a/es/useInfiniteScroll/index.js b/es/useInfiniteScroll/index.js
+index b4e1880582187471155d82c5248492c79a49b851..eb99e37c895380d821c1360110affc8d34a7fd93 100644
+--- a/es/useInfiniteScroll/index.js
++++ b/es/useInfiniteScroll/index.js
+@@ -62,6 +62,7 @@ var useInfiniteScroll = function (service, options) {
+         });
+       });
+     }, {
++      __ignore: true,
+       manual: manual,
+       onFinally: function (_, d, e) {
+         setLoadingMore(false);
+diff --git a/es/useRequest/src/useRequest.js b/es/useRequest/src/useRequest.js
+index 77b42fc78924edbfe661cab6c890712df650f6cc..809de8615d611491edba3de78564f065aaa727ee 100644
+--- a/es/useRequest/src/useRequest.js
++++ b/es/useRequest/src/useRequest.js
+@@ -19,6 +19,9 @@ import useRequestImplement from './useRequestImplement';
+ //   plugins?: Plugin<TData, TParams>[],
+ // ): Result<TData, TParams>
+ function useRequest(service, options, plugins) {
++  if(!options?.__ignore){
++    console.error('废弃 ahooks useRequest，请使用 useGlobalRequest 代替!');
++  }
+   return useRequestImplement(service, options, __spreadArray(__spreadArray([], __read(plugins || []), false), [useDebouncePlugin, useLoadingDelayPlugin, usePollingPlugin, useRefreshOnWindowFocusPlugin, useThrottlePlugin, useAutoRunPlugin, useCachePlugin, useRetryPlugin], false));
+ }
+ export default useRequest;

@@ -1,3 +1,3 @@
 module.exports = {
-  extends: [require.resolve('@lib/create-app/.eslintrc')]
+  extends: ['@fe-free/eslint-config-base']
 };

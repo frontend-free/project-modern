@@ -1,0 +1,30 @@
+diff --git a/es/BaseForm/BaseForm.js b/es/BaseForm/BaseForm.js
+index 90cec04704b765e58fbc1b4042916ff1e96128cb..281a5bb4d1d9581b8e54dc2f26634463b59cc55a 100644
+--- a/es/BaseForm/BaseForm.js
++++ b/es/BaseForm/BaseForm.js
+@@ -477,6 +477,10 @@ function BaseForm(props) {
+           _context2.prev = 14;
+           _context2.t0 = _context2["catch"](4);
+           console.log(_context2.t0);
++          // patch 特殊逻辑，不能吃掉错误，抛出到全局
++          setTimeout(() => {
++            throw _context2.t0
++          }, 0)
+           setLoading(false);
+         case 18:
+         case "end":
+diff --git a/es/components/FormItem/index.js b/es/components/FormItem/index.js
+index 07ca1576f7da2a2e0624569a9ec5483e1a8ce50e..7a31cc7970ac3ab6df37b4ea75a1bd38a1a21ed4 100644
+--- a/es/components/FormItem/index.js
++++ b/es/components/FormItem/index.js
+@@ -3,7 +3,9 @@ import _objectSpread from "@babel/runtime/helpers/esm/objectSpread2";
+ import _objectWithoutProperties from "@babel/runtime/helpers/esm/objectWithoutProperties";
+ var _excluded = ["children", "onChange", "onBlur", "ignoreFormItem", "valuePropName"],
+   _excluded2 = ["children", "addonAfter", "addonBefore", "valuePropName", "addonWarpStyle", "convertValue", "help"],
+-  _excluded3 = ["valueType", "transform", "dataFormat", "ignoreFormItem", "lightProps", "children"];
++  _excluded3 = ["valueType", "transform", "dataFormat", "ignoreFormItem", "lightProps", "children", 
++    // patch 增加
++    'cacheForSwr', 'proFieldKey', 'onBlur'];
+ import { isDropdownValueType, omitUndefined, useDeepCompareMemo, useRefFunction } from '@ant-design/pro-utils';
+ import { ConfigProvider, Form } from 'antd';
+ import omit from "rc-util/es/omit";
