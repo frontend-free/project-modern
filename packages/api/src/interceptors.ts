@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios';
 // @ts-ignore
-import { config as globalConfig } from '@/config';
+import { globalConfig } from '@/config';
 import { downloadInterceptor, RequestError } from '@fe-free/core';
 
 function getAuthorization() {

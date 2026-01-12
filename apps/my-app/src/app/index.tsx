@@ -1,7 +1,6 @@
-import { config } from '@/config';
+import { globalConfig } from '@/config';
 import { CoreApp } from '@fe-free/core';
 import { initErrorHandle } from '@lib/api';
-import microApp from '@micro-zoe/micro-app';
 import { useMemo } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { PagesRoutes, pagesRoutes } from 'virtual:react-pages';
@@ -30,12 +29,9 @@ function AppRoute() {
 const Root = () => {
   return (
     <CoreApp
-      basename={config.root}
-      name={config.name}
+      basename={globalConfig.basename}
+      name={globalConfig.name}
       enableCheckUpdate
-      configProviderProps={{
-        theme: config.theme,
-      }}
       appProps={{
         className: 'w-screen h-screen',
       }}
@@ -46,7 +42,5 @@ const Root = () => {
 };
 
 initErrorHandle();
-
-microApp.start();
 
 export default Root;

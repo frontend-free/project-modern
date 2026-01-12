@@ -1,5 +1,5 @@
 import SVGAdd from '@/assets/svgs/add.svg?react';
-import Icon, { StepForwardOutlined } from '@ant-design/icons';
+import Icon, { StepForwardOutlined } from '@fe-free/icons';
 import { Button } from 'antd';
 
 // 打印环境变量
