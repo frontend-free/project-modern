@@ -18,13 +18,21 @@
       }
 
       .spinner {
+        position: relative;
+      }
+      .spinner::after {
+        content: '';
+        position: absolute;
+        display: block;
         border: 5px solid #d4d9e2;
         border-top: 5px solid #3c7eff;
         border-radius: 50%;
         width: 30px;
         height: 30px;
+        top: 100px;
+        left: 50vw;
         animation: spin 1s linear infinite;
-        margin: 40vh auto;
+        margin-left: -20px;
       }
 
       @keyframes spin {
@@ -43,6 +51,6 @@
     <div id="root">
       <div class="spinner"></div>
     </div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- <script type="module" src="/src/main.tsx"></script> -->
   </body>
 </html>
