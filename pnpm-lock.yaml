@@ -111,17 +111,17 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(antd@5.27.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@fe-free/core':
-        specifier: ^4.1.3
-        version: 4.1.4(4f5415eb3afaa16a4898ae1fa5ab1888)
+        specifier: ^4.1.32
+        version: 4.1.32(578d60a465f0c949cf0eaa424b297d57)
       '@fe-free/file':
-        specifier: ^4.1.3
-        version: 4.1.4(@ant-design/x@1.6.1(antd@5.27.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(dayjs@1.11.18)(i18next-browser-languagedetector@8.2.0)(i18next-icu@2.4.1(intl-messageformat@10.7.18))(i18next@25.7.4(typescript@5.9.3))(react-i18next@16.5.2(i18next@25.7.4(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(react@19.2.3)
+        specifier: ^4.1.32
+        version: 4.1.32(dayjs@1.11.18)(i18next-browser-languagedetector@8.2.0)(i18next-icu@2.4.1(intl-messageformat@10.7.18))(i18next@25.7.4(typescript@5.9.3))(react-i18next@16.5.2(i18next@25.7.4(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(react@19.2.3)
       '@fe-free/icons':
-        specifier: ^4.1.3
-        version: 4.1.4(react@19.2.3)
+        specifier: ^4.1.32
+        version: 4.1.32(react@19.2.3)
       '@fe-free/tool':
-        specifier: ^4.1.3
-        version: 4.1.4(ahooks@3.8.4(patch_hash=fd199cd4c96d4722ee2f9cf458c1befa9c6899a8a880e4cf8b39ad768debe8b5)(react@19.2.3))
+        specifier: ^4.1.32
+        version: 4.1.32(ahooks@3.8.4(patch_hash=fd199cd4c96d4722ee2f9cf458c1befa9c6899a8a880e4cf8b39ad768debe8b5)(react@19.2.3))
       '@lib/api':
         specifier: workspace:^
         version: link:../../packages/api
@@ -229,8 +229,8 @@ importers:
   packages/api:
     dependencies:
       '@fe-free/core':
-        specifier: ^4.1.3
-        version: 4.1.4(4f5415eb3afaa16a4898ae1fa5ab1888)
+        specifier: ^4.1.32
+        version: 4.1.32(578d60a465f0c949cf0eaa424b297d57)
       antd:
         specifier: ^5.19.3
         version: 5.27.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -387,13 +387,6 @@ packages:
       antd: '>=5.22.6'
       react: '>=19.0.0'
       react-dom: '>=19.0.0'
-
-  '@ant-design/x@1.6.1':
-    resolution: {integrity: sha512-6KO7iNGcnAMvIJzZPWJOdNHhx3kC4KUEMs43C0tSJORs5SosL+0FdCY6reozLZkUMSu3LqloPIJVba+OAlyA+w==}
-    peerDependencies:
-      antd: ^5.20.3
-      react: '>=18.0.0'
-      react-dom: '>=18.0.0'
 
   '@antv/component@2.1.7':
     resolution: {integrity: sha512-vuSuSjKFsWZBD77ZjMoP9c+FhMQvkJvPJb0dFR8Ym5kr44gfc437QE9rhuemlcjN8KEpPtMZtnUk/p6WB5qdOQ==}
@@ -1189,13 +1182,13 @@ packages:
     peerDependencies:
       '@commitlint/cli': ^17.8.0
 
-  '@fe-free/core@4.1.4':
-    resolution: {integrity: sha512-bKtq8feUTpimBRC0NlWtkBMYCndheU/lyaOJ/R5XRAzZ4MufB6npLUiJDPVASC4XHh6+qZD6ab9MkQCRNSSkyg==}
+  '@fe-free/core@4.1.32':
+    resolution: {integrity: sha512-R0xUaEqH6FnqxVQbmtSwxFI5ymjFf4a+NGRD36ploG8X/ECuKgDyD7YKQYoz8Cvd1i3xihd+nBqekxolE1N4mg==}
     peerDependencies:
       '@ant-design/plots': ^2.5.0
       '@ant-design/pro-components': 2.8.9
-      '@fe-free/icons': 4.1.4
-      '@fe-free/tool': 4.1.4
+      '@fe-free/icons': 4.1.32
+      '@fe-free/tool': 4.1.32
       antd: ^5.27.1
       dayjs: ~1.11.10
       i18next: ^25.7.2
@@ -1209,10 +1202,9 @@ packages:
     peerDependencies:
       eslint: ^8.45.0
 
-  '@fe-free/file@4.1.4':
-    resolution: {integrity: sha512-hvFNI7scNz2VWiXwLlc7sNUA1+RK/qKB7vu5noXu+8tU/JeqyqfVLEhFCEDzs50F0oBDF4p+5MGySCU6g8l5Qg==}
+  '@fe-free/file@4.1.32':
+    resolution: {integrity: sha512-tfleIbHTxkyVmkRLXbnZriDSHgZXE+lVVVEy8ximRIMEUz7XQuDCl42mIk/OI0cdpG9f7BiL/09/I9SsBQJFtQ==}
     peerDependencies:
-      '@ant-design/x': ^1.4.0
       dayjs: ~1.11.10
       i18next: ^25.7.2
       i18next-browser-languagedetector: ^8.2.0
@@ -1224,8 +1216,8 @@ packages:
     resolution: {integrity: sha512-BB3fYL/ZnyXpNMLASS+IbTY7eLaO6aR1qR1/Q6v7agqg9gQB1ylEImi6tW0LUO14TNKaZYBLgBVvtoDpCLTSaQ==}
     hasBin: true
 
-  '@fe-free/icons@4.1.4':
-    resolution: {integrity: sha512-1UPmGz/JZv09ohca5B/E4TM2CuO2SwPXLeKMQVH8QL9HyCU4yFFFUs6afiKLzxyzsk1gNHs5fhJTChR9cPPzYA==}
+  '@fe-free/icons@4.1.32':
+    resolution: {integrity: sha512-z6WhTIAGMqVMJM/L0w/T2MUwUF5PzUk0cUKj9lzpnAp50WNA7USKeEcv7RteGoJriZOavei6qVjDB7irJGzpVQ==}
     peerDependencies:
       react: ^19.2.0
 
@@ -1234,8 +1226,8 @@ packages:
     peerDependencies:
       stylelint: ^16.6.1
 
-  '@fe-free/tool@4.1.4':
-    resolution: {integrity: sha512-dtU9C4CF2tMq/jTE6SFG3jgp6DkvXNWWoXxM+tM/qX0KJoXxztEHiR1KXNemiCNxAe1InhCDJhdfZ73Tbmpp4g==}
+  '@fe-free/tool@4.1.32':
+    resolution: {integrity: sha512-zjPEJxTvdmScRik6719n7mNeA/yI81fkF96pmL/qyHFv+/QMUeZOJ28imUwqrzgM70ApXUTuSYe1/84zSQypHg==}
     peerDependencies:
       ahooks: ^3.8.4
 
@@ -7472,21 +7464,6 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  '@ant-design/x@1.6.1(antd@5.27.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@ant-design/colors': 7.2.1
-      '@ant-design/cssinjs': 1.24.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@ant-design/cssinjs-utils': 1.1.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@ant-design/fast-color': 2.0.6
-      '@ant-design/icons': 5.6.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@babel/runtime': 7.28.4
-      antd: 5.27.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      classnames: 2.5.1
-      rc-motion: 2.9.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      rc-util: 5.44.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
   '@antv/component@2.1.7':
     dependencies:
       '@antv/g': 6.1.28
@@ -8513,7 +8490,7 @@ snapshots:
       '@commitlint/cli': 17.8.1(@swc/core@1.15.4)
       '@commitlint/config-conventional': 17.8.1
 
-  '@fe-free/core@4.1.4(4f5415eb3afaa16a4898ae1fa5ab1888)':
+  '@fe-free/core@4.1.32(578d60a465f0c949cf0eaa424b297d57)':
     dependencies:
       '@ant-design/plots': 2.6.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@ant-design/pro-components': 2.8.9(antd@5.27.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(rc-field-form@2.7.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -8526,8 +8503,8 @@ snapshots:
       '@codemirror/lang-xml': 6.1.0
       '@codemirror/language': 6.11.3
       '@codemirror/view': 6.38.5
-      '@fe-free/icons': 4.1.4(react@19.2.3)
-      '@fe-free/tool': 4.1.4(ahooks@3.8.4(patch_hash=fd199cd4c96d4722ee2f9cf458c1befa9c6899a8a880e4cf8b39ad768debe8b5)(react@19.2.3))
+      '@fe-free/icons': 4.1.32(react@19.2.3)
+      '@fe-free/tool': 4.1.32(ahooks@3.8.4(patch_hash=fd199cd4c96d4722ee2f9cf458c1befa9c6899a8a880e4cf8b39ad768debe8b5)(react@19.2.3))
       '@lezer/highlight': 1.2.1
       '@uiw/codemirror-theme-basic': 4.25.2(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.5)
       '@uiw/codemirror-themes': 4.25.2(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.5)
@@ -8582,9 +8559,8 @@ snapshots:
       - supports-color
       - typescript
 
-  '@fe-free/file@4.1.4(@ant-design/x@1.6.1(antd@5.27.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(dayjs@1.11.18)(i18next-browser-languagedetector@8.2.0)(i18next-icu@2.4.1(intl-messageformat@10.7.18))(i18next@25.7.4(typescript@5.9.3))(react-i18next@16.5.2(i18next@25.7.4(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(react@19.2.3)':
+  '@fe-free/file@4.1.32(dayjs@1.11.18)(i18next-browser-languagedetector@8.2.0)(i18next-icu@2.4.1(intl-messageformat@10.7.18))(i18next@25.7.4(typescript@5.9.3))(react-i18next@16.5.2(i18next@25.7.4(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(react@19.2.3)':
     dependencies:
-      '@ant-design/x': 1.6.1(antd@5.27.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       classnames: 2.5.1
       dayjs: 1.11.18
       exceljs: 4.4.0
@@ -8617,7 +8593,7 @@ snapshots:
       - magicast
       - supports-color
 
-  '@fe-free/icons@4.1.4(react@19.2.3)':
+  '@fe-free/icons@4.1.32(react@19.2.3)':
     dependencies:
       react: 19.2.3
 
@@ -8630,7 +8606,7 @@ snapshots:
     transitivePeerDependencies:
       - postcss
 
-  '@fe-free/tool@4.1.4(ahooks@3.8.4(patch_hash=fd199cd4c96d4722ee2f9cf458c1befa9c6899a8a880e4cf8b39ad768debe8b5)(react@19.2.3))':
+  '@fe-free/tool@4.1.32(ahooks@3.8.4(patch_hash=fd199cd4c96d4722ee2f9cf458c1befa9c6899a8a880e4cf8b39ad768debe8b5)(react@19.2.3))':
     dependencies:
       ahooks: 3.8.4(patch_hash=fd199cd4c96d4722ee2f9cf458c1befa9c6899a8a880e4cf8b39ad768debe8b5)(react@19.2.3)
       lodash-es: 4.17.21
