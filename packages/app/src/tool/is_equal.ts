@@ -1,17 +1,18 @@
-function isEqual(data1, data2) {
-  // Check for null, undefined, empty string, and empty array equivalence
-  const normalize = (value) => {
-    if (
-      value === null ||
-      value === undefined ||
-      value === '' ||
-      (Array.isArray(value) && value.length === 0)
-    ) {
-      return 'nullish';
-    }
-    return value;
-  };
+// Check for null, undefined, empty string, and empty array equivalence
+const normalize = (value) => {
+  if (
+    value === null ||
+    value === undefined ||
+    value === '' ||
+    (Array.isArray(value) && value.length === 0)
+  ) {
+    return 'nullish';
+  }
 
+  return value;
+};
+
+function isEqual(data1, data2) {
   data1 = normalize(data1);
   data2 = normalize(data2);
 

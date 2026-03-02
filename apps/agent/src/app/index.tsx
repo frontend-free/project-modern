@@ -41,7 +41,7 @@ function AppRoute() {
         element: <Navigate to="/404" />,
       },
     ];
-  }, []);
+  }, [navigate]);
 
   return useRoutes(routes);
 }
