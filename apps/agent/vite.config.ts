@@ -1,4 +1,5 @@
 import rsc from '@fe-free/vite-plugin-remove-svg-color';
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { codeInspectorPlugin } from 'code-inspector-plugin';
 import path from 'path';
@@ -15,6 +16,7 @@ export default ({ mode }) => {
     base: mode === 'production' ? '/agent-static/' : '/',
     plugins: [
       react(),
+      tailwindcss(),
       pages(),
       rsc(),
       svgr(),

@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "agent",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,20 +8,20 @@
   "license": "ISC",
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "postinstall": "cp ./node_modules/@fe-free/core/src/i18n.tsx ./src/i18n.tsx",
     "build": "vite build",
     "dev": "vite --port 4000"
   },
   "dependencies": {
-    "@ant-design/pro-components": "2.8.9",
-    "@ant-design/v5-patch-for-react-19": "^1.0.3",
-    "@fe-free/core": "^4.1.32",
-    "@fe-free/file": "^4.1.32",
-    "@fe-free/icons": "^4.1.32",
-    "@fe-free/tool": "^4.1.32",
+    "@ant-design/pro-components": "3.1.6-0",
+    "@fe-free/core": "^6.0.5",
+    "@fe-free/file": "^6.0.5",
+    "@fe-free/icons": "^6.0.5",
+    "@fe-free/tool": "^6.0.5",
     "@lib/api": "workspace:^",
     "@lib/app": "workspace:^",
     "ahooks": "3.8.4",
-    "antd": "^5.27.4",
+    "antd": "^6.2.1",
     "axios": "^1.7.9",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.12",
@@ -46,13 +46,11 @@
     "dotenv-expand": "^11.0.6",
     "fs-extra": "^11.2.0",
     "path": "^0.12.7",
-    "postcss": "^8.4.40",
-    "postcss-loader": "^7.3.3",
-    "postcss-preset-env": "^9.6.0",
     "sass": "^1.77.8",
-    "tailwindcss": "^3.4.7",
-    "vite": "^5.3.5",
+    "tailwindcss": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.1",
+    "vite": "^7.3.1",
     "vite-plugin-react-router-pages": "^1.1.4",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite-plugin-svgr": "^4.5.0"
   }
 }

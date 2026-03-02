@@ -1,0 +1,6 @@
+/* stylelint-disable */
+@import '@fe-free/core/src/tailwind.css';
+
+@source '../../../packages/app/src';
+@source '../node_modules/@fe-free/core/src';
+@source '../node_modules/@fe-free/ai/src';

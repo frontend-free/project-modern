@@ -1,4 +1,3 @@
-import '@ant-design/v5-patch-for-react-19';
 import { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { initI18n } from './i18n';

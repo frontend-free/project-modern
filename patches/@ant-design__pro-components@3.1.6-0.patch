@@ -1,0 +1,13 @@
+diff --git a/es/form/components/FormItem/index.js b/es/form/components/FormItem/index.js
+index 7d4771f91a7c65c91c47fa9d2a9198435c27dda8..12ba0efdf3abfe0f0d6f679e0d06f5597c489c94 100644
+--- a/es/form/components/FormItem/index.js
++++ b/es/form/components/FormItem/index.js
+@@ -196,6 +196,8 @@ const ProFormItem = props => {
+     lightProps,
+     children: unusedChildren,
+     fieldProps,
++    // pnpm patch，移除 onBlur，避免奇怪的问题。
++    onBlur,
+     ...rest
+   } = props;
+   const formListField = useContext(FormListContext);
