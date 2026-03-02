@@ -16,7 +16,10 @@
 import { useTranslation } from 'react-i18next';
 
 const { t } = useTranslation();
-return <div>{t('@lib/app.helpDoc', '帮助文档')}</div>;
+<div>
+  {t('@fe-free/core.crud.selectedItems', '帮助文档')}
+  {t('@fe-free/core.hello', 'hello {name}', { name: 'world' })}
+</div>;
 ```
 
 - 1 使用 hook `useTranslation` 里面的 `t` 获取翻译.

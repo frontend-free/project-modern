@@ -78,7 +78,7 @@ importers:
         version: 8.0.3
       i18next-cli:
         specifier: ^1.34.1
-        version: 1.47.1(@types/node@20.19.35)(i18next@25.8.13(typescript@5.3.2))(typescript@5.3.2)
+        version: 1.47.5(@types/node@20.19.35)(i18next@25.8.13(typescript@5.3.2))(typescript@5.3.2)
       lint-staged:
         specifier: ^15.2.7
         version: 15.5.2
@@ -3926,8 +3926,8 @@ packages:
   flat-cache@6.1.20:
     resolution: {integrity: sha512-AhHYqwvN62NVLp4lObVXGVluiABTHapoB57EyegZVmazN+hhGhLTn3uZbOofoTw4DSDvVCadzzyChXhOAvy8uQ==}
 
-  flatted@3.3.3:
-    resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
+  flatted@3.3.4:
+    resolution: {integrity: sha512-3+mMldrTAPdta5kjX2G2J7iX4zxtnwpdA8Tr2ZSjkyPSanvbZAcy6flmtnXbEybHrDcU9641lxrMfFuUxVz9vA==}
 
   flru@1.0.2:
     resolution: {integrity: sha512-kWyh8ADvHBFz6ua5xYOPnUroZTT/bwWfrCeL0Wj1dzG4/YOmOcfJ99W8dOVyyynJN35rZ9aCOtHChqQovV7yog==}
@@ -4280,8 +4280,8 @@ packages:
   i18next-browser-languagedetector@8.2.1:
     resolution: {integrity: sha512-bZg8+4bdmaOiApD7N7BPT9W8MLZG+nPTOFlLiJiT8uzKXFjhxw4v2ierCXOwB5sFDMtuA5G4kgYZ0AznZxQ/cw==}
 
-  i18next-cli@1.47.1:
-    resolution: {integrity: sha512-OAEncTrl8dKS0OK38MKaOZV78IE8Z3aczmzOzRcYzRuSCSqBatwpCL+fAMVYfbF7CvDnj/VgUyb1cirVtSya6g==}
+  i18next-cli@1.47.5:
+    resolution: {integrity: sha512-XxX2e5068PkxJvGBPtSNMspvHg3hadQ1QBO8pr+W1HEkDBp9cBb74+ut/E0P3k67a8maUq3MgzV8G0L0vgiz2A==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -11831,17 +11831,17 @@ snapshots:
 
   flat-cache@3.2.0:
     dependencies:
-      flatted: 3.3.3
+      flatted: 3.3.4
       keyv: 4.5.4
       rimraf: 3.0.2
 
   flat-cache@6.1.20:
     dependencies:
       cacheable: 2.3.3
-      flatted: 3.3.3
+      flatted: 3.3.4
       hookified: 1.15.1
 
-  flatted@3.3.3: {}
+  flatted@3.3.4: {}
 
   flru@1.0.2: {}
 
@@ -12262,7 +12262,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.6
 
-  i18next-cli@1.47.1(@types/node@20.19.35)(i18next@25.8.13(typescript@5.3.2))(typescript@5.3.2):
+  i18next-cli@1.47.5(@types/node@20.19.35)(i18next@25.8.13(typescript@5.3.2))(typescript@5.3.2):
     dependencies:
       '@croct/json5-parser': 0.2.2
       '@swc/core': 1.15.17
