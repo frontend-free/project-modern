@@ -1,10 +1,12 @@
-import { globalConfig } from '@/config';
 import { CoreApp } from '@fe-free/core';
 import { initErrorHandle } from '@lib/api';
 import { Button } from 'antd';
 import { useMemo } from 'react';
 import { Navigate, useNavigate, useRoutes } from 'react-router-dom';
 import { PagesRoutes, pagesRoutes } from 'virtual:react-pages';
+
+import { globalConfig } from '@/config';
+
 import AppLayout from './layout';
 import './lib';
 
@@ -26,7 +28,7 @@ function AppRoute() {
       {
         path: '/404',
         element: (
-          <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex h-full flex-col items-center justify-center">
             <div>404, 页面不存在</div>
             <Button type="primary" onClick={() => navigate('/')}>
               返回首页

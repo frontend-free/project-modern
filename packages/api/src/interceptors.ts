@@ -1,7 +1,8 @@
+import { downloadInterceptor, RequestError } from '@fe-free/core';
 import type { AxiosInstance } from 'axios';
+
 // @ts-ignore
 import { globalConfig } from '@/config';
-import { downloadInterceptor, RequestError } from '@fe-free/core';
 
 function getAuthorization() {
   return localStorage.getItem('AUTHORIZATION');

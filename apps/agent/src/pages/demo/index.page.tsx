@@ -1,6 +1,7 @@
-import SVGAdd from '@/assets/svgs/add.svg?react';
 import Icon, { StepForwardOutlined } from '@fe-free/icons';
 import { Button } from 'antd';
+
+import SVGAdd from '@/assets/svgs/add.svg?react';
 
 // 打印环境变量
 console.log(import.meta.env);
@@ -14,6 +15,7 @@ const Demo = () => {
       <Button type="primary" icon={<StepForwardOutlined />}>
         button
       </Button>
+
       <h2>tailwindcss</h2>
       <div className="h-10 w-10 bg-black" />
       <h2>svg icon</h2>

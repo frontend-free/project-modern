@@ -1,19 +1,16 @@
 {
   "name": "project-modern",
   "version": "1.0.0",
-  "description": "## 选型",
-  "main": "index.js",
-  "packageManager": "pnpm@10.18.2",
   "private": true,
-  "author": "",
+  "description": "## 选型",
   "license": "ISC",
-  "engines": {
-    "node": ">= 22.14.0",
-    "pnpm": ">= 10.18.2"
-  },
+  "author": "",
+  "main": "index.js",
   "scripts": {
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
     "build-api": "pnpm --filter @lib/api build-api",
     "build-enums": "pnpm --filter @lib/api build-enums",
     "clean": "rm -rf pnpm-lock.yaml node_modules **/*/node_modules dist",
@@ -42,14 +39,17 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-storybook": "^0.6.15",
     "husky": "^8.0.3",
+    "i18next-cli": "^1.34.1",
     "lint-staged": "^15.2.7",
-    "prettier": "^3.3.3",
-    "prettier-plugin-organize-imports": "^4.1.0",
-    "prettier-plugin-tailwindcss": "^0.6.5",
+    "oxfmt": "^0.35.0",
     "stylelint": "^16.6.1",
-    "typescript": "5.3.2",
-    "i18next-cli": "^1.34.1"
+    "typescript": "5.3.2"
   },
+  "engines": {
+    "node": ">= 22.14.0",
+    "pnpm": ">= 10.18.2"
+  },
+  "packageManager": "pnpm@10.18.2",
   "pnpm": {
     "patchedDependencies": {
       "@ant-design/pro-components@3.1.6-0": "patches/@ant-design__pro-components@3.1.6-0.patch"

@@ -1,8 +1,9 @@
+import path from 'path';
+
 import rsc from '@fe-free/vite-plugin-remove-svg-color';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { codeInspectorPlugin } from 'code-inspector-plugin';
-import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import pages from 'vite-plugin-react-router-pages';
 import svgr from 'vite-plugin-svgr';

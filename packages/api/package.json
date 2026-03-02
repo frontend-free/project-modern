@@ -2,20 +2,14 @@
   "name": "@lib/api",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
-  "author": "",
   "license": "ISC",
+  "author": "",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-api": "free-scripts build-api -i ./ -o ./src/ && prettier ./src --write",
-    "build-enums": "free-scripts build-code -i ./enums.config.js -o ./src/code -t antd && prettier ./src/code --write"
+    "build-api": "free-scripts build-api -i ./ -o ./src/ && oxfmt ./src",
+    "build-enums": "free-scripts build-code -i ./enums.config.js -o ./src/code -t antd && oxfmt ./src/code"
   },
-  "swaggerDocs": [
-    {
-      "docName": "ai-service",
-      "jsonUrl": "http://pivot-agent-web.agent.gz.pivotinteract.cn:23456/api/ai-service/v1/tools/getSwaggerJson"
-    }
-  ],
   "devDependencies": {
     "@fe-free/free-scripts": "^6.0.1"
   },
@@ -23,5 +17,11 @@
     "@fe-free/core": "^6.0.5",
     "antd": "^5.19.3",
     "axios": "^1.7.9"
-  }
+  },
+  "swaggerDocs": [
+    {
+      "docName": "ai-service",
+      "jsonUrl": "http://pivot-agent-web.agent.gz.pivotinteract.cn:23456/api/ai-service/v1/tools/getSwaggerJson"
+    }
+  ]
 }

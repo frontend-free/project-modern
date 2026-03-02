@@ -1,11 +1,11 @@
 {
   "name": "agent",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "private": true,
-  "author": "",
+  "description": "",
   "license": "ISC",
+  "author": "",
+  "main": "index.js",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "postinstall": "cp ./node_modules/@fe-free/core/src/i18n.tsx ./src/i18n.tsx",
@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@fe-free/vite-plugin-remove-svg-color": "^1.3.4",
+    "@tailwindcss/vite": "^4.2.1",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
     "code-inspector-plugin": "^0.19.2",
@@ -48,7 +49,6 @@
     "path": "^0.12.7",
     "sass": "^1.77.8",
     "tailwindcss": "^4.2.1",
-    "@tailwindcss/vite": "^4.2.1",
     "vite": "^7.3.1",
     "vite-plugin-react-router-pages": "^1.1.4",
     "vite-plugin-svgr": "^4.5.0"

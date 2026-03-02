@@ -8,9 +8,9 @@ const AppLayout = () => {
   return (
     <PageLayout
       direction="vertical"
-      start={<div className="flex justify-between items-center c-border-bottom">header</div>}
+      start={<div className="c-border-bottom flex items-center justify-between">header</div>}
     >
-      <PageLayout start={<div className="h-full c-border-right">menu</div>}>
+      <PageLayout start={<div className="c-border-right h-full">menu</div>}>
         <Outlet />
       </PageLayout>
     </PageLayout>

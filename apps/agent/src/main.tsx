@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
+
 import { initI18n } from './i18n';
+
 import './style.css';
 
 initI18n({

@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['@fe-free/eslint-config-base']
+  extends: ['@fe-free/eslint-config-base'],
 };

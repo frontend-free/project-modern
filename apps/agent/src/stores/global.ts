@@ -1,6 +1,7 @@
-import { localStorageKey } from '@/config';
 import { aiServiceApi } from '@lib/api';
 import { create } from 'zustand';
+
+import { localStorageKey } from '@/config';
 
 interface GlobalState {
   init: boolean;
