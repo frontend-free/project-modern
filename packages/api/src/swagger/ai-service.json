@@ -1,5 +1,193 @@
 {
   "definitions": {
+    "model_impl.EmbeddingData": {
+      "properties": {
+        "embedding": {
+          "description": "生成的1024/*维向量。",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "index": {
+          "description": "结果在输入列表中的索引。",
+          "type": "integer"
+        },
+        "object": {
+          "description": "open_ai的object, tongyiqianwen的type",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "model_impl.EmbeddingUsage": {
+      "properties": {
+        "prompt_tokens": {
+          "description": "输入的token数目， 本次请求输入内容的 Token 数目。",
+          "type": "integer"
+        },
+        "total_tokens": {
+          "description": "总的token消耗数",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "model_impl.LlmEmbeddingResponse": {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/definitions/model_impl.EmbeddingData"
+          },
+          "type": "array"
+        },
+        "error_code": {
+          "description": "请求失败的错误码。请求成功时不会返回此参数",
+          "type": "string"
+        },
+        "error_msg": {
+          "description": "请求失败的详细信息。请求成功时不会返回此参数",
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "usage": {
+          "$ref": "#/definitions/model_impl.EmbeddingUsage",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "model_impl.RerankDocument": {
+      "properties": {
+        "text": {
+          "description": "文档原文",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "model_impl.RerankOutput": {
+      "properties": {
+        "results": {
+          "description": "排序结果列表。按 relevance_score 从高到低排列",
+          "items": {
+            "$ref": "#/definitions/model_impl.RerankResult"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "model_impl.RerankResponse": {
+      "properties": {
+        "code": {
+          "description": "请求失败的错误码。请求成功时不会返回此参数",
+          "type": "string"
+        },
+        "message": {
+          "description": "请求失败的详细信息。请求成功时不会返回此参数",
+          "type": "string"
+        },
+        "output": {
+          "$ref": "#/definitions/model_impl.RerankOutput",
+          "description": "任务输出信息",
+          "type": "object"
+        },
+        "request_id": {
+          "description": "请求唯一标识。可用于请求明细溯源和问题排查。",
+          "type": "string"
+        },
+        "usage": {
+          "$ref": "#/definitions/model_impl.RerankUsage",
+          "description": "输出信息统计",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "model_impl.RerankResult": {
+      "properties": {
+        "document": {
+          "$ref": "#/definitions/model_impl.RerankDocument",
+          "description": "文档原文对象。仅在请求参数 return_documents 为 true 时返回。结构为 {\"text\": \"文档原文\"}",
+          "type": "object"
+        },
+        "index": {
+          "description": "表示该结果对应于输入 documents 列表中的原始索引位置",
+          "type": "integer"
+        },
+        "relevance_score": {
+          "description": "该文档与查询的语义相关性得分，取值范围为 0.0 到 1.0。分数越高，相关性越强",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "model_impl.RerankUsage": {
+      "properties": {
+        "total_tokens": {
+          "description": "本次请求消耗的总 Token 数量",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "service.AsrFileToTextReq": {
+      "properties": {
+        "factory": {
+          "description": "doubao:字节豆包模型，Tongyi-Qianwen:通义千文",
+          "type": "string"
+        },
+        "file_url": {
+          "description": "必须是mav | mp3文件地址 （与mediadata二选一）",
+          "type": "string"
+        },
+        "media_data": {
+          "description": "必须是mav | mp3文件的二进制数据流",
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "model": {
+          "description": "模型，doubao的时候不用填，其他要填",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "service.AsrFileToTextRes": {
+      "properties": {
+        "duration": {
+          "description": "消耗时长",
+          "type": "integer"
+        },
+        "text_content": {
+          "description": "识别结果",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "service.EmbedLlmRequest": {
+      "properties": {
+        "factory": {
+          "type": "string"
+        },
+        "model_name": {
+          "type": "string"
+        },
+        "question": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "service.FileRes": {
       "properties": {
         "url": {
@@ -105,6 +293,17 @@
       },
       "type": "object"
     },
+    "service.MediaTokenRes": {
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "service.MediaWsRes": {
+      "type": "object"
+    },
     "service.ObjectResp": {
       "$ref": "#/definitions/service.ObjectRespStruct"
     },
@@ -132,6 +331,41 @@
         }
       },
       "required": ["email", "nickname", "password"],
+      "type": "object"
+    },
+    "service.RerankLlmRequest": {
+      "properties": {
+        "documents": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "factory": {
+          "type": "string"
+        },
+        "model_name": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string"
+        },
+        "return_documents": {
+          "type": "boolean"
+        },
+        "top_p": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "service.SimpleLlmResponse": {
+      "properties": {
+        "content": {
+          "description": "大模型回复内容",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "service.SpaceUserRes": {
@@ -190,6 +424,67 @@
         },
         "user_id": {
           "description": "用户ID",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "service.SseLlmRequest": {
+      "properties": {
+        "factory": {
+          "type": "string"
+        },
+        "files": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "frequency_penalty": {
+          "description": "default: 0.5",
+          "type": "number"
+        },
+        "max_token": {
+          "description": "default: not setter",
+          "type": "integer"
+        },
+        "meta_data": {
+          "additionalProperties": true,
+          "description": "其他扩展信息传递，比如enable_thinking:true",
+          "type": "object"
+        },
+        "model_name": {
+          "type": "string"
+        },
+        "presence_penalty": {
+          "description": "default: not setter",
+          "type": "number"
+        },
+        "question": {
+          "type": "string"
+        },
+        "sys_prompt": {
+          "type": "string"
+        },
+        "temperature": {
+          "description": "热度, default: 0.2",
+          "type": "number"
+        },
+        "top_p": {
+          "description": "default: 0.75",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "service.SseReconnectRequest": {
+      "properties": {
+        "conversation_id": {
+          "description": "对话ID",
+          "type": "string"
+        },
+        "last_event_id": {
+          "description": "最后的消息ID，为空时返回当前对话的所有历史",
           "type": "string"
         }
       },
@@ -296,6 +591,58 @@
         "tts_id": {
           "description": "TTS 模型 ID（可为空）",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "service.TestLlmRequest": {
+      "properties": {
+        "factory": {
+          "type": "string"
+        },
+        "files": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "frequency_penalty": {
+          "description": "default: 0.5",
+          "type": "number"
+        },
+        "max_token": {
+          "description": "default: not setter",
+          "type": "integer"
+        },
+        "meta_data": {
+          "additionalProperties": true,
+          "description": "其他扩展信息传递，比如enable_think:true",
+          "type": "object"
+        },
+        "model_name": {
+          "type": "string"
+        },
+        "presence_penalty": {
+          "description": "default: not setter",
+          "type": "number"
+        },
+        "question": {
+          "type": "string"
+        },
+        "sys_prompt": {
+          "type": "string"
+        },
+        "temperature": {
+          "description": "热度, default: 0.2",
+          "type": "number"
+        },
+        "tenant_id": {
+          "description": "定义租户",
+          "type": "string"
+        },
+        "top_p": {
+          "description": "default: 0.75",
+          "type": "number"
         }
       },
       "type": "object"
@@ -531,6 +878,31 @@
         }
       },
       "required": ["description", "name"],
+      "type": "object"
+    },
+    "svc_model.AgentAnalysisInfoResModel": {
+      "properties": {
+        "agent_name": {
+          "description": "智能体名称",
+          "type": "string"
+        },
+        "average_chat_count": {
+          "description": "平均会话互动数",
+          "type": "number"
+        },
+        "chat_count": {
+          "description": "会话数",
+          "type": "integer"
+        },
+        "message_count": {
+          "description": "消息数",
+          "type": "integer"
+        },
+        "user_count": {
+          "description": "互动用户数",
+          "type": "integer"
+        }
+      },
       "type": "object"
     },
     "svc_model.AgentCallConfigModel": {
@@ -992,6 +1364,71 @@
       },
       "type": "object"
     },
+    "svc_model.BotCallToolSimpleLog": {
+      "properties": {
+        "LlmCallMessage": {
+          "$ref": "#/definitions/svc_model.LlmCallReturnSimpleLogModel",
+          "description": "LLM调用时的整体消耗",
+          "type": "object"
+        },
+        "children": {
+          "description": "子类/工具调用",
+          "items": {
+            "$ref": "#/definitions/svc_model.BotCallToolSimpleLog"
+          },
+          "type": "array"
+        },
+        "content": {
+          "description": "输出，Json结构",
+          "type": "object"
+        },
+        "error_message": {
+          "description": "错误信息/失败信息",
+          "type": "string"
+        },
+        "finish_time": {
+          "description": "结束时间",
+          "type": "string"
+        },
+        "first_token_time_in_ms": {
+          "description": "首字符回复耗时",
+          "type": "integer"
+        },
+        "message_time": {
+          "description": "开始时间",
+          "type": "string"
+        },
+        "plugin_name": {
+          "description": "调用工具名称",
+          "type": "string"
+        },
+        "process_time_in_ms": {
+          "description": "请求处理时长（毫秒）",
+          "type": "integer"
+        },
+        "status": {
+          "description": "状态，成功/失败",
+          "type": "boolean"
+        },
+        "tool_type": {
+          "description": "工具类型，非展现用",
+          "type": "string"
+        },
+        "uid": {
+          "description": "标识Id",
+          "type": "string"
+        },
+        "unit_name": {
+          "description": "工具英文名，非展现用",
+          "type": "string"
+        },
+        "variables": {
+          "description": "输入，Json结构",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
     "svc_model.BotChatLikeReqModel": {
       "properties": {
         "chat_log_id": {
@@ -1369,6 +1806,10 @@
     },
     "svc_model.BotKnowledgeDetail": {
       "properties": {
+        "is_refer": {
+          "description": "是否引用归属：true/false",
+          "type": "boolean"
+        },
         "knowledge_config_list": {
           "description": "知识库配置",
           "items": {
@@ -1452,7 +1893,7 @@
           "type": "string"
         },
         "json_schema": {
-          "description": "json_schema",
+          "description": "json_schema，这是旧的，后面移除",
           "type": "string"
         },
         "llm_factory": {
@@ -1467,6 +1908,11 @@
           "description": "1:开启最大标记",
           "type": "integer"
         },
+        "meta_data": {
+          "additionalProperties": true,
+          "description": "扩展配置",
+          "type": "object"
+        },
         "model_id": {
           "description": "ID          int64   `json:\"bot_model_id\"`                          // 助手模型id，更新必须",
           "type": "integer"
@@ -1479,8 +1925,19 @@
           "description": "模型类型",
           "type": "string"
         },
+        "output_param_schema": {
+          "description": "JSON参数定义，出参Schema",
+          "items": {
+            "$ref": "#/definitions/svc_model.InputParam"
+          },
+          "type": "array"
+        },
+        "reasoning_type": {
+          "description": "思维方式：Default:默认，ReAct:ReAct，Thinking:Thinking，废弃",
+          "type": "string"
+        },
         "reply": {
-          "description": "回复方式：1 text; 2 json, 3 markdown",
+          "description": "回复方式：1 text; 2 json, 3 json_schema",
           "type": "integer"
         },
         "reply_enabled": {
@@ -1684,10 +2141,33 @@
       },
       "type": "object"
     },
+    "svc_model.BotPromptGenReq": {
+      "properties": {
+        "origin_prompt": {
+          "example": "原提示词，必传",
+          "type": "string"
+        }
+      },
+      "required": ["origin_prompt"],
+      "type": "object"
+    },
     "svc_model.BotPublishReqModel": {
       "properties": {
         "bot_marking": {
           "description": "助手标识BotMarking",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.BotResModel": {
+      "properties": {
+        "bot_marking": {
+          "description": "助手唯一标识(自动生成)，更新时必须",
+          "type": "string"
+        },
+        "bot_name": {
+          "description": "助手名称",
           "type": "string"
         }
       },
@@ -2455,6 +2935,63 @@
       },
       "type": "object"
     },
+    "svc_model.ChatMessageModel": {
+      "properties": {
+        "bot_marking": {
+          "description": "bot标识",
+          "type": "string"
+        },
+        "conversation_id": {
+          "description": "对话ID，用于内部传递",
+          "type": "string"
+        },
+        "events": {
+          "description": "订阅消息类型，默认空为全部，填写message时则仅返回message类型信息，具体其他类型请参考文档",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "files": {
+          "description": "问题涉及的文件URL列表，字符串数组",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "history_id": {
+          "description": "historyId 寻上下文绑定使用",
+          "type": "string"
+        },
+        "init_variables": {
+          "additionalProperties": true,
+          "description": "聊天中涉及的变量数据（初始化变量数据）",
+          "type": "object"
+        },
+        "name": {
+          "description": "agent名称，临时使用",
+          "type": "string"
+        },
+        "online": {
+          "description": "是否线上bot，默认false, true走已发布的bot",
+          "type": "boolean"
+        },
+        "question": {
+          "description": "用户bot中提问",
+          "type": "string"
+        },
+        "source_type": {
+          "description": "场景类型：evaluation:评测场景， other: 非评测场景",
+          "type": "string"
+        },
+        "type": {
+          "description": "聊天类型：Agent:助手， AgentWorkflow: Agent工作流",
+          "type": "string"
+        }
+      },
+      "required": ["question"],
+      "type": "object"
+    },
     "svc_model.ChunkAddReq": {
       "properties": {
         "content": {
@@ -2658,6 +3195,13 @@
     },
     "svc_model.ChunkRetrievalPageResponse": {
       "properties": {
+        "chunks": {
+          "description": "Pivot文档块",
+          "items": {
+            "$ref": "#/definitions/svc_model.PivotChunkResponse"
+          },
+          "type": "array"
+        },
         "doc_list": {
           "description": "检索后相关的文档列表",
           "items": {
@@ -2687,8 +3231,8 @@
     "svc_model.ChunkRetrievalReq": {
       "properties": {
         "conf": {
-          "$ref": "#/definitions/svc_model.RetrieveConfResponse",
-          "description": "向量、全文、混合检索对象入参对象",
+          "$ref": "#/definitions/svc_model.PivotKnowledgeBaseRetrievalConfig",
+          "description": "SimilarityThreshold    float64              `json:\"similarity_threshold\"`                              // 相似度阈值\nVectorSimilarityWeight float64              `json:\"vector_similarity_weight\"`                          // 关键字相似度权重\nRerankID               string               `json:\"rerank_id\"`                                         // Rerank模型名称\nTopK                   int                  `json:\"top_k\"`                                             // Top-K\nPageNumber             int64                `json:\"page_number\" form:\"page_number\" binding:\"required\"` // 页码\nPageSize               int64                `json:\"page_size\" form:\"page_size\" binding:\"required\"`     // 数量",
           "type": "object"
         },
         "doc_ids": {
@@ -2705,36 +3249,12 @@
           },
           "type": "array"
         },
-        "page_number": {
-          "description": "页码",
-          "type": "integer"
-        },
-        "page_size": {
-          "description": "数量",
-          "type": "integer"
-        },
         "question": {
           "description": "检索问题",
           "type": "string"
-        },
-        "rerank_id": {
-          "description": "Rerank模型名称",
-          "type": "string"
-        },
-        "similarity_threshold": {
-          "description": "相似度阈值",
-          "type": "number"
-        },
-        "top_k": {
-          "description": "Top-K",
-          "type": "integer"
-        },
-        "vector_similarity_weight": {
-          "description": "关键字相似度权重",
-          "type": "number"
         }
       },
-      "required": ["kb_ids", "page_number", "page_size", "question"],
+      "required": ["kb_ids", "question"],
       "type": "object"
     },
     "svc_model.ChunkRetrievalResponse": {
@@ -2958,206 +3478,6 @@
         }
       },
       "required": ["dataset_id", "prompt", "select_model_config", "table_id"],
-      "type": "object"
-    },
-    "svc_model.DebugChunkRetrievalReq": {
-      "properties": {
-        "document_name": {
-          "description": "文档名称",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "knowledge_name": {
-          "description": "知识库名称",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "question": {
-          "description": "检索问题",
-          "type": "string"
-        },
-        "rerank_id": {
-          "description": "Rerank模型名称",
-          "type": "string"
-        },
-        "similarity_threshold": {
-          "description": "相似度阈值",
-          "type": "number"
-        },
-        "size": {
-          "description": "数量",
-          "type": "integer"
-        },
-        "top_k": {
-          "description": "Top-K",
-          "type": "integer"
-        },
-        "vector_similarity_weight": {
-          "description": "关键字相似度权重",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
-    "svc_model.DebugInfoResponseModel": {
-      "properties": {
-        "knowledge_info": {
-          "description": "知识库调用信息",
-          "items": {
-            "$ref": "#/definitions/svc_model.DebugKnowledgeInfoModel"
-          },
-          "type": "array"
-        },
-        "model_info": {
-          "$ref": "#/definitions/svc_model.DebugLlmModelInfoModel",
-          "description": "模型调用相关信息",
-          "type": "object"
-        },
-        "plugin_info": {
-          "description": "插件调用信息",
-          "items": {
-            "$ref": "#/definitions/svc_model.DebugPluginInfoModel"
-          },
-          "type": "array"
-        },
-        "work_flow_info": {
-          "description": "工作流调用信息",
-          "items": {
-            "$ref": "#/definitions/svc_model.DebugWorkflowInfoModel"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "svc_model.DebugKnowledgeInfoModel": {
-      "properties": {
-        "costTime": {
-          "description": "查询耗费时间, 秒",
-          "type": "integer"
-        },
-        "endTime": {
-          "description": "查询结束时间",
-          "type": "string"
-        },
-        "records": {
-          "description": "块检索后对象列表",
-          "items": {
-            "$ref": "#/definitions/svc_model.ChunkRetrievalResponse"
-          },
-          "type": "array"
-        },
-        "req": {
-          "$ref": "#/definitions/svc_model.DebugChunkRetrievalReq",
-          "description": "请求参数",
-          "type": "object"
-        },
-        "startTime": {
-          "description": "开始时间",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "svc_model.DebugLlmModelInfoModel": {
-      "properties": {
-        "cost": {
-          "description": "耗时",
-          "type": "integer"
-        },
-        "model_name": {
-          "description": "模型名称",
-          "type": "string"
-        },
-        "origin_input": {
-          "description": "原始输入",
-          "type": "string"
-        },
-        "output": {
-          "description": "输出",
-          "type": "string"
-        },
-        "real_input": {
-          "description": "真实输入",
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "svc_model.DebugPluginInfoModel": {
-      "properties": {
-        "plugin_name": {
-          "description": "插件名称",
-          "type": "string"
-        },
-        "process_time_in_ms": {
-          "description": "处理时长（毫秒）",
-          "type": "integer"
-        },
-        "request_param": {
-          "additionalProperties": true,
-          "description": "请求参数",
-          "type": "object"
-        },
-        "response_body": {
-          "additionalProperties": true,
-          "description": "响应内容",
-          "type": "object"
-        },
-        "start_time": {
-          "description": "开始时间",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "svc_model.DebugWorkflowInfoModel": {
-      "properties": {
-        "context_message": {
-          "additionalProperties": {
-            "items": {
-              "$ref": "#/definitions/openai.ChatCompletionMessage"
-            },
-            "type": "array"
-          },
-          "description": "内容结构体",
-          "type": "object"
-        },
-        "process_time_in_ms": {
-          "description": "请求处理时长（毫秒）",
-          "type": "integer"
-        },
-        "request_param": {
-          "additionalProperties": true,
-          "description": "请求参数",
-          "type": "object"
-        },
-        "response_body": {
-          "additionalProperties": true,
-          "description": "响应内容",
-          "type": "object"
-        },
-        "response_format_data": {
-          "description": "响应格式化",
-          "type": "string"
-        },
-        "response_mode": {
-          "description": "响应模式",
-          "type": "string"
-        },
-        "start_time": {
-          "description": "开始时间",
-          "type": "string"
-        },
-        "workflow_name": {
-          "description": "工作流名称",
-          "type": "string"
-        }
-      },
       "type": "object"
     },
     "svc_model.DeleteBotFavoriteReqModel": {
@@ -3650,6 +3970,71 @@
       },
       "type": "object"
     },
+    "svc_model.FileDocumentResponse": {
+      "properties": {
+        "chunk_count": {
+          "type": "integer"
+        },
+        "create_date": {
+          "type": "string"
+        },
+        "doc_enable": {
+          "type": "string"
+        },
+        "doc_id": {
+          "description": "Document表字段（通过file2document关联）",
+          "type": "string"
+        },
+        "file_id": {
+          "description": "File表字段",
+          "type": "string"
+        },
+        "kb_id": {
+          "type": "string"
+        },
+        "name": {
+          "description": "文件或目录名称",
+          "type": "string"
+        },
+        "page_count": {
+          "type": "integer"
+        },
+        "parent_doc_id": {
+          "description": "父文档，该文档是附件才有",
+          "type": "string"
+        },
+        "parent_doc_name": {
+          "type": "string"
+        },
+        "parent_file_id": {
+          "description": "父级目录",
+          "type": "string"
+        },
+        "parser_config": {
+          "type": "string"
+        },
+        "parser_method": {
+          "type": "string"
+        },
+        "progress": {
+          "type": "number"
+        },
+        "progress_status": {
+          "type": "string"
+        },
+        "tag_count": {
+          "type": "integer"
+        },
+        "token_count": {
+          "type": "integer"
+        },
+        "type": {
+          "description": "文件类型（folder:文件夹|pdf|docx|md等）",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "svc_model.FlowInputSchemaCommon": {
       "properties": {
         "allowed_file_extensions": {
@@ -3791,7 +4176,7 @@
           "type": "string"
         },
         "bot_type": {
-          "description": "助手类型，Agent:助手，Workflow:工作流，其他情况查全部",
+          "description": "助手类型，Agent:助手，Agentflow:流助手，Workflow:工作流，其他情况查全部",
           "type": "string"
         },
         "chat_log_id": {
@@ -3804,6 +4189,66 @@
         }
       },
       "required": ["chat_log_id"],
+      "type": "object"
+    },
+    "svc_model.GranularityMessageCountResModel": {
+      "properties": {
+        "message_count": {
+          "description": "消息轮数",
+          "type": "integer"
+        },
+        "time_node": {
+          "description": "时间节点",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.GranularityTimeConsumeResModel": {
+      "properties": {
+        "first_token_time_consume": {
+          "description": "首token消耗时间(毫秒)",
+          "type": "integer"
+        },
+        "llm_time_consume": {
+          "description": "模型消耗时间(毫秒)",
+          "type": "integer"
+        },
+        "time_node": {
+          "description": "时间节点",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.GranularityTokenResModel": {
+      "properties": {
+        "input_token": {
+          "description": "输入消耗token(K)",
+          "type": "integer"
+        },
+        "output_token": {
+          "description": "输出消耗token(K)",
+          "type": "integer"
+        },
+        "time_node": {
+          "description": "时间节点",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.GranularityUserCountResModel": {
+      "properties": {
+        "time_node": {
+          "description": "时间节点",
+          "type": "string"
+        },
+        "user_count": {
+          "description": "用户数量",
+          "type": "integer"
+        }
+      },
       "type": "object"
     },
     "svc_model.Graphrag": {
@@ -3892,6 +4337,16 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "svc_model.KbCommonReq": {
+      "properties": {
+        "kb_id": {
+          "description": "知识库id",
+          "type": "string"
+        }
+      },
+      "required": ["kb_id"],
       "type": "object"
     },
     "svc_model.KbCreateReq": {
@@ -4144,7 +4599,7 @@
           "type": "string"
         },
         "conf": {
-          "$ref": "#/definitions/svc_model.RetrieveConfResponse",
+          "$ref": "#/definitions/svc_model.PivotKnowledgeBaseRetrievalConfig",
           "description": "KbConfig     BotKbUpdateReq `json:\"kb_config\" form:\"kb_config\"`                              //知识库配置",
           "type": "object"
         },
@@ -4163,16 +4618,16 @@
         "name": {
           "description": "知识库名称",
           "type": "string"
-        },
-        "rerank_id": {
-          "description": "Rerank模型名称",
-          "type": "string"
         }
       },
       "type": "object"
     },
     "svc_model.KnowledgeConfigReqBaseModel": {
       "properties": {
+        "is_refer": {
+          "description": "是否引用归属：true/false",
+          "type": "boolean"
+        },
         "knowledge_config_list": {
           "description": "知识库配置",
           "items": {
@@ -4190,16 +4645,12 @@
     "svc_model.KnowledgeConfigReqModel": {
       "properties": {
         "conf": {
-          "$ref": "#/definitions/svc_model.RetrieveConfResponse",
+          "$ref": "#/definitions/svc_model.PivotKnowledgeBaseRetrievalConfig",
           "description": "KbConfig     BotKbUpdateReq `json:\"kb_config\" form:\"kb_config\"`                              //知识库配置",
           "type": "object"
         },
         "kb_id": {
           "description": "知识库ID",
-          "type": "string"
-        },
-        "rerank_id": {
-          "description": "Rerank模型名称",
           "type": "string"
         }
       },
@@ -4279,6 +4730,20 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "svc_model.ListAnswerSourceReqModel": {
+      "properties": {
+        "bot_type": {
+          "description": "助手类型，Agent:助手，Agentflow:流助手，Workflow:工作流，其他情况查全部",
+          "type": "string"
+        },
+        "log_id": {
+          "description": "LogId，历史聊天窗消息接口中返回的 log_id",
+          "type": "integer"
+        }
+      },
+      "required": ["log_id"],
       "type": "object"
     },
     "svc_model.ListSessionByBotReq": {
@@ -4361,6 +4826,36 @@
       "required": ["id", "llm_config"],
       "type": "object"
     },
+    "svc_model.LlmCallReturnSimpleLogModel": {
+      "properties": {
+        "cost": {
+          "description": "耗时",
+          "type": "integer"
+        },
+        "input": {
+          "description": "原始输入",
+          "type": "object"
+        },
+        "model_factory": {
+          "description": "模型工厂",
+          "type": "string"
+        },
+        "model_name": {
+          "description": "模型名称",
+          "type": "string"
+        },
+        "output": {
+          "description": "输出",
+          "type": "object"
+        },
+        "use_tokens": {
+          "$ref": "#/definitions/svc_model.UseTokensModel",
+          "description": "tokens消耗",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
     "svc_model.LlmDeleteReq": {
       "properties": {
         "llm_factory": {
@@ -4369,6 +4864,26 @@
         },
         "llm_name": {
           "description": "大模型名称",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.LlmEmbeddingRequest": {
+      "properties": {
+        "factory": {
+          "description": "模型厂家",
+          "type": "string"
+        },
+        "input_texts": {
+          "description": "需要向量化的文本",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "model_name": {
+          "description": "模型名称",
           "type": "string"
         }
       },
@@ -4420,27 +4935,47 @@
       },
       "type": "object"
     },
-    "svc_model.LlmLuckinCoffeeRes": {
+    "svc_model.LlmRerankRequest": {
       "properties": {
-        "doubao_model": {
-          "description": "豆包模型：0：doubao-1.5-lite-32k-250115，1：doubao-1-5-pro-32k-250115",
+        "factory": {
+          "description": "模型厂家",
           "type": "string"
         },
-        "execute_count": {
-          "description": "执行次数",
+        "input": {
+          "description": "输入内容",
+          "properties": {
+            "documents": {
+              "description": "待排序的候选文档列表。每个元素是一个字符串。最多包含500个文档，每个文档长度不超过4,000个Token",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "query": {
+              "description": "查询文本。最大长度不能超过4,000个Token",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "model_name": {
+          "description": "模型名称",
           "type": "string"
         },
-        "gou_wu_che": {
-          "description": "购物车",
-          "type": "string"
-        },
-        "prompt_sys": {
-          "description": "系统提示词",
-          "type": "string"
-        },
-        "prompt_user": {
-          "description": "用户提示词",
-          "type": "string"
+        "parameters": {
+          "description": "可选参数",
+          "properties": {
+            "instruct": {
+              "type": "string"
+            },
+            "return_documents": {
+              "type": "boolean"
+            },
+            "top_n": {
+              "type": "integer"
+            }
+          },
+          "type": "object"
         }
       },
       "type": "object"
@@ -4621,7 +5156,7 @@
           "type": "string"
         }
       },
-      "required": ["headers", "type"],
+      "required": ["type"],
       "type": "object"
     },
     "svc_model.McpIdReq": {
@@ -4949,8 +5484,16 @@
     },
     "svc_model.PageHistoryMsgReqModel": {
       "properties": {
+        "end_time": {
+          "description": "结束时间",
+          "type": "string"
+        },
         "history_id": {
           "description": "历史ID",
+          "type": "string"
+        },
+        "is_error": {
+          "description": "日志状态，Success:成功，Failure:失败，All:全部",
           "type": "string"
         },
         "page_number": {
@@ -4960,6 +5503,10 @@
         "page_size": {
           "description": "每页条数",
           "type": "integer"
+        },
+        "start_time": {
+          "description": "开始时间",
+          "type": "string"
         }
       },
       "type": "object"
@@ -4976,6 +5523,61 @@
         },
         "session_id": {
           "description": "会话ID",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.PageWorkflowHistoryReq": {
+      "properties": {
+        "end_time": {
+          "description": "结束时间",
+          "type": "string"
+        },
+        "is_error": {
+          "description": "日志状态，Success:成功，Failure:失败，All:全部",
+          "type": "string"
+        },
+        "online_flag": {
+          "description": "是否上线的会话，是:YES, 否:NO",
+          "type": "string"
+        },
+        "page_number": {
+          "description": "页码",
+          "type": "integer"
+        },
+        "page_size": {
+          "description": "每页条数",
+          "type": "integer"
+        },
+        "start_time": {
+          "description": "开始时间",
+          "type": "string"
+        },
+        "workflow_marking": {
+          "description": "workflow标识",
+          "type": "string"
+        }
+      },
+      "required": ["page_number", "page_size"],
+      "type": "object"
+    },
+    "svc_model.PageWorkflowHistoryResp": {
+      "properties": {
+        "page_number": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "records": {
+          "description": "历史消息记录",
+          "items": {
+            "$ref": "#/definitions/svc_model.WorkflowHistorySimpleModel"
+          },
+          "type": "array"
+        },
+        "total": {
           "type": "integer"
         }
       },
@@ -5100,6 +5702,253 @@
         }
       },
       "required": ["question"],
+      "type": "object"
+    },
+    "svc_model.PivotChunkMetadataResponse": {
+      "properties": {
+        "chunk_id": {
+          "description": "文本块ID",
+          "type": "string"
+        },
+        "doc_id": {
+          "description": "文档ID",
+          "type": "string"
+        },
+        "doc_name": {
+          "description": "文档名称",
+          "type": "string"
+        },
+        "doc_type": {
+          "description": "文档类型 Original/Summary",
+          "type": "string"
+        },
+        "first_file_name": {
+          "description": "一级目录",
+          "type": "string"
+        },
+        "second_file_name": {
+          "description": "二级目录",
+          "type": "string"
+        },
+        "segment_kwd": {
+          "description": "文档关键词",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "segment_qa": {
+          "description": "问题",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "similarity": {
+          "description": "相似度",
+          "type": "number"
+        },
+        "tag_kwd": {
+          "description": "标签",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.PivotChunkResponse": {
+      "properties": {
+        "content": {
+          "description": "文本块的内容",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "元数据数组",
+          "items": {
+            "$ref": "#/definitions/svc_model.PivotChunkMetadataResponse"
+          },
+          "type": "array"
+        },
+        "metadata_total": {
+          "description": "元数据数组长度",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.PivotDirResponse": {
+      "properties": {
+        "create_date": {
+          "description": "创建时间",
+          "type": "string"
+        },
+        "file_count": {
+          "description": "文件数量",
+          "type": "integer"
+        },
+        "file_id": {
+          "description": "目录ID",
+          "type": "string"
+        },
+        "group_type": {
+          "description": "分组类型",
+          "type": "string"
+        },
+        "kb_id": {
+          "description": "知识库ID",
+          "type": "string"
+        },
+        "name": {
+          "description": "目录名称",
+          "type": "string"
+        },
+        "parent_id": {
+          "description": "父目录ID（一级目录为null）",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.PivotKbChunkInfoResponse": {
+      "properties": {
+        "chunk_id": {
+          "description": "该对象的唯一标识符",
+          "type": "string"
+        },
+        "content_with_weight": {
+          "description": "内容",
+          "type": "string"
+        },
+        "doc_id": {
+          "description": "文档 ID",
+          "type": "string"
+        },
+        "doc_name": {
+          "description": "文档名称",
+          "type": "string"
+        },
+        "file_id": {
+          "description": "文件ID",
+          "type": "string"
+        },
+        "index_id": {
+          "description": "自定义文本块下标id，例如：0-0、1-0、2-0、2-1、2-2",
+          "type": "string"
+        },
+        "kb_id": {
+          "description": "知识库 ID",
+          "type": "string"
+        },
+        "kb_name": {
+          "description": "知识库名称",
+          "type": "string"
+        },
+        "similarity": {
+          "description": "相似度",
+          "type": "number"
+        },
+        "sum_id": {
+          "description": "摘要 ID",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.PivotKnowledgeBaseRetrievalConfig": {
+      "properties": {
+        "abstract_doc_ids": {
+          "description": "摘要目录中的文档ID列表（doc_id）",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "compression_model": {
+          "description": "压缩模型",
+          "type": "string"
+        },
+        "compression_prompt": {
+          "description": "压缩提示词",
+          "type": "string"
+        },
+        "enable_abstract": {
+          "description": "是否启用摘要检索",
+          "type": "boolean"
+        },
+        "enable_compression": {
+          "description": "是否启用归纳压缩",
+          "type": "boolean"
+        },
+        "enable_graph_expansion": {
+          "description": "是否启用图谱扩展",
+          "type": "boolean"
+        },
+        "enable_original_text": {
+          "description": "是否启用原文检索",
+          "type": "boolean"
+        },
+        "full_text_recall": {
+          "description": "是否全文召回",
+          "type": "boolean"
+        },
+        "full_text_weight": {
+          "description": "全文检索权重，范围0-100（混合检索）",
+          "type": "integer"
+        },
+        "graph_depth": {
+          "description": "检索深度，范围1-2（0表示使用默认值2）",
+          "type": "integer"
+        },
+        "graph_expansion_depth": {
+          "description": "图谱扩展深度，范围1-2",
+          "type": "integer"
+        },
+        "graph_weight": {
+          "description": "图谱检索权重，范围0-100（混合检索）",
+          "type": "integer"
+        },
+        "original_text_doc_ids": {
+          "description": "原文目录中的文档ID列表（doc_id）",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "priority_strategy": {
+          "description": "优先策略(Original: 原文:、Abstract: 摘要)",
+          "type": "string"
+        },
+        "rerank_id": {
+          "description": "Rerank模型",
+          "type": "string"
+        },
+        "retrieval_type": {
+          "description": "检索类型(全文:Fulltext、向量:Vector、图谱:Graph、混合:Hybrid)",
+          "type": "string"
+        },
+        "select_abstract_type": {
+          "description": "选择摘要类型：1.全部；2.指定原文&原文文件夹；",
+          "type": "integer"
+        },
+        "select_original_text_type": {
+          "description": "选择原文类型：1.全部；2.指定原文&原文文件夹；",
+          "type": "integer"
+        },
+        "similarity_threshold": {
+          "description": "相似度设置",
+          "type": "number"
+        },
+        "top_k": {
+          "description": "召回分段数",
+          "type": "integer"
+        },
+        "vector_weight": {
+          "description": "向量检索权重，范围0-100（混合检索）",
+          "type": "integer"
+        }
+      },
       "type": "object"
     },
     "svc_model.PluginInstanceParam": {
@@ -5461,6 +6310,14 @@
           "description": "大模型输出消耗tokens",
           "type": "integer"
         },
+        "conversation_id": {
+          "description": "对话ID",
+          "type": "string"
+        },
+        "cost": {
+          "description": "耗时",
+          "type": "integer"
+        },
         "created_at": {
           "description": "对话时间",
           "type": "string"
@@ -5476,12 +6333,20 @@
           },
           "type": "array"
         },
+        "is_error": {
+          "description": "错误标志性，0:成功，1:失败",
+          "type": "integer"
+        },
         "like_type": {
           "description": "1点赞 0取消 -1点踩",
           "type": "integer"
         },
         "log_id": {
           "description": "日志ID",
+          "type": "integer"
+        },
+        "not_finished": {
+          "description": "未结束，0:结束，1:未结束",
           "type": "integer"
         },
         "prompt_tokens": {
@@ -5527,6 +6392,108 @@
           "type": "array"
         },
         "total": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.SourceTypeResModel": {
+      "properties": {
+        "source_name": {
+          "description": "场景类型名称",
+          "type": "string"
+        },
+        "source_type": {
+          "description": "场景类型",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.StatisticAgentCommonModel": {
+      "properties": {
+        "agent_marking": {
+          "description": "智能体标识数组",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "granularity": {
+          "description": "时间颗粒度：时hour，天day， 月month",
+          "type": "string"
+        },
+        "source_type": {
+          "description": "场景类型",
+          "type": "string"
+        },
+        "time_range": {
+          "description": "时间范围",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.StatisticAgentResModel": {
+      "properties": {
+        "analysis_info_res": {
+          "description": "智能体统计列表",
+          "items": {
+            "$ref": "#/definitions/svc_model.AgentAnalysisInfoResModel"
+          },
+          "type": "array"
+        },
+        "message_count_res": {
+          "description": "消息轮数统计",
+          "items": {
+            "$ref": "#/definitions/svc_model.GranularityMessageCountResModel"
+          },
+          "type": "array"
+        },
+        "time_consume_res": {
+          "description": "耗时统计",
+          "items": {
+            "$ref": "#/definitions/svc_model.GranularityTimeConsumeResModel"
+          },
+          "type": "array"
+        },
+        "token_res": {
+          "$ref": "#/definitions/svc_model.StatisticAgentTokenResModel",
+          "description": "token消耗统计",
+          "type": "object"
+        },
+        "user_count_res": {
+          "description": "用户数统计",
+          "items": {
+            "$ref": "#/definitions/svc_model.GranularityUserCountResModel"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.StatisticAgentTokenResModel": {
+      "properties": {
+        "granularity_token": {
+          "description": "时间颗粒度消耗token",
+          "items": {
+            "$ref": "#/definitions/svc_model.GranularityTokenResModel"
+          },
+          "type": "array"
+        },
+        "total_input_token": {
+          "description": "输入消耗总token(K)",
+          "type": "integer"
+        },
+        "total_output_token": {
+          "description": "输出消耗总token(K)",
+          "type": "integer"
+        },
+        "total_token": {
+          "description": "总消耗token(K)",
           "type": "integer"
         }
       },
@@ -5828,6 +6795,10 @@
         "trace_data_json": {
           "description": "执行过程追踪",
           "type": "object"
+        },
+        "trace_log_id": {
+          "description": "追踪日志ID",
+          "type": "integer"
         }
       },
       "type": "object"
@@ -5945,6 +6916,52 @@
       },
       "type": "object"
     },
+    "svc_model.TraceLogDetailModel": {
+      "properties": {
+        "end_time": {
+          "description": "请求完整结束时间",
+          "type": "string"
+        },
+        "error_log": {
+          "description": "错误相关日志",
+          "type": "string"
+        },
+        "first_token_time_in_ms": {
+          "description": "首词响应耗时",
+          "type": "integer"
+        },
+        "is_error": {
+          "description": "是否异常 0:否，1:是",
+          "type": "integer"
+        },
+        "start_time": {
+          "description": "请求发起时间",
+          "type": "string"
+        },
+        "total_cost": {
+          "description": "总耗时，毫秒",
+          "type": "integer"
+        },
+        "total_tokens": {
+          "description": "总tokens消耗",
+          "type": "integer"
+        },
+        "trace_log_detail": {
+          "$ref": "#/definitions/svc_model.BotCallToolSimpleLog",
+          "description": "日志详情",
+          "type": "object"
+        },
+        "trace_log_id": {
+          "description": "LogId",
+          "type": "integer"
+        },
+        "workflow_data": {
+          "description": "当是Agentflow workflow时，完整的flowjson 定义",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "svc_model.UpdateBotSessionReqModel": {
       "properties": {
         "history_id": {
@@ -6056,6 +7073,27 @@
       "required": ["mcp_server_id", "tool_name"],
       "type": "object"
     },
+    "svc_model.UseTokensModel": {
+      "properties": {
+        "completion_tokens": {
+          "description": "大模型输出消耗tokens",
+          "type": "integer"
+        },
+        "prompt_tokens": {
+          "description": "用户输入消耗tokens",
+          "type": "integer"
+        },
+        "reasoning_tokens": {
+          "description": "大模型Reasoning tokens消耗",
+          "type": "integer"
+        },
+        "total_tokens": {
+          "description": "大模型总消耗tokens",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
     "svc_model.VariableDescribeModel": {
       "properties": {
         "describe": {
@@ -6082,6 +7120,10 @@
         "resolution_type": {
           "description": "分辨率，High:高分辨率，Low:低分辨率",
           "type": "string"
+        },
+        "speech_open_flag": {
+          "description": "是否开启（语音转文字）",
+          "type": "boolean"
         },
         "upload_size": {
           "description": "上传数量限制",
@@ -6122,6 +7164,35 @@
         "value_use_type": {
           "description": "变量值使用类型，Default:默认值，Fixed:固定值",
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "svc_model.WorkflowHistorySimpleModel": {
+      "properties": {
+        "cost_time": {
+          "description": "消耗时间，毫秒",
+          "type": "integer"
+        },
+        "end_response": {
+          "description": "运行结果",
+          "type": "object"
+        },
+        "executed_end_time": {
+          "description": "执行结束时间",
+          "type": "string"
+        },
+        "executed_start_time": {
+          "description": "执行开始时间",
+          "type": "string"
+        },
+        "id": {
+          "description": "log id",
+          "type": "integer"
+        },
+        "total_tokens": {
+          "description": "总消耗tokens数量",
+          "type": "integer"
         }
       },
       "type": "object"
@@ -6250,14 +7321,14 @@
     },
     "swagen.defaultRetStruct": {
       "properties": {
-        "code": {
-          "type": "integer"
-        },
         "data": {
           "type": "object"
         },
-        "message": {
+        "msg": {
           "type": "string"
+        },
+        "state": {
+          "type": "integer"
         }
       },
       "type": "object"
@@ -6459,7 +7530,7 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "svc_model.DebugInfoResponseModel",
+            "description": "svc_model.TraceLogDetailModel",
             "schema": {
               "allOf": [
                 {
@@ -6468,7 +7539,7 @@
                 {
                   "properties": {
                     "data": {
-                      "$ref": "#/definitions/svc_model.DebugInfoResponseModel"
+                      "$ref": "#/definitions/svc_model.TraceLogDetailModel"
                     }
                   },
                   "type": "object"
@@ -6521,6 +7592,49 @@
           }
         },
         "summary": "删除会话",
+        "tags": ["AiBotCommon"]
+      }
+    },
+    "/ai_bot_common/list_answer_source": {
+      "post": {
+        "description": "service.AiBotCommonService:ListAnswerSource",
+        "operationId": "listAnswerSource",
+        "parameters": [
+          {
+            "description": "svc_model.ListAnswerSourceReqModel",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.ListAnswerSourceReqModel"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "[]svc_model.PivotKbChunkInfoResponse",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/svc_model.PivotKbChunkInfoResponse"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "根据LogId查询历史答案来源列表",
         "tags": ["AiBotCommon"]
       }
     },
@@ -7610,6 +8724,38 @@
           }
         },
         "summary": "应用市场列表接口(应用探索-助手列表)",
+        "tags": ["BotOnline"]
+      }
+    },
+    "/bot_online/bot_market_list": {
+      "get": {
+        "description": "service.BotOnlineService:BotMarketList",
+        "operationId": "botMarketList",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "[]svc_model.BotResModel",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/svc_model.BotResModel"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "所有发布的智能体列表接口(统计分析)",
         "tags": ["BotOnline"]
       }
     },
@@ -8816,6 +9962,46 @@
         "tags": ["Flow"]
       }
     },
+    "/flow/page_workflow_history": {
+      "post": {
+        "description": "service.FlowService:PageWorkflowHistory",
+        "operationId": "pageWorkflowHistory",
+        "parameters": [
+          {
+            "description": "svc_model.PageWorkflowHistoryReq",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.PageWorkflowHistoryReq"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_model.PageWorkflowHistoryResp",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_model.PageWorkflowHistoryResp"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "工作流查询历史运行记录",
+        "tags": ["Flow"]
+      }
+    },
     "/flow/test_only_workflow_execute": {
       "post": {
         "description": "service.FlowService:TestOnlyWorkflowExecute",
@@ -9657,6 +10843,92 @@
         "tags": ["Knowledge"]
       }
     },
+    "/knowledge/dir_list": {
+      "post": {
+        "description": "service.KnowledgeService:PivotDirList",
+        "operationId": "dirList",
+        "parameters": [
+          {
+            "description": "svc_model.KbCommonReq",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.KbCommonReq"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "[]svc_model.PivotDirResponse",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/svc_model.PivotDirResponse"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "知识库-文件目录列表",
+        "tags": ["Knowledge"]
+      }
+    },
+    "/knowledge/doc_abstract_list": {
+      "post": {
+        "description": "service.KnowledgeService:DocAbstractList",
+        "operationId": "docAbstractList",
+        "parameters": [
+          {
+            "description": "svc_model.KbCommonReq",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.KbCommonReq"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "[]svc_model.FileDocumentResponse",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/svc_model.FileDocumentResponse"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "知识库-摘要文档列表",
+        "tags": ["Knowledge"]
+      }
+    },
     "/knowledge/doc_change_status": {
       "post": {
         "description": "service.KnowledgeService:DocChangeStatus",
@@ -9847,6 +11119,49 @@
           }
         },
         "summary": "数据集-查询文件分页列表",
+        "tags": ["Knowledge"]
+      }
+    },
+    "/knowledge/doc_original_list": {
+      "post": {
+        "description": "service.KnowledgeService:DocOriginalList",
+        "operationId": "docOriginalList",
+        "parameters": [
+          {
+            "description": "svc_model.KbCommonReq",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.KbCommonReq"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "[]svc_model.FileDocumentResponse",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/svc_model.FileDocumentResponse"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "知识库-原文文档列表",
         "tags": ["Knowledge"]
       }
     },
@@ -10268,6 +11583,38 @@
         "tags": ["Knowledge"]
       }
     },
+    "/llm/asr_llms": {
+      "get": {
+        "description": "service.LlmService:AsrLlms",
+        "operationId": "asrLlms",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "[]svc_model.LlmResult",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/svc_model.LlmResult"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "获取可用的音频文件转换文本模型",
+        "tags": ["Llm"]
+      }
+    },
     "/llm/embedding_llms": {
       "get": {
         "description": "service.LlmService:EmbedingLlms",
@@ -10400,7 +11747,7 @@
             }
           }
         },
-        "summary": "全部大模型可用状态描述接口（包含向量模型）",
+        "summary": "全部大模型可用状态描述接口（包含向量模型） 废弃",
         "tags": ["Llm"]
       }
     },
@@ -10516,6 +11863,46 @@
         "tags": ["Llm"]
       }
     },
+    "/llm/llm_embedding_call": {
+      "post": {
+        "description": "service.LlmService:LlmEmbeddingCall",
+        "operationId": "llmEmbeddingCall",
+        "parameters": [
+          {
+            "description": "svc_model.LlmEmbeddingRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.LlmEmbeddingRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "model_impl.LlmEmbeddingResponse",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/model_impl.LlmEmbeddingResponse"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "向量模型调用（知识库后端对接，非WEB）",
+        "tags": ["Llm"]
+      }
+    },
     "/llm/llm_factories": {
       "get": {
         "description": "service.LlmService:LlmFactories",
@@ -10588,25 +11975,25 @@
         "tags": ["Llm"]
       }
     },
-    "/llm/llm_luckin_coffee": {
+    "/llm/llm_rerank_call": {
       "post": {
-        "description": "service.LlmService:LlmLuckinCoffee",
-        "operationId": "llmLuckinCoffee",
+        "description": "service.LlmService:LlmRerankCall",
+        "operationId": "llmRerankCall",
         "parameters": [
           {
-            "description": "svc_model.LlmLuckinCoffeeRes",
+            "description": "svc_model.LlmRerankRequest",
             "in": "body",
             "name": "param",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/svc_model.LlmLuckinCoffeeRes"
+              "$ref": "#/definitions/svc_model.LlmRerankRequest"
             }
           }
         ],
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "string",
+            "description": "model_impl.RerankResponse",
             "schema": {
               "allOf": [
                 {
@@ -10615,7 +12002,7 @@
                 {
                   "properties": {
                     "data": {
-                      "type": "string"
+                      "$ref": "#/definitions/model_impl.RerankResponse"
                     }
                   },
                   "type": "object"
@@ -10624,47 +12011,7 @@
             }
           }
         },
-        "summary": "瑞幸咖啡运行测试",
-        "tags": ["Llm"]
-      }
-    },
-    "/llm/llm_luckin_coffee_prop": {
-      "post": {
-        "description": "service.LlmService:LlmLuckinCoffeeProp",
-        "operationId": "llmLuckinCoffeeProp",
-        "parameters": [
-          {
-            "description": "svc_model.LlmLuckinCoffeeRes",
-            "in": "body",
-            "name": "param",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/svc_model.LlmLuckinCoffeeRes"
-            }
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "string",
-            "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/swagen.defaultRetStruct"
-                },
-                {
-                  "properties": {
-                    "data": {
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
-                }
-              ]
-            }
-          }
-        },
-        "summary": "瑞幸咖啡运行测试-修改属性",
+        "summary": "rerank量模型调用（知识库后端对接，非WEB）",
         "tags": ["Llm"]
       }
     },
@@ -10761,6 +12108,38 @@
           }
         },
         "summary": "获取rerank模型（知识库使用）",
+        "tags": ["Llm"]
+      }
+    },
+    "/llm/video_llms": {
+      "get": {
+        "description": "service.LlmService:VideoLlms",
+        "operationId": "videoLlms",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "[]svc_model.LlmResult",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/svc_model.LlmResult"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "获取可用的视频解析转文本模型",
         "tags": ["Llm"]
       }
     },
@@ -10910,6 +12289,46 @@
         "tags": ["Mcp"]
       }
     },
+    "/mcp/sync_mcp": {
+      "post": {
+        "description": "service.McpService:SyncMcp",
+        "operationId": "syncMcp",
+        "parameters": [
+          {
+            "description": "svc_model.McpIdReq",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.McpIdReq"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_model.McpInfoRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_model.McpInfoRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "MCP服务-同步工具列表",
+        "tags": ["Mcp"]
+      }
+    },
     "/mcp/update": {
       "post": {
         "description": "service.McpService:UpdateMcp",
@@ -10966,6 +12385,207 @@
         "tags": ["Mcp"]
       }
     },
+    "/media/asr": {
+      "get": {
+        "description": "service.MediaService:Asr",
+        "operationId": "asr",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "service.MediaWsRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/service.MediaWsRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "websocket调用实时语音转文字",
+        "tags": ["Media"]
+      },
+      "options": {
+        "description": "service.MediaService:Asr",
+        "operationId": "asr",
+        "parameters": [
+          {
+            "description": "interface{}",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "service.MediaWsRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/service.MediaWsRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "websocket调用实时语音转文字",
+        "tags": ["Media"]
+      }
+    },
+    "/media/asr_file_to_text": {
+      "options": {
+        "description": "service.MediaService:AsrFileToText",
+        "operationId": "asrFileToText",
+        "parameters": [
+          {
+            "description": "service.AsrFileToTextReq",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.AsrFileToTextReq"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "service.AsrFileToTextRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/service.AsrFileToTextRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "Asr音频文件转文字（wav,mp3)",
+        "tags": ["Media"]
+      },
+      "post": {
+        "description": "service.MediaService:AsrFileToText",
+        "operationId": "asrFileToText",
+        "parameters": [
+          {
+            "description": "service.AsrFileToTextReq",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.AsrFileToTextReq"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "service.AsrFileToTextRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/service.AsrFileToTextRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "Asr音频文件转文字（wav,mp3)",
+        "tags": ["Media"]
+      }
+    },
+    "/media/get_media_token": {
+      "options": {
+        "description": "service.MediaService:GetMediaToken",
+        "operationId": "getMediaToken",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "service.MediaTokenRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/service.MediaTokenRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "获取Media访问token",
+        "tags": ["Media"]
+      },
+      "post": {
+        "description": "service.MediaService:GetMediaToken",
+        "operationId": "getMediaToken",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "service.MediaTokenRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/service.MediaTokenRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "获取Media访问token",
+        "tags": ["Media"]
+      }
+    },
     "/meta/meta_agent_sse": {
       "post": {
         "description": "service.MetaAgentService:MetaAgentSse",
@@ -11004,6 +12624,40 @@
         },
         "summary": "Meta Agent",
         "tags": ["Meta"]
+      }
+    },
+    "/pivot_perception/get_all_tools": {
+      "post": {
+        "description": "service.PivotPerceptionService:GetAllTools",
+        "operationId": "getAllTools",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "swagen.defaultRetStruct",
+            "schema": {
+              "$ref": "#/definitions/swagen.defaultRetStruct"
+            }
+          }
+        },
+        "summary": "获取平台所有工具（测试）",
+        "tags": ["PivotPerception"]
+      }
+    },
+    "/pivot_perception/init_tool_cache": {
+      "post": {
+        "description": "service.PivotPerceptionService:InitToolCache",
+        "operationId": "initToolCache",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "swagen.defaultRetStruct",
+            "schema": {
+              "$ref": "#/definitions/swagen.defaultRetStruct"
+            }
+          }
+        },
+        "summary": "初始化Tool缓存",
+        "tags": ["PivotPerception"]
       }
     },
     "/resource_center/doc/chat_file_download": {
@@ -11862,6 +13516,78 @@
         "tags": ["Script"]
       }
     },
+    "/statistic/get_source_type": {
+      "get": {
+        "description": "service.StatisticService:GetSourceType",
+        "operationId": "getSourceType",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "[]svc_model.SourceTypeResModel",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/svc_model.SourceTypeResModel"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "获取场景类型",
+        "tags": ["Statistic"]
+      }
+    },
+    "/statistic/statistic_agent_analysis": {
+      "post": {
+        "description": "service.StatisticService:StatisticAgentAnalysis",
+        "operationId": "statisticAgentAnalysis",
+        "parameters": [
+          {
+            "description": "svc_model.StatisticAgentCommonModel",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.StatisticAgentCommonModel"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_model.StatisticAgentResModel",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_model.StatisticAgentResModel"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "获取智能体统计分析",
+        "tags": ["Statistic"]
+      }
+    },
     "/statistic/statistic_name_space_agent": {
       "get": {
         "description": "service.StatisticService:StatisticNameSpaceAgent",
@@ -11889,6 +13615,670 @@
         },
         "summary": "获取空间助手数据统计",
         "tags": ["Statistic"]
+      }
+    },
+    "/stream/bot_prompt_gen": {
+      "post": {
+        "description": "service.StreamService:BotPromptGen",
+        "operationId": "botPromptGen",
+        "parameters": [
+          {
+            "description": "svc_model.BotPromptGenReq",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.BotPromptGenReq"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "助手提示词优化(工作台-生成提示词)",
+        "tags": ["Stream"]
+      }
+    },
+    "/stream/chat_message": {
+      "options": {
+        "description": "service.StreamService:ChatMessage",
+        "operationId": "chatMessage",
+        "parameters": [
+          {
+            "description": "svc_model.ChatMessageModel",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.ChatMessageModel"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "助手聊天消息（单一Post方式）",
+        "tags": ["Stream"]
+      },
+      "post": {
+        "description": "service.StreamService:ChatMessage",
+        "operationId": "chatMessage",
+        "parameters": [
+          {
+            "description": "svc_model.ChatMessageModel",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/svc_model.ChatMessageModel"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "助手聊天消息（单一Post方式）",
+        "tags": ["Stream"]
+      }
+    },
+    "/stream/llm_embedding": {
+      "options": {
+        "description": "service.StreamService:LlmEmbedding",
+        "operationId": "llmEmbedding",
+        "parameters": [
+          {
+            "description": "service.EmbedLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.EmbedLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "大模型embedding向量化",
+        "tags": ["Stream"]
+      },
+      "post": {
+        "description": "service.StreamService:LlmEmbedding",
+        "operationId": "llmEmbedding",
+        "parameters": [
+          {
+            "description": "service.EmbedLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.EmbedLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "大模型embedding向量化",
+        "tags": ["Stream"]
+      }
+    },
+    "/stream/llm_rerank": {
+      "options": {
+        "description": "service.StreamService:LlmRerank",
+        "operationId": "llmRerank",
+        "parameters": [
+          {
+            "description": "service.RerankLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.RerankLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "大模型rerank重排",
+        "tags": ["Stream"]
+      },
+      "post": {
+        "description": "service.StreamService:LlmRerank",
+        "operationId": "llmRerank",
+        "parameters": [
+          {
+            "description": "service.RerankLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.RerankLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "大模型rerank重排",
+        "tags": ["Stream"]
+      }
+    },
+    "/stream/simple_llm": {
+      "options": {
+        "description": "service.StreamService:SimpleLlm",
+        "operationId": "simpleLlm",
+        "parameters": [
+          {
+            "description": "service.TestLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.TestLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "service.SimpleLlmResponse",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/service.SimpleLlmResponse"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "简单调用大模型，一次性返回内容",
+        "tags": ["Stream"]
+      },
+      "post": {
+        "description": "service.StreamService:SimpleLlm",
+        "operationId": "simpleLlm",
+        "parameters": [
+          {
+            "description": "service.TestLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.TestLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "service.SimpleLlmResponse",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/service.SimpleLlmResponse"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "简单调用大模型，一次性返回内容",
+        "tags": ["Stream"]
+      }
+    },
+    "/stream/simple_llm_sse": {
+      "options": {
+        "description": "service.StreamService:SimpleLlmSse",
+        "operationId": "simpleLlmSse",
+        "parameters": [
+          {
+            "description": "service.SseLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.SseLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "简单调用大模型，流式输出",
+        "tags": ["Stream"]
+      },
+      "post": {
+        "description": "service.StreamService:SimpleLlmSse",
+        "operationId": "simpleLlmSse",
+        "parameters": [
+          {
+            "description": "service.SseLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.SseLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "简单调用大模型，流式输出",
+        "tags": ["Stream"]
+      }
+    },
+    "/stream/sse_reconnect": {
+      "options": {
+        "description": "service.StreamService:SseReconnect",
+        "operationId": "sseReconnect",
+        "parameters": [
+          {
+            "description": "service.SseReconnectRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.SseReconnectRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "Sse消息断开重连",
+        "tags": ["Stream"]
+      },
+      "post": {
+        "description": "service.StreamService:SseReconnect",
+        "operationId": "sseReconnect",
+        "parameters": [
+          {
+            "description": "service.SseReconnectRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.SseReconnectRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "Sse消息断开重连",
+        "tags": ["Stream"]
+      }
+    },
+    "/stream/test_llm": {
+      "options": {
+        "description": "service.StreamService:TestLlm",
+        "operationId": "testLlm",
+        "parameters": [
+          {
+            "description": "service.TestLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.TestLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "测试大模型基础",
+        "tags": ["Stream"]
+      },
+      "post": {
+        "description": "service.StreamService:TestLlm",
+        "operationId": "testLlm",
+        "parameters": [
+          {
+            "description": "service.TestLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.TestLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "测试大模型基础",
+        "tags": ["Stream"]
+      }
+    },
+    "/stream/test_sse_new": {
+      "options": {
+        "description": "service.StreamService:TestSseNewMessage",
+        "operationId": "testSseNew",
+        "parameters": [
+          {
+            "description": "service.SseLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.SseLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "测试新的Sse消息类型",
+        "tags": ["Stream"]
+      },
+      "post": {
+        "description": "service.StreamService:TestSseNewMessage",
+        "operationId": "testSseNew",
+        "parameters": [
+          {
+            "description": "service.SseLlmRequest",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/service.SseLlmRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "svc_ai.ChatRes",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/swagen.defaultRetStruct"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/svc_ai.ChatRes"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "summary": "测试新的Sse消息类型",
+        "tags": ["Stream"]
       }
     },
     "/tag_library/add": {

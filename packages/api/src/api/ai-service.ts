@@ -1,4 +1,4 @@
-/* oxlint-disable */
+/* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
 /*
@@ -9,6 +9,93 @@
  * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
  * ---------------------------------------------------------------
  */
+
+export interface ModelImplEmbeddingData {
+  /** 生成的1024/*维向量。 */
+  embedding?: number[];
+  /** 结果在输入列表中的索引。 */
+  index?: number;
+  /** open_ai的object, tongyiqianwen的type */
+  object?: string;
+}
+
+export interface ModelImplEmbeddingUsage {
+  /** 输入的token数目， 本次请求输入内容的 Token 数目。 */
+  prompt_tokens?: number;
+  /** 总的token消耗数 */
+  total_tokens?: number;
+}
+
+export interface ModelImplLlmEmbeddingResponse {
+  data?: ModelImplEmbeddingData[];
+  /** 请求失败的错误码。请求成功时不会返回此参数 */
+  error_code?: string;
+  /** 请求失败的详细信息。请求成功时不会返回此参数 */
+  error_msg?: string;
+  model?: string;
+  usage?: ModelImplEmbeddingUsage;
+}
+
+export interface ModelImplRerankDocument {
+  /** 文档原文 */
+  text?: string;
+}
+
+export interface ModelImplRerankOutput {
+  /** 排序结果列表。按 relevance_score 从高到低排列 */
+  results?: ModelImplRerankResult[];
+}
+
+export interface ModelImplRerankResponse {
+  /** 请求失败的错误码。请求成功时不会返回此参数 */
+  code?: string;
+  /** 请求失败的详细信息。请求成功时不会返回此参数 */
+  message?: string;
+  /** 任务输出信息 */
+  output?: ModelImplRerankOutput;
+  /** 请求唯一标识。可用于请求明细溯源和问题排查。 */
+  request_id?: string;
+  /** 输出信息统计 */
+  usage?: ModelImplRerankUsage;
+}
+
+export interface ModelImplRerankResult {
+  /** 文档原文对象。仅在请求参数 return_documents 为 true 时返回。结构为 {"text": "文档原文"} */
+  document?: ModelImplRerankDocument;
+  /** 表示该结果对应于输入 documents 列表中的原始索引位置 */
+  index?: number;
+  /** 该文档与查询的语义相关性得分，取值范围为 0.0 到 1.0。分数越高，相关性越强 */
+  relevance_score?: number;
+}
+
+export interface ModelImplRerankUsage {
+  /** 本次请求消耗的总 Token 数量 */
+  total_tokens?: number;
+}
+
+export interface ServiceAsrFileToTextReq {
+  /** doubao:字节豆包模型，Tongyi-Qianwen:通义千文 */
+  factory?: string;
+  /** 必须是mav | mp3文件地址 （与mediadata二选一） */
+  file_url?: string;
+  /** 必须是mav | mp3文件的二进制数据流 */
+  media_data?: number[];
+  /** 模型，doubao的时候不用填，其他要填 */
+  model?: string;
+}
+
+export interface ServiceAsrFileToTextRes {
+  /** 消耗时长 */
+  duration?: number;
+  /** 识别结果 */
+  text_content?: string;
+}
+
+export interface ServiceEmbedLlmRequest {
+  factory?: string;
+  model_name?: string;
+  question?: string[];
+}
 
 export interface ServiceFileRes {
   /** 文件访问地址 */
@@ -63,6 +150,12 @@ export interface ServiceLoginRes {
   timezone?: string;
 }
 
+export interface ServiceMediaTokenRes {
+  token?: string;
+}
+
+export type ServiceMediaWsRes = object;
+
 export type ServiceObjectResp = ServiceObjectRespStruct;
 
 export interface ServiceObjectRespStruct {
@@ -76,6 +169,20 @@ export interface ServiceRegisterReq {
   nickname: string;
   /** 密码 */
   password: string;
+}
+
+export interface ServiceRerankLlmRequest {
+  documents?: string[];
+  factory?: string;
+  model_name?: string;
+  question?: string;
+  return_documents?: boolean;
+  top_p?: number;
+}
+
+export interface ServiceSimpleLlmResponse {
+  /** 大模型回复内容 */
+  content?: string;
 }
 
 export interface ServiceSpaceUserRes {
@@ -107,6 +214,33 @@ export interface ServiceSpaceUserRes {
   timezone?: string;
   /** 用户ID */
   user_id?: string;
+}
+
+export interface ServiceSseLlmRequest {
+  factory?: string;
+  files?: string[];
+  /** default: 0.5 */
+  frequency_penalty?: number;
+  /** default: not setter */
+  max_token?: number;
+  /** 其他扩展信息传递，比如enable_thinking:true */
+  meta_data?: Record<string, any>;
+  model_name?: string;
+  /** default: not setter */
+  presence_penalty?: number;
+  question?: string;
+  sys_prompt?: string;
+  /** 热度, default: 0.2 */
+  temperature?: number;
+  /** default: 0.75 */
+  top_p?: number;
+}
+
+export interface ServiceSseReconnectRequest {
+  /** 对话ID */
+  conversation_id?: string;
+  /** 最后的消息ID，为空时返回当前对话的所有历史 */
+  last_event_id?: string;
 }
 
 export type ServiceSwaggerRes = Record<string, any>;
@@ -160,6 +294,28 @@ export interface ServiceTenantInfoRes {
   tenant_name?: string;
   /** TTS 模型 ID（可为空） */
   tts_id?: string;
+}
+
+export interface ServiceTestLlmRequest {
+  factory?: string;
+  files?: string[];
+  /** default: 0.5 */
+  frequency_penalty?: number;
+  /** default: not setter */
+  max_token?: number;
+  /** 其他扩展信息传递，比如enable_think:true */
+  meta_data?: Record<string, any>;
+  model_name?: string;
+  /** default: not setter */
+  presence_penalty?: number;
+  question?: string;
+  sys_prompt?: string;
+  /** 热度, default: 0.2 */
+  temperature?: number;
+  /** 定义租户 */
+  tenant_id?: string;
+  /** default: 0.75 */
+  top_p?: number;
 }
 
 export interface ServiceTestPageSearchRes {
@@ -276,6 +432,19 @@ export interface SvcModelAddTagLibraryReq {
   id?: number;
   /** 标签名称 */
   name: string;
+}
+
+export interface SvcModelAgentAnalysisInfoResModel {
+  /** 智能体名称 */
+  agent_name?: string;
+  /** 平均会话互动数 */
+  average_chat_count?: number;
+  /** 会话数 */
+  chat_count?: number;
+  /** 消息数 */
+  message_count?: number;
+  /** 互动用户数 */
+  user_count?: number;
 }
 
 export interface SvcModelAgentCallConfigModel {
@@ -495,6 +664,37 @@ export interface SvcModelAllDocumentResponse {
   type?: string;
 }
 
+export interface SvcModelBotCallToolSimpleLog {
+  /** LLM调用时的整体消耗 */
+  LlmCallMessage?: SvcModelLlmCallReturnSimpleLogModel;
+  /** 子类/工具调用 */
+  children?: SvcModelBotCallToolSimpleLog[];
+  /** 输出，Json结构 */
+  content?: object;
+  /** 错误信息/失败信息 */
+  error_message?: string;
+  /** 结束时间 */
+  finish_time?: string;
+  /** 首字符回复耗时 */
+  first_token_time_in_ms?: number;
+  /** 开始时间 */
+  message_time?: string;
+  /** 调用工具名称 */
+  plugin_name?: string;
+  /** 请求处理时长（毫秒） */
+  process_time_in_ms?: number;
+  /** 状态，成功/失败 */
+  status?: boolean;
+  /** 工具类型，非展现用 */
+  tool_type?: string;
+  /** 标识Id */
+  uid?: string;
+  /** 工具英文名，非展现用 */
+  unit_name?: string;
+  /** 输入，Json结构 */
+  variables?: object;
+}
+
 export interface SvcModelBotChatLikeReqModel {
   /** 聊天记录ID */
   chat_log_id: number;
@@ -688,6 +888,8 @@ export interface SvcModelBotKbUpdateReq {
 }
 
 export interface SvcModelBotKnowledgeDetail {
+  /** 是否引用归属：true/false */
+  is_refer?: boolean;
   /** 知识库配置 */
   knowledge_config_list?: SvcModelKnowledgeConfigDetailModel[];
   /** 强制走知识库，默认“非” */
@@ -725,7 +927,7 @@ export interface SvcModelBotLlmConfigModel {
   frequency_punish_enabled?: number;
   /** 交互方式, 选项["chat","image2text","tts"] */
   interaction_method?: string;
-  /** json_schema */
+  /** json_schema，这是旧的，后面移除 */
   json_schema?: string;
   /** 模型工厂名称 */
   llm_factory?: string;
@@ -733,13 +935,19 @@ export interface SvcModelBotLlmConfigModel {
   max_sign?: number;
   /** 1:开启最大标记 */
   max_sign_enabled?: number;
+  /** 扩展配置 */
+  meta_data?: Record<string, any>;
   /** ID          int64   `json:"bot_model_id"`                          // 助手模型id，更新必须 */
   model_id?: number;
   /** 模型名称 */
   model_name?: string;
   /** 模型类型 */
   model_type?: string;
-  /** 回复方式：1 text; 2 json, 3 markdown */
+  /** JSON参数定义，出参Schema */
+  output_param_schema?: SvcModelInputParam[];
+  /** 思维方式：Default:默认，ReAct:ReAct，Thinking:Thinking，废弃 */
+  reasoning_type?: string;
+  /** 回复方式：1 text; 2 json, 3 json_schema */
   reply?: number;
   /** 1:开启回复方式 */
   reply_enabled?: number;
@@ -852,9 +1060,21 @@ export interface SvcModelBotPluginExecMessageModel {
   variables?: object;
 }
 
+export interface SvcModelBotPromptGenReq {
+  /** @example "原提示词，必传" */
+  origin_prompt: string;
+}
+
 export interface SvcModelBotPublishReqModel {
   /** 助手标识BotMarking */
   bot_marking?: string;
+}
+
+export interface SvcModelBotResModel {
+  /** 助手唯一标识(自动生成)，更新时必须 */
+  bot_marking?: string;
+  /** 助手名称 */
+  bot_name?: string;
 }
 
 export interface SvcModelBotSimpleModel {
@@ -1248,6 +1468,31 @@ export interface SvcModelChatFileResponse {
   size?: number;
 }
 
+export interface SvcModelChatMessageModel {
+  /** bot标识 */
+  bot_marking?: string;
+  /** 对话ID，用于内部传递 */
+  conversation_id?: string;
+  /** 订阅消息类型，默认空为全部，填写message时则仅返回message类型信息，具体其他类型请参考文档 */
+  events?: string[];
+  /** 问题涉及的文件URL列表，字符串数组 */
+  files?: string[];
+  /** historyId 寻上下文绑定使用 */
+  history_id?: string;
+  /** 聊天中涉及的变量数据（初始化变量数据） */
+  init_variables?: Record<string, any>;
+  /** agent名称，临时使用 */
+  name?: string;
+  /** 是否线上bot，默认false, true走已发布的bot */
+  online?: boolean;
+  /** 用户bot中提问 */
+  question: string;
+  /** 场景类型：evaluation:评测场景， other: 非评测场景 */
+  source_type?: string;
+  /** 聊天类型：Agent:助手， AgentWorkflow: Agent工作流 */
+  type?: string;
+}
+
 export interface SvcModelChunkAddReq {
   /** 内容 */
   content: string;
@@ -1342,6 +1587,8 @@ export interface SvcModelChunkRetrievalDocResponse {
 }
 
 export interface SvcModelChunkRetrievalPageResponse {
+  /** Pivot文档块 */
+  chunks?: SvcModelPivotChunkResponse[];
   /** 检索后相关的文档列表 */
   doc_list?: SvcModelChunkRetrievalDocResponse[];
   page_number?: number;
@@ -1352,26 +1599,21 @@ export interface SvcModelChunkRetrievalPageResponse {
 }
 
 export interface SvcModelChunkRetrievalReq {
-  /** 向量、全文、混合检索对象入参对象 */
-  conf?: SvcModelRetrieveConfResponse;
+  /**
+   * SimilarityThreshold    float64              `json:"similarity_threshold"`                              // 相似度阈值
+   * VectorSimilarityWeight float64              `json:"vector_similarity_weight"`                          // 关键字相似度权重
+   * RerankID               string               `json:"rerank_id"`                                         // Rerank模型名称
+   * TopK                   int                  `json:"top_k"`                                             // Top-K
+   * PageNumber             int64                `json:"page_number" form:"page_number" binding:"required"` // 页码
+   * PageSize               int64                `json:"page_size" form:"page_size" binding:"required"`     // 数量
+   */
+  conf?: SvcModelPivotKnowledgeBaseRetrievalConfig;
   /** 数据集文档id数组 */
   doc_ids?: string[];
   /** 知识库id数组 */
   kb_ids: string[];
-  /** 页码 */
-  page_number: number;
-  /** 数量 */
-  page_size: number;
   /** 检索问题 */
   question: string;
-  /** Rerank模型名称 */
-  rerank_id?: string;
-  /** 相似度阈值 */
-  similarity_threshold?: number;
-  /** Top-K */
-  top_k?: number;
-  /** 关键字相似度权重 */
-  vector_similarity_weight?: number;
 }
 
 export interface SvcModelChunkRetrievalResponse {
@@ -1476,94 +1718,6 @@ export interface SvcModelCsvGenerateScriptModel {
   select_model_config: SvcModelBotLlmConfigModel;
   /** 已选择的数据库表id数组 */
   table_id: string[];
-}
-
-export interface SvcModelDebugChunkRetrievalReq {
-  /** 文档名称 */
-  document_name?: string[];
-  /** 知识库名称 */
-  knowledge_name?: string[];
-  /** 检索问题 */
-  question?: string;
-  /** Rerank模型名称 */
-  rerank_id?: string;
-  /** 相似度阈值 */
-  similarity_threshold?: number;
-  /** 数量 */
-  size?: number;
-  /** Top-K */
-  top_k?: number;
-  /** 关键字相似度权重 */
-  vector_similarity_weight?: number;
-}
-
-export interface SvcModelDebugInfoResponseModel {
-  /** 知识库调用信息 */
-  knowledge_info?: SvcModelDebugKnowledgeInfoModel[];
-  /** 模型调用相关信息 */
-  model_info?: SvcModelDebugLlmModelInfoModel;
-  /** 插件调用信息 */
-  plugin_info?: SvcModelDebugPluginInfoModel[];
-  /** 工作流调用信息 */
-  work_flow_info?: SvcModelDebugWorkflowInfoModel[];
-}
-
-export interface SvcModelDebugKnowledgeInfoModel {
-  /** 查询耗费时间, 秒 */
-  costTime?: number;
-  /** 查询结束时间 */
-  endTime?: string;
-  /** 块检索后对象列表 */
-  records?: SvcModelChunkRetrievalResponse[];
-  /** 请求参数 */
-  req?: SvcModelDebugChunkRetrievalReq;
-  /** 开始时间 */
-  startTime?: string;
-}
-
-export interface SvcModelDebugLlmModelInfoModel {
-  /** 耗时 */
-  cost?: number;
-  /** 模型名称 */
-  model_name?: string;
-  /** 原始输入 */
-  origin_input?: string;
-  /** 输出 */
-  output?: string;
-  /** 真实输入 */
-  real_input?: object;
-}
-
-export interface SvcModelDebugPluginInfoModel {
-  /** 插件名称 */
-  plugin_name?: string;
-  /** 处理时长（毫秒） */
-  process_time_in_ms?: number;
-  /** 请求参数 */
-  request_param?: Record<string, any>;
-  /** 响应内容 */
-  response_body?: Record<string, any>;
-  /** 开始时间 */
-  start_time?: string;
-}
-
-export interface SvcModelDebugWorkflowInfoModel {
-  /** 内容结构体 */
-  context_message?: Record<string, any[]>;
-  /** 请求处理时长（毫秒） */
-  process_time_in_ms?: number;
-  /** 请求参数 */
-  request_param?: Record<string, any>;
-  /** 响应内容 */
-  response_body?: Record<string, any>;
-  /** 响应格式化 */
-  response_format_data?: string;
-  /** 响应模式 */
-  response_mode?: string;
-  /** 开始时间 */
-  start_time?: string;
-  /** 工作流名称 */
-  workflow_name?: string;
 }
 
 export interface SvcModelDeleteBotFavoriteReqModel {
@@ -1811,6 +1965,33 @@ export interface SvcModelFeedbackResponse {
   username?: string;
 }
 
+export interface SvcModelFileDocumentResponse {
+  chunk_count?: number;
+  create_date?: string;
+  doc_enable?: string;
+  /** Document表字段（通过file2document关联） */
+  doc_id?: string;
+  /** File表字段 */
+  file_id?: string;
+  kb_id?: string;
+  /** 文件或目录名称 */
+  name?: string;
+  page_count?: number;
+  /** 父文档，该文档是附件才有 */
+  parent_doc_id?: string;
+  parent_doc_name?: string;
+  /** 父级目录 */
+  parent_file_id?: string;
+  parser_config?: string;
+  parser_method?: string;
+  progress?: number;
+  progress_status?: string;
+  tag_count?: number;
+  token_count?: number;
+  /** 文件类型（folder:文件夹|pdf|docx|md等） */
+  type?: string;
+}
+
 export interface SvcModelFlowInputSchemaCommon {
   /** 允许文件扩展名 */
   allowed_file_extensions?: string[];
@@ -1876,12 +2057,44 @@ export interface SvcModelFormSubmitModel {
 export interface SvcModelGetDebugInfoByLogIdReq {
   /** 助手唯一标识 */
   bot_marking?: string;
-  /** 助手类型，Agent:助手，Workflow:工作流，其他情况查全部 */
+  /** 助手类型，Agent:助手，Agentflow:流助手，Workflow:工作流，其他情况查全部 */
   bot_type?: string;
   /** 聊天记录ID */
   chat_log_id: number;
   /** 是否上线的会话，是:YES, 否:NO */
   online_flag?: string;
+}
+
+export interface SvcModelGranularityMessageCountResModel {
+  /** 消息轮数 */
+  message_count?: number;
+  /** 时间节点 */
+  time_node?: string;
+}
+
+export interface SvcModelGranularityTimeConsumeResModel {
+  /** 首token消耗时间(毫秒) */
+  first_token_time_consume?: number;
+  /** 模型消耗时间(毫秒) */
+  llm_time_consume?: number;
+  /** 时间节点 */
+  time_node?: string;
+}
+
+export interface SvcModelGranularityTokenResModel {
+  /** 输入消耗token(K) */
+  input_token?: number;
+  /** 输出消耗token(K) */
+  output_token?: number;
+  /** 时间节点 */
+  time_node?: string;
+}
+
+export interface SvcModelGranularityUserCountResModel {
+  /** 时间节点 */
+  time_node?: string;
+  /** 用户数量 */
+  user_count?: number;
 }
 
 export interface SvcModelGraphrag {
@@ -1922,6 +2135,11 @@ export interface SvcModelInstanceParam {
   instance_config?: SvcModelInputParam[];
   /** 实例下拉框自身展现名称 */
   instance_show_name?: string;
+}
+
+export interface SvcModelKbCommonReq {
+  /** 知识库id */
+  kb_id: string;
 }
 
 export interface SvcModelKbCreateReq {
@@ -2046,7 +2264,7 @@ export interface SvcModelKnowledgeConfigDetailModel {
   /** 知识库图片 */
   avatar?: string;
   /** KbConfig     BotKbUpdateReq `json:"kb_config" form:"kb_config"`                              //知识库配置 */
-  conf?: SvcModelRetrieveConfResponse;
+  conf?: SvcModelPivotKnowledgeBaseRetrievalConfig;
   /** 描述 */
   description?: string;
   /** bot绑定知识库的主键id（关系表id） */
@@ -2055,11 +2273,11 @@ export interface SvcModelKnowledgeConfigDetailModel {
   kb_id?: string;
   /** 知识库名称 */
   name?: string;
-  /** Rerank模型名称 */
-  rerank_id?: string;
 }
 
 export interface SvcModelKnowledgeConfigReqBaseModel {
+  /** 是否引用归属：true/false */
+  is_refer?: boolean;
   /** 知识库配置 */
   knowledge_config_list?: SvcModelKnowledgeConfigReqModel[];
   /** 强制走知识库，默认“非” */
@@ -2068,11 +2286,9 @@ export interface SvcModelKnowledgeConfigReqBaseModel {
 
 export interface SvcModelKnowledgeConfigReqModel {
   /** KbConfig     BotKbUpdateReq `json:"kb_config" form:"kb_config"`                              //知识库配置 */
-  conf?: SvcModelRetrieveConfResponse;
+  conf?: SvcModelPivotKnowledgeBaseRetrievalConfig;
   /** 知识库ID */
   kb_id?: string;
-  /** Rerank模型名称 */
-  rerank_id?: string;
 }
 
 export interface SvcModelLinkCallDetailList {
@@ -2106,6 +2322,13 @@ export interface SvcModelLinkCallSchemaDetail {
   updated_by?: string;
   /** 工作流标识，唯一 */
   workflow_marking?: string;
+}
+
+export interface SvcModelListAnswerSourceReqModel {
+  /** 助手类型，Agent:助手，Agentflow:流助手，Workflow:工作流，其他情况查全部 */
+  bot_type?: string;
+  /** LogId，历史聊天窗消息接口中返回的 log_id */
+  log_id: number;
 }
 
 export interface SvcModelListSessionByBotReq {
@@ -2148,11 +2371,35 @@ export interface SvcModelLlmBuiltInUpdateReq {
   llm_config: SvcModelBotLlmConfigModel;
 }
 
+export interface SvcModelLlmCallReturnSimpleLogModel {
+  /** 耗时 */
+  cost?: number;
+  /** 原始输入 */
+  input?: object;
+  /** 模型工厂 */
+  model_factory?: string;
+  /** 模型名称 */
+  model_name?: string;
+  /** 输出 */
+  output?: object;
+  /** tokens消耗 */
+  use_tokens?: SvcModelUseTokensModel;
+}
+
 export interface SvcModelLlmDeleteReq {
   /** 大模型厂家名称 */
   llm_factory?: string;
   /** 大模型名称 */
   llm_name?: string;
+}
+
+export interface SvcModelLlmEmbeddingRequest {
+  /** 模型厂家 */
+  factory?: string;
+  /** 需要向量化的文本 */
+  input_texts?: string[];
+  /** 模型名称 */
+  model_name?: string;
 }
 
 export interface SvcModelLlmFactoriesRes {
@@ -2178,17 +2425,24 @@ export interface SvcModelLlmItem {
   used_token?: number;
 }
 
-export interface SvcModelLlmLuckinCoffeeRes {
-  /** 豆包模型：0：doubao-1.5-lite-32k-250115，1：doubao-1-5-pro-32k-250115 */
-  doubao_model?: string;
-  /** 执行次数 */
-  execute_count?: string;
-  /** 购物车 */
-  gou_wu_che?: string;
-  /** 系统提示词 */
-  prompt_sys?: string;
-  /** 用户提示词 */
-  prompt_user?: string;
+export interface SvcModelLlmRerankRequest {
+  /** 模型厂家 */
+  factory?: string;
+  /** 输入内容 */
+  input?: {
+    /** 待排序的候选文档列表。每个元素是一个字符串。最多包含500个文档，每个文档长度不超过4,000个Token */
+    documents?: string[];
+    /** 查询文本。最大长度不能超过4,000个Token */
+    query?: string;
+  };
+  /** 模型名称 */
+  model_name?: string;
+  /** 可选参数 */
+  parameters?: {
+    instruct?: string;
+    return_documents?: boolean;
+    top_n?: number;
+  };
 }
 
 export interface SvcModelLlmResult {
@@ -2264,7 +2518,7 @@ export interface SvcModelMcpAddReq {
 
 export interface SvcModelMcpAuthJson {
   /** 认证信息，Node时为空，Basic时存储为key为：Authorization，value为：username:password, Bearer时存储为key为：Authorization:Bearer ****， Customer时存储为Key:value */
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
   /** 认证类型，None:无认证方式，Basic:账号密码认证，Bearer:Bearer Token认证，Customer:自定义Header */
   type: string;
 }
@@ -2422,12 +2676,18 @@ export interface SvcModelNextLinks {
 }
 
 export interface SvcModelPageHistoryMsgReqModel {
+  /** 结束时间 */
+  end_time?: string;
   /** 历史ID */
   history_id?: string;
+  /** 日志状态，Success:成功，Failure:失败，All:全部 */
+  is_error?: string;
   /** 页码 */
   page_number?: number;
   /** 每页条数 */
   page_size?: number;
+  /** 开始时间 */
+  start_time?: string;
 }
 
 export interface SvcModelPageSessionHistoryMsgReqModel {
@@ -2437,6 +2697,31 @@ export interface SvcModelPageSessionHistoryMsgReqModel {
   page_size?: number;
   /** 会话ID */
   session_id?: number;
+}
+
+export interface SvcModelPageWorkflowHistoryReq {
+  /** 结束时间 */
+  end_time?: string;
+  /** 日志状态，Success:成功，Failure:失败，All:全部 */
+  is_error?: string;
+  /** 是否上线的会话，是:YES, 否:NO */
+  online_flag?: string;
+  /** 页码 */
+  page_number: number;
+  /** 每页条数 */
+  page_size: number;
+  /** 开始时间 */
+  start_time?: string;
+  /** workflow标识 */
+  workflow_marking?: string;
+}
+
+export interface SvcModelPageWorkflowHistoryResp {
+  page_number?: number;
+  page_size?: number;
+  /** 历史消息记录 */
+  records?: SvcModelWorkflowHistorySimpleModel[];
+  total?: number;
 }
 
 export interface SvcModelPageWorkflowListReq {
@@ -2490,6 +2775,123 @@ export interface SvcModelPivotAgentRequest {
   history_id?: string;
   /** 用户bot中提问 */
   question: string;
+}
+
+export interface SvcModelPivotChunkMetadataResponse {
+  /** 文本块ID */
+  chunk_id?: string;
+  /** 文档ID */
+  doc_id?: string;
+  /** 文档名称 */
+  doc_name?: string;
+  /** 文档类型 Original/Summary */
+  doc_type?: string;
+  /** 一级目录 */
+  first_file_name?: string;
+  /** 二级目录 */
+  second_file_name?: string;
+  /** 文档关键词 */
+  segment_kwd?: string[];
+  /** 问题 */
+  segment_qa?: string[];
+  /** 相似度 */
+  similarity?: number;
+  /** 标签 */
+  tag_kwd?: string[];
+}
+
+export interface SvcModelPivotChunkResponse {
+  /** 文本块的内容 */
+  content?: string;
+  /** 元数据数组 */
+  metadata?: SvcModelPivotChunkMetadataResponse[];
+  /** 元数据数组长度 */
+  metadata_total?: number;
+}
+
+export interface SvcModelPivotDirResponse {
+  /** 创建时间 */
+  create_date?: string;
+  /** 文件数量 */
+  file_count?: number;
+  /** 目录ID */
+  file_id?: string;
+  /** 分组类型 */
+  group_type?: string;
+  /** 知识库ID */
+  kb_id?: string;
+  /** 目录名称 */
+  name?: string;
+  /** 父目录ID（一级目录为null） */
+  parent_id?: string;
+}
+
+export interface SvcModelPivotKbChunkInfoResponse {
+  /** 该对象的唯一标识符 */
+  chunk_id?: string;
+  /** 内容 */
+  content_with_weight?: string;
+  /** 文档 ID */
+  doc_id?: string;
+  /** 文档名称 */
+  doc_name?: string;
+  /** 文件ID */
+  file_id?: string;
+  /** 自定义文本块下标id，例如：0-0、1-0、2-0、2-1、2-2 */
+  index_id?: string;
+  /** 知识库 ID */
+  kb_id?: string;
+  /** 知识库名称 */
+  kb_name?: string;
+  /** 相似度 */
+  similarity?: number;
+  /** 摘要 ID */
+  sum_id?: string;
+}
+
+export interface SvcModelPivotKnowledgeBaseRetrievalConfig {
+  /** 摘要目录中的文档ID列表（doc_id） */
+  abstract_doc_ids?: string[];
+  /** 压缩模型 */
+  compression_model?: string;
+  /** 压缩提示词 */
+  compression_prompt?: string;
+  /** 是否启用摘要检索 */
+  enable_abstract?: boolean;
+  /** 是否启用归纳压缩 */
+  enable_compression?: boolean;
+  /** 是否启用图谱扩展 */
+  enable_graph_expansion?: boolean;
+  /** 是否启用原文检索 */
+  enable_original_text?: boolean;
+  /** 是否全文召回 */
+  full_text_recall?: boolean;
+  /** 全文检索权重，范围0-100（混合检索） */
+  full_text_weight?: number;
+  /** 检索深度，范围1-2（0表示使用默认值2） */
+  graph_depth?: number;
+  /** 图谱扩展深度，范围1-2 */
+  graph_expansion_depth?: number;
+  /** 图谱检索权重，范围0-100（混合检索） */
+  graph_weight?: number;
+  /** 原文目录中的文档ID列表（doc_id） */
+  original_text_doc_ids?: string[];
+  /** 优先策略(Original: 原文:、Abstract: 摘要) */
+  priority_strategy?: string;
+  /** Rerank模型 */
+  rerank_id?: string;
+  /** 检索类型(全文:Fulltext、向量:Vector、图谱:Graph、混合:Hybrid) */
+  retrieval_type?: string;
+  /** 选择摘要类型：1.全部；2.指定原文&原文文件夹； */
+  select_abstract_type?: number;
+  /** 选择原文类型：1.全部；2.指定原文&原文文件夹； */
+  select_original_text_type?: number;
+  /** 相似度设置 */
+  similarity_threshold?: number;
+  /** 召回分段数 */
+  top_k?: number;
+  /** 向量检索权重，范围0-100（混合检索） */
+  vector_weight?: number;
 }
 
 export interface SvcModelPluginInstanceParam {
@@ -2672,16 +3074,24 @@ export interface SvcModelSessionHistoryMsgBaseModel {
   comment?: string;
   /** 大模型输出消耗tokens */
   completion_tokens?: number;
+  /** 对话ID */
+  conversation_id?: string;
+  /** 耗时 */
+  cost?: number;
   /** 对话时间 */
   created_at?: string;
   /** 反馈内容 */
   feedback_content?: string;
   /** 附件 */
   files?: string[];
+  /** 错误标志性，0:成功，1:失败 */
+  is_error?: number;
   /** 1点赞 0取消 -1点踩 */
   like_type?: number;
   /** 日志ID */
   log_id?: number;
+  /** 未结束，0:结束，1:未结束 */
+  not_finished?: number;
   /** 用户输入消耗tokens */
   prompt_tokens?: number;
   /** 大模型Reasoning tokens消耗 */
@@ -2702,6 +3112,48 @@ export interface SvcModelSessionHistoryMsgResModel {
   /** 历史消息记录 */
   records?: SvcModelSessionHistoryMsgBaseModel[];
   total?: number;
+}
+
+export interface SvcModelSourceTypeResModel {
+  /** 场景类型名称 */
+  source_name?: string;
+  /** 场景类型 */
+  source_type?: string;
+}
+
+export interface SvcModelStatisticAgentCommonModel {
+  /** 智能体标识数组 */
+  agent_marking?: string[];
+  /** 时间颗粒度：时hour，天day， 月month */
+  granularity?: string;
+  /** 场景类型 */
+  source_type?: string;
+  /** 时间范围 */
+  time_range?: string[];
+}
+
+export interface SvcModelStatisticAgentResModel {
+  /** 智能体统计列表 */
+  analysis_info_res?: SvcModelAgentAnalysisInfoResModel[];
+  /** 消息轮数统计 */
+  message_count_res?: SvcModelGranularityMessageCountResModel[];
+  /** 耗时统计 */
+  time_consume_res?: SvcModelGranularityTimeConsumeResModel[];
+  /** token消耗统计 */
+  token_res?: SvcModelStatisticAgentTokenResModel;
+  /** 用户数统计 */
+  user_count_res?: SvcModelGranularityUserCountResModel[];
+}
+
+export interface SvcModelStatisticAgentTokenResModel {
+  /** 时间颗粒度消耗token */
+  granularity_token?: SvcModelGranularityTokenResModel[];
+  /** 输入消耗总token(K) */
+  total_input_token?: number;
+  /** 输出消耗总token(K) */
+  total_output_token?: number;
+  /** 总消耗token(K) */
+  total_token?: number;
 }
 
 export interface SvcModelStatisticNameSpaceAgentResModel {
@@ -2850,6 +3302,8 @@ export interface SvcModelTestOnlyWorkflowExecuteResp {
   flow_response?: object;
   /** 执行过程追踪 */
   trace_data_json?: object;
+  /** 追踪日志ID */
+  trace_log_id?: number;
 }
 
 export interface SvcModelTestSingleCellExecuteReq {
@@ -2903,6 +3357,29 @@ export interface SvcModelToolsCommonDesc {
   use_type?: string;
 }
 
+export interface SvcModelTraceLogDetailModel {
+  /** 请求完整结束时间 */
+  end_time?: string;
+  /** 错误相关日志 */
+  error_log?: string;
+  /** 首词响应耗时 */
+  first_token_time_in_ms?: number;
+  /** 是否异常 0:否，1:是 */
+  is_error?: number;
+  /** 请求发起时间 */
+  start_time?: string;
+  /** 总耗时，毫秒 */
+  total_cost?: number;
+  /** 总tokens消耗 */
+  total_tokens?: number;
+  /** 日志详情 */
+  trace_log_detail?: SvcModelBotCallToolSimpleLog;
+  /** LogId */
+  trace_log_id?: number;
+  /** 当是Agentflow workflow时，完整的flowjson 定义 */
+  workflow_data?: string;
+}
+
 export interface SvcModelUpdateBotSessionReqModel {
   /** 会话HistoryId,开启聊天后会返回，必填 */
   history_id: string;
@@ -2954,6 +3431,17 @@ export interface SvcModelUpdateMcpToolReq {
   tool_name: string;
 }
 
+export interface SvcModelUseTokensModel {
+  /** 大模型输出消耗tokens */
+  completion_tokens?: number;
+  /** 用户输入消耗tokens */
+  prompt_tokens?: number;
+  /** 大模型Reasoning tokens消耗 */
+  reasoning_tokens?: number;
+  /** 大模型总消耗tokens */
+  total_tokens?: number;
+}
+
 export interface SvcModelVariableDescribeModel {
   /** 字段描述 */
   describe?: string;
@@ -2968,6 +3456,8 @@ export interface SvcModelVisionConfigModel {
   open_flag?: boolean;
   /** 分辨率，High:高分辨率，Low:低分辨率 */
   resolution_type?: string;
+  /** 是否开启（语音转文字） */
+  speech_open_flag?: boolean;
   /** 上传数量限制 */
   upload_size?: number;
   /** 上传方式，File:本地上传，URL:链接上传 */
@@ -2987,6 +3477,21 @@ export interface SvcModelWorkflowConfigReqModel {
   value_set?: string;
   /** 变量值使用类型，Default:默认值，Fixed:固定值 */
   value_use_type?: string;
+}
+
+export interface SvcModelWorkflowHistorySimpleModel {
+  /** 消耗时间，毫秒 */
+  cost_time?: number;
+  /** 运行结果 */
+  end_response?: object;
+  /** 执行结束时间 */
+  executed_end_time?: string;
+  /** 执行开始时间 */
+  executed_start_time?: string;
+  /** log id */
+  id?: number;
+  /** 总消耗tokens数量 */
+  total_tokens?: number;
 }
 
 export interface SvcModelWorkflowListConfigModel {
@@ -3047,9 +3552,9 @@ export interface SvcModelWorkflowStoreReq {
 }
 
 export interface SwagenDefaultRetStruct {
-  code?: number;
   data?: object;
-  message?: string;
+  msg?: string;
+  state?: number;
 }
 
 export interface TableCondaConfig {
@@ -3317,7 +3822,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     debugLogInfo: (param: SvcModelGetDebugInfoByLogIdReq, params: RequestParams = {}) =>
       this.request<
         SwagenDefaultRetStruct & {
-          data?: SvcModelDebugInfoResponseModel;
+          data?: SvcModelTraceLogDetailModel;
         },
         any
       >({
@@ -3345,6 +3850,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         any
       >({
         path: `/ai_bot_common/delete_bot_session`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.AiBotCommonService:ListAnswerSource
+     *
+     * @tags AiBotCommon
+     * @name ListAnswerSource
+     * @summary 根据LogId查询历史答案来源列表
+     * @request POST:/ai_bot_common/list_answer_source
+     */
+    listAnswerSource: (param: SvcModelListAnswerSourceReqModel, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelPivotKbChunkInfoResponse[];
+        },
+        any
+      >({
+        path: `/ai_bot_common/list_answer_source`,
         method: 'POST',
         body: param,
         type: ContentType.Json,
@@ -4003,6 +4531,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'POST',
         body: param,
         type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.BotOnlineService:BotMarketList
+     *
+     * @tags BotOnline
+     * @name BotMarketList
+     * @summary 所有发布的智能体列表接口(统计分析)
+     * @request GET:/bot_online/bot_market_list
+     */
+    botMarketList: (params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelBotResModel[];
+        },
+        any
+      >({
+        path: `/bot_online/bot_market_list`,
+        method: 'GET',
         format: 'json',
         ...params,
       }),
@@ -4765,6 +5314,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description service.FlowService:PageWorkflowHistory
+     *
+     * @tags Flow
+     * @name PageWorkflowHistory
+     * @summary 工作流查询历史运行记录
+     * @request POST:/flow/page_workflow_history
+     */
+    pageWorkflowHistory: (param: SvcModelPageWorkflowHistoryReq, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelPageWorkflowHistoryResp;
+        },
+        any
+      >({
+        path: `/flow/page_workflow_history`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
      * @description service.FlowService:TestOnlyWorkflowExecute
      *
      * @tags Flow
@@ -5260,6 +5832,52 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description service.KnowledgeService:PivotDirList
+     *
+     * @tags Knowledge
+     * @name DirList
+     * @summary 知识库-文件目录列表
+     * @request POST:/knowledge/dir_list
+     */
+    dirList: (param: SvcModelKbCommonReq, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelPivotDirResponse[];
+        },
+        any
+      >({
+        path: `/knowledge/dir_list`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.KnowledgeService:DocAbstractList
+     *
+     * @tags Knowledge
+     * @name DocAbstractList
+     * @summary 知识库-摘要文档列表
+     * @request POST:/knowledge/doc_abstract_list
+     */
+    docAbstractList: (param: SvcModelKbCommonReq, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelFileDocumentResponse[];
+        },
+        any
+      >({
+        path: `/knowledge/doc_abstract_list`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
      * @description service.KnowledgeService:DocChangeStatus
      *
      * @tags Knowledge
@@ -5369,6 +5987,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         any
       >({
         path: `/knowledge/doc_list`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.KnowledgeService:DocOriginalList
+     *
+     * @tags Knowledge
+     * @name DocOriginalList
+     * @summary 知识库-原文文档列表
+     * @request POST:/knowledge/doc_original_list
+     */
+    docOriginalList: (param: SvcModelKbCommonReq, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelFileDocumentResponse[];
+        },
+        any
+      >({
+        path: `/knowledge/doc_original_list`,
         method: 'POST',
         body: param,
         type: ContentType.Json,
@@ -5634,6 +6275,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   llm = {
     /**
+     * @description service.LlmService:AsrLlms
+     *
+     * @tags Llm
+     * @name AsrLlms
+     * @summary 获取可用的音频文件转换文本模型
+     * @request GET:/llm/asr_llms
+     */
+    asrLlms: (params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelLlmResult[];
+        },
+        any
+      >({
+        path: `/llm/asr_llms`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
      * @description service.LlmService:EmbedingLlms
      *
      * @tags Llm
@@ -5703,7 +6365,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Llm
      * @name LlmAllStatus
-     * @summary 全部大模型可用状态描述接口（包含向量模型）
+     * @summary 全部大模型可用状态描述接口（包含向量模型） 废弃
      * @request GET:/llm/llm_all_status
      */
     llmAllStatus: (params: RequestParams = {}) =>
@@ -5787,6 +6449,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description service.LlmService:LlmEmbeddingCall
+     *
+     * @tags Llm
+     * @name LlmEmbeddingCall
+     * @summary 向量模型调用（知识库后端对接，非WEB）
+     * @request POST:/llm/llm_embedding_call
+     */
+    llmEmbeddingCall: (param: SvcModelLlmEmbeddingRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ModelImplLlmEmbeddingResponse;
+        },
+        any
+      >({
+        path: `/llm/llm_embedding_call`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
      * @description service.LlmService:LlmFactories
      *
      * @tags Llm
@@ -5831,44 +6516,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description service.LlmService:LlmLuckinCoffee
+     * @description service.LlmService:LlmRerankCall
      *
      * @tags Llm
-     * @name LlmLuckinCoffee
-     * @summary 瑞幸咖啡运行测试
-     * @request POST:/llm/llm_luckin_coffee
+     * @name LlmRerankCall
+     * @summary rerank量模型调用（知识库后端对接，非WEB）
+     * @request POST:/llm/llm_rerank_call
      */
-    llmLuckinCoffee: (param: SvcModelLlmLuckinCoffeeRes, params: RequestParams = {}) =>
+    llmRerankCall: (param: SvcModelLlmRerankRequest, params: RequestParams = {}) =>
       this.request<
         SwagenDefaultRetStruct & {
-          data?: string;
+          data?: ModelImplRerankResponse;
         },
         any
       >({
-        path: `/llm/llm_luckin_coffee`,
-        method: 'POST',
-        body: param,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * @description service.LlmService:LlmLuckinCoffeeProp
-     *
-     * @tags Llm
-     * @name LlmLuckinCoffeeProp
-     * @summary 瑞幸咖啡运行测试-修改属性
-     * @request POST:/llm/llm_luckin_coffee_prop
-     */
-    llmLuckinCoffeeProp: (param: SvcModelLlmLuckinCoffeeRes, params: RequestParams = {}) =>
-      this.request<
-        SwagenDefaultRetStruct & {
-          data?: string;
-        },
-        any
-      >({
-        path: `/llm/llm_luckin_coffee_prop`,
+        path: `/llm/llm_rerank_call`,
         method: 'POST',
         body: param,
         type: ContentType.Json,
@@ -5934,6 +6596,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         any
       >({
         path: `/llm/rerank_llms`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.LlmService:VideoLlms
+     *
+     * @tags Llm
+     * @name VideoLlms
+     * @summary 获取可用的视频解析转文本模型
+     * @request GET:/llm/video_llms
+     */
+    videoLlms: (params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelLlmResult[];
+        },
+        any
+      >({
+        path: `/llm/video_llms`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -6033,6 +6716,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description service.McpService:SyncMcp
+     *
+     * @tags Mcp
+     * @name SyncMcp
+     * @summary MCP服务-同步工具列表
+     * @request POST:/mcp/sync_mcp
+     */
+    syncMcp: (param: SvcModelMcpIdReq, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelMcpInfoRes;
+        },
+        any
+      >({
+        path: `/mcp/sync_mcp`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
      * @description service.McpService:UpdateMcp
      *
      * @tags Mcp
@@ -6068,6 +6774,145 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  media = {
+    /**
+     * @description service.MediaService:Asr
+     *
+     * @tags Media
+     * @name Asr
+     * @summary websocket调用实时语音转文字
+     * @request GET:/media/asr
+     */
+    asr: (params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ServiceMediaWsRes;
+        },
+        any
+      >({
+        path: `/media/asr`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.MediaService:Asr
+     *
+     * @tags Media
+     * @name Asr2
+     * @summary websocket调用实时语音转文字
+     * @request OPTIONS:/media/asr
+     * @originalName asr
+     * @duplicate
+     */
+    asr2: (param: ServiceMediaWsRes, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ServiceMediaWsRes;
+        },
+        any
+      >({
+        path: `/media/asr`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.MediaService:AsrFileToText
+     *
+     * @tags Media
+     * @name AsrFileToText
+     * @summary Asr音频文件转文字（wav,mp3)
+     * @request OPTIONS:/media/asr_file_to_text
+     */
+    asrFileToText: (param: ServiceAsrFileToTextReq, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ServiceAsrFileToTextRes;
+        },
+        any
+      >({
+        path: `/media/asr_file_to_text`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.MediaService:AsrFileToText
+     *
+     * @tags Media
+     * @name AsrFileToText2
+     * @summary Asr音频文件转文字（wav,mp3)
+     * @request POST:/media/asr_file_to_text
+     * @originalName asrFileToText
+     * @duplicate
+     */
+    asrFileToText2: (param: ServiceAsrFileToTextReq, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ServiceAsrFileToTextRes;
+        },
+        any
+      >({
+        path: `/media/asr_file_to_text`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.MediaService:GetMediaToken
+     *
+     * @tags Media
+     * @name GetMediaToken
+     * @summary 获取Media访问token
+     * @request OPTIONS:/media/get_media_token
+     */
+    getMediaToken: (params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ServiceMediaTokenRes;
+        },
+        any
+      >({
+        path: `/media/get_media_token`,
+        method: 'OPTIONS',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.MediaService:GetMediaToken
+     *
+     * @tags Media
+     * @name GetMediaToken2
+     * @summary 获取Media访问token
+     * @request POST:/media/get_media_token
+     * @originalName getMediaToken
+     * @duplicate
+     */
+    getMediaToken2: (params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ServiceMediaTokenRes;
+        },
+        any
+      >({
+        path: `/media/get_media_token`,
+        method: 'POST',
+        format: 'json',
+        ...params,
+      }),
+  };
   meta = {
     /**
      * @description service.MetaAgentService:MetaAgentSse
@@ -6088,6 +6933,39 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'POST',
         body: param,
         type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+  };
+  pivotPerception = {
+    /**
+     * @description service.PivotPerceptionService:GetAllTools
+     *
+     * @tags PivotPerception
+     * @name GetAllTools
+     * @summary 获取平台所有工具（测试）
+     * @request POST:/pivot_perception/get_all_tools
+     */
+    getAllTools: (params: RequestParams = {}) =>
+      this.request<SwagenDefaultRetStruct, any>({
+        path: `/pivot_perception/get_all_tools`,
+        method: 'POST',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.PivotPerceptionService:InitToolCache
+     *
+     * @tags PivotPerception
+     * @name InitToolCache
+     * @summary 初始化Tool缓存
+     * @request POST:/pivot_perception/init_tool_cache
+     */
+    initToolCache: (params: RequestParams = {}) =>
+      this.request<SwagenDefaultRetStruct, any>({
+        path: `/pivot_perception/init_tool_cache`,
+        method: 'POST',
         format: 'json',
         ...params,
       }),
@@ -6643,6 +7521,53 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   statistic = {
     /**
+     * @description service.StatisticService:GetSourceType
+     *
+     * @tags Statistic
+     * @name GetSourceType
+     * @summary 获取场景类型
+     * @request GET:/statistic/get_source_type
+     */
+    getSourceType: (params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelSourceTypeResModel[];
+        },
+        any
+      >({
+        path: `/statistic/get_source_type`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StatisticService:StatisticAgentAnalysis
+     *
+     * @tags Statistic
+     * @name StatisticAgentAnalysis
+     * @summary 获取智能体统计分析
+     * @request POST:/statistic/statistic_agent_analysis
+     */
+    statisticAgentAnalysis: (
+      param: SvcModelStatisticAgentCommonModel,
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcModelStatisticAgentResModel;
+        },
+        any
+      >({
+        path: `/statistic/statistic_agent_analysis`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
      * @description service.StatisticService:StatisticNameSpaceAgent
      *
      * @tags Statistic
@@ -6659,6 +7584,414 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/statistic/statistic_name_space_agent`,
         method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+  };
+  stream = {
+    /**
+     * @description service.StreamService:BotPromptGen
+     *
+     * @tags Stream
+     * @name BotPromptGen
+     * @summary 助手提示词优化(工作台-生成提示词)
+     * @request POST:/stream/bot_prompt_gen
+     */
+    botPromptGen: (param: SvcModelBotPromptGenReq, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/bot_prompt_gen`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:ChatMessage
+     *
+     * @tags Stream
+     * @name ChatMessage
+     * @summary 助手聊天消息（单一Post方式）
+     * @request OPTIONS:/stream/chat_message
+     */
+    chatMessage: (param: SvcModelChatMessageModel, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/chat_message`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:ChatMessage
+     *
+     * @tags Stream
+     * @name ChatMessage2
+     * @summary 助手聊天消息（单一Post方式）
+     * @request POST:/stream/chat_message
+     * @originalName chatMessage
+     * @duplicate
+     */
+    chatMessage2: (param: SvcModelChatMessageModel, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/chat_message`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:LlmEmbedding
+     *
+     * @tags Stream
+     * @name LlmEmbedding
+     * @summary 大模型embedding向量化
+     * @request OPTIONS:/stream/llm_embedding
+     */
+    llmEmbedding: (param: ServiceEmbedLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/llm_embedding`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:LlmEmbedding
+     *
+     * @tags Stream
+     * @name LlmEmbedding2
+     * @summary 大模型embedding向量化
+     * @request POST:/stream/llm_embedding
+     * @originalName llmEmbedding
+     * @duplicate
+     */
+    llmEmbedding2: (param: ServiceEmbedLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/llm_embedding`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:LlmRerank
+     *
+     * @tags Stream
+     * @name LlmRerank
+     * @summary 大模型rerank重排
+     * @request OPTIONS:/stream/llm_rerank
+     */
+    llmRerank: (param: ServiceRerankLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/llm_rerank`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:LlmRerank
+     *
+     * @tags Stream
+     * @name LlmRerank2
+     * @summary 大模型rerank重排
+     * @request POST:/stream/llm_rerank
+     * @originalName llmRerank
+     * @duplicate
+     */
+    llmRerank2: (param: ServiceRerankLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/llm_rerank`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:SimpleLlm
+     *
+     * @tags Stream
+     * @name SimpleLlm
+     * @summary 简单调用大模型，一次性返回内容
+     * @request OPTIONS:/stream/simple_llm
+     */
+    simpleLlm: (param: ServiceTestLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ServiceSimpleLlmResponse;
+        },
+        any
+      >({
+        path: `/stream/simple_llm`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:SimpleLlm
+     *
+     * @tags Stream
+     * @name SimpleLlm2
+     * @summary 简单调用大模型，一次性返回内容
+     * @request POST:/stream/simple_llm
+     * @originalName simpleLlm
+     * @duplicate
+     */
+    simpleLlm2: (param: ServiceTestLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: ServiceSimpleLlmResponse;
+        },
+        any
+      >({
+        path: `/stream/simple_llm`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:SimpleLlmSse
+     *
+     * @tags Stream
+     * @name SimpleLlmSse
+     * @summary 简单调用大模型，流式输出
+     * @request OPTIONS:/stream/simple_llm_sse
+     */
+    simpleLlmSse: (param: ServiceSseLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/simple_llm_sse`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:SimpleLlmSse
+     *
+     * @tags Stream
+     * @name SimpleLlmSse2
+     * @summary 简单调用大模型，流式输出
+     * @request POST:/stream/simple_llm_sse
+     * @originalName simpleLlmSse
+     * @duplicate
+     */
+    simpleLlmSse2: (param: ServiceSseLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/simple_llm_sse`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:SseReconnect
+     *
+     * @tags Stream
+     * @name SseReconnect
+     * @summary Sse消息断开重连
+     * @request OPTIONS:/stream/sse_reconnect
+     */
+    sseReconnect: (param: ServiceSseReconnectRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/sse_reconnect`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:SseReconnect
+     *
+     * @tags Stream
+     * @name SseReconnect2
+     * @summary Sse消息断开重连
+     * @request POST:/stream/sse_reconnect
+     * @originalName sseReconnect
+     * @duplicate
+     */
+    sseReconnect2: (param: ServiceSseReconnectRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/sse_reconnect`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:TestLlm
+     *
+     * @tags Stream
+     * @name TestLlm
+     * @summary 测试大模型基础
+     * @request OPTIONS:/stream/test_llm
+     */
+    testLlm: (param: ServiceTestLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/test_llm`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:TestLlm
+     *
+     * @tags Stream
+     * @name TestLlm2
+     * @summary 测试大模型基础
+     * @request POST:/stream/test_llm
+     * @originalName testLlm
+     * @duplicate
+     */
+    testLlm2: (param: ServiceTestLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/test_llm`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:TestSseNewMessage
+     *
+     * @tags Stream
+     * @name TestSseNew
+     * @summary 测试新的Sse消息类型
+     * @request OPTIONS:/stream/test_sse_new
+     */
+    testSseNew: (param: ServiceSseLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/test_sse_new`,
+        method: 'OPTIONS',
+        body: param,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description service.StreamService:TestSseNewMessage
+     *
+     * @tags Stream
+     * @name TestSseNew2
+     * @summary 测试新的Sse消息类型
+     * @request POST:/stream/test_sse_new
+     * @originalName testSseNew
+     * @duplicate
+     */
+    testSseNew2: (param: ServiceSseLlmRequest, params: RequestParams = {}) =>
+      this.request<
+        SwagenDefaultRetStruct & {
+          data?: SvcAiChatRes;
+        },
+        any
+      >({
+        path: `/stream/test_sse_new`,
+        method: 'POST',
+        body: param,
+        type: ContentType.Json,
         format: 'json',
         ...params,
       }),
@@ -7167,7 +8500,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     toolsCallComponentName: (
       componentName: string,
-      param: SvcAiChatRes,
+      param: ServiceMediaWsRes,
       params: RequestParams = {},
     ) =>
       this.request<

@@ -7,21 +7,15 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-api": "free-scripts build-api -i ./ -o ./src/ && oxfmt ./src",
-    "build-enums": "free-scripts build-code -i ./enums.config.js -o ./src/code -t antd && oxfmt ./src/code"
+    "build-api": "free-scripts build-api && oxfmt ./src",
+    "build-code": "free-scripts build-code && oxfmt ./src"
   },
   "devDependencies": {
-    "@fe-free/free-scripts": "^6.0.1"
+    "@fe-free/free-scripts": "^7.0.1"
   },
   "peerDependencies": {
     "@fe-free/core": "^6.0.5",
     "antd": "^5.19.3",
     "axios": "^1.7.9"
-  },
-  "swaggerDocs": [
-    {
-      "docName": "ai-service",
-      "jsonUrl": "http://pivot-agent-web.agent.gz.pivotinteract.cn:23456/api/ai-service/v1/tools/getSwaggerJson"
-    }
-  ]
+  }
 }

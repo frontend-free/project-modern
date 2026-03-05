@@ -14,15 +14,15 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "build-api": "pnpm --filter @lib/api build-api",
-    "build-enums": "pnpm --filter @lib/api build-enums",
+    "build-code": "pnpm --filter @lib/api build-code",
     "clean": "rm -rf pnpm-lock.yaml node_modules **/*/node_modules dist",
     "build:agent": "pnpm --filter ./apps/agent build",
     "dev:agent": "pnpm --filter ./apps/agent dev"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.8.0",
-    "@fe-free/commit-lint": "^6.0.1",
-    "@fe-free/style-lint": "^6.0.1",
+    "@fe-free/commit-lint": "^7.0.1",
+    "@fe-free/style-lint": "^7.0.1",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.8.4",
     "@types/react": "^19.2.0",
