@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { initI18n } from './i18n';
 
 import './style.css';
+import './tailwind.css';
 
 initI18n({
   enTranslation: {},

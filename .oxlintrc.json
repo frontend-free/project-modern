@@ -9,5 +9,10 @@
     "react/react-in-jsx-scope": "off",
     "unicorn/no-array-sort": "off"
   },
-  "ignorePatterns": ["apps/*/public/**", "packages/api/src/code/**", "packages/api/src/api/**"]
+  "ignorePatterns": [
+    "pnpm-lock.yaml",
+    "apps/*/public/**",
+    "packages/api/src/code/**",
+    "packages/api/src/api/**"
+  ]
 }
