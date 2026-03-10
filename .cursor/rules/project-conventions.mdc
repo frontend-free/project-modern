@@ -1,6 +1,7 @@
 ---
-name: project-conventions
-description: 定义本仓库前端技术栈与编码约定（React、antd、Tailwind、导出方式、路由、图标等）。在编写或生成本项目的前端代码、组件、页面时使用，确保风格与规范一致。
+description: 本仓库前端技术栈与编码约定（React、antd、Tailwind、导出方式、路由、图标等）。在编写或生成本项目前端代码时遵循。
+globs: ["apps/**/*.tsx", "apps/**/*.ts", "packages/**/src/**/*.tsx", "packages/**/src/**/*.ts"]
+alwaysApply: true
 ---
 
 # 项目前端约定
@@ -20,7 +21,7 @@ description: 定义本仓库前端技术栈与编码约定（React、antd、Tail
 - **运行时**：React@19，TypeScript/JavaScript。
 - **UI**：Antd@6（默认）、@ant-design/pro-components、@fe-free/core、@fe-free/icons、@fe-free/tool、@fe-free/file。
 - **生态**：ahooks@3、react-router@6、react-i18next@16、zustand@5、Tailwindcss@4。
-- **工程**：Vite@7。
+- **工程**：Vite 7，约定式路由（vite-plugin-react-router-pages）
 - **其他**：dayjs@1。
 
 ## 组件
@@ -29,13 +30,15 @@ description: 定义本仓库前端技术栈与编码约定（React、antd、Tail
 - **优先使用 antd 与 ProComponents**（Button、Input、Form、Table、Modal、Select、DatePicker、Card、Space、Layout、Menu、Tabs、Message、notification、ProTable、ProForm、ProLayout 等），避免手写等效 HTML 或重复造轮子；仅 antd 无法满足时再用自定义或原生。
 - 其次使用 @fe-free/core 的组件。@fe-free/core 的组件使用方式见 @fe-free/core/src/README.md 文档。
 
-## 模块导出
+## 模块导出与路径别名
 
 - 使用 `export { XXX }`，不用 `export default XXX`。
 - 页面入口文件（如 `index.xxx.page.tsx`）使用 `export default XXX`。
+- 路径别名：使用 `@/`（如 `@/config`、`@/assets/svgs/`）。
 
 ## CSS / Tailwind
 
+- **IMPORTANT**：使用 **Tailwind** 写样式；设计变量参考 **`@fe-free/core/src/tailwind.css`**（如边框用 `border-01` 等），**禁止硬编码 hex 或随意数值**。
 - 自定义变量参考 `@fe-free/core/src/tailwind.css`；边框等用 `border-01` 等变量，避免硬编码 hex 或随意数值。
 - 覆盖第三方组件样式时用强制类名：`className="text-03!"`，不用 `className="text-03"`。
 
