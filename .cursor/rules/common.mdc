@@ -29,6 +29,9 @@ alwaysApply: true
 - 单个组件不宜过重，可适当拆分。
 - **优先使用 antd 与 ProComponents**（Button、Input、Form、Table、Modal、Select、DatePicker、Card、Space、Layout、Menu、Tabs、Message、notification、ProTable、ProForm、ProLayout 等），避免手写等效 HTML 或重复造轮子；仅 antd 无法满足时再用自定义或原生。
 - 其次使用 @fe-free/core 的组件。@fe-free/core 的组件使用方式见 @fe-free/core/src/README.md 文档。
+- 以下组件优先使用 @fe-free/core 的组件：
+  - 布局使用 @fe-free/core 的 PageLayout 组件。
+  - Tabs使用 @fe-free/core 的 Tabs 组件。
 
 ## 模块导出与路径别名
 
