@@ -1,3 +1,8 @@
+---
+name: i18n-translation
+description: 根据提供的目录执行 i18n 提取与翻译流程（pnpm i18n-extract、对照 zh-CN 翻译 en-US）。在用户要求「翻译 i18n」「提取并翻译多语」「翻译 en-US」或提供目录做国际化翻译时使用。
+---
+
 # i18n-translation
 
 根据提供的目录执行以下步骤
