@@ -7,6 +7,7 @@ declare module 'virtual:react-pages' {
     USER: '/user';
     'USER_[ID]': '/user/:id';
     HOME: '/home';
+    EXAMPLE_FIGMA: '/example_figma';
     DEMO: '/demo';
     AUTH_LOGIN: '/auth/login';
   };

@@ -1,0 +1,64 @@
+---
+name: project-conventions
+description: 定义本仓库前端技术栈与编码约定（React、antd、Tailwind、导出方式、路由、图标等）。在编写或生成本项目的前端代码、组件、页面时使用，确保风格与规范一致。
+---
+
+# 项目前端约定
+
+在本项目内编写或生成前端代码时遵循以下约定。
+
+## 通用约定
+
+- 目录与文件名：小写 + 下划线 `_`。
+- 确认方案后再编写代码。
+- 优先保证代码简洁与可读性，避免过度优化。
+- 代码完整、简洁并做必要验证。
+- 无确定答案时明确说明；不知道则如实告知，不猜测。
+
+## 技术栈
+
+- **运行时**：React@19，TypeScript/JavaScript。
+- **UI**：Antd@6（默认）、@ant-design/pro-components、@fe-free/core、@fe-free/icons、@fe-free/tool、@fe-free/file。
+- **生态**：ahooks@3、react-router@6、react-i18next@16、zustand@5、Tailwindcss@4。
+- **工程**：Vite@7。
+- **其他**：dayjs@1。
+
+## 组件
+
+- 单个组件不宜过重，可适当拆分。
+- **优先使用 antd 与 ProComponents**（Button、Input、Form、Table、Modal、Select、DatePicker、Card、Space、Layout、Menu、Tabs、Message、notification、ProTable、ProForm、ProLayout 等），避免手写等效 HTML 或重复造轮子；仅 antd 无法满足时再用自定义或原生。
+- 其次使用 @fe-free/core 的组件。@fe-free/core 的组件使用方式见 @fe-free/core/src/README.md 文档。
+
+## 模块导出
+
+- 使用 `export { XXX }`，不用 `export default XXX`。
+- 页面入口文件（如 `index.xxx.page.tsx`）使用 `export default XXX`。
+
+## CSS / Tailwind
+
+- 自定义变量参考 `@fe-free/core/src/tailwind.css`；边框等用 `border-01` 等变量，避免硬编码 hex 或随意数值。
+- 覆盖第三方组件样式时用强制类名：`className="text-03!"`，不用 `className="text-03"`。
+
+## 图标
+
+- 优先使用 `@fe-free/icons`。
+- 自定义 SVG 需放在 `./src/assets/svgs/`（在此目录的 svg 使用时会自动移除颜色），用法示例：
+
+```tsx
+import ICON_NAME from '@/assets/svgs/xxx.svg?react';
+import { Icon } from '@fe-free/icons';
+
+<Icon component={ICON_NAME} />;
+```
+
+- 需保留颜色的 SVG 放在 `./src/assets/`，不要放在 `./src/assets/svgs/`。
+
+## 路由
+
+- 约定式路由，具体使用方式见 vite-plugin-react-router-pages 文档，`vite-plugin-react-router-pages/AGENTS.md`
+- 跳转使用 `useNavigate` 或 `@fe-free/core` 的 `routeTool`。
+- 路由地址从 `virtual:react-pages` 的 `PagesRoutes` 中获取。
+
+## 其他
+
+- 注意避免文本溢出（truncate / line-clamp 等）。

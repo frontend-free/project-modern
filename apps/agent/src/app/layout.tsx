@@ -8,9 +8,13 @@ const AppLayout = () => {
   return (
     <PageLayout
       direction="vertical"
-      start={<div className="c-border-bottom flex items-center justify-between">header</div>}
+      start={
+        <div className="c-border-bottom border-01 flex items-center justify-between border-b">
+          header
+        </div>
+      }
     >
-      <PageLayout start={<div className="c-border-right h-full">menu</div>}>
+      <PageLayout start={<div className="c-border-right border-01 h-full border-r">menu</div>}>
         <Outlet />
       </PageLayout>
     </PageLayout>
@@ -21,7 +25,7 @@ function PrepareAppLayout() {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
-    sleep(1000).then(() => {
+    void sleep(1000).then(() => {
       setInit(true);
     });
   }, []);
