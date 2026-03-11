@@ -16,6 +16,7 @@
   "peerDependencies": {
     "@fe-free/core": "^6.0.7",
     "antd": "^5.19.3",
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "i18next": "^25.7.2"
   }
 }

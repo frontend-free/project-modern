@@ -17,8 +17,11 @@
     "build-api": "pnpm --filter @lib/api build-api",
     "build-code": "pnpm --filter @lib/api build-code",
     "clean": "rm -rf pnpm-lock.yaml node_modules **/*/node_modules dist",
+    "build-docker": "docker build -t project-modern .",
     "build:agent": "pnpm --filter ./apps/agent build",
-    "dev:agent": "pnpm --filter ./apps/agent dev"
+    "dev:agent": "pnpm --filter ./apps/agent dev",
+    "build": "pnpm build:agent",
+    "dev": "pnpm dev:agent"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.8.0",
