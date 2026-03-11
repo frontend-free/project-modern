@@ -1,436 +1,333 @@
-import { Button, Carousel, Input, Tabs, Tag, message } from 'antd';
-import type { ReactNode } from 'react';
-import { useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Button, Carousel, Input } from 'antd';
+import type { CSSProperties } from 'react';
+import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import agent01 from '@/assets/example_figma/agent_01.png';
-import agent02 from '@/assets/example_figma/agent_02.png';
-import agent03 from '@/assets/example_figma/agent_03.png';
-import agent04 from '@/assets/example_figma/agent_04.png';
-import agent05 from '@/assets/example_figma/agent_05.png';
-import agent06 from '@/assets/example_figma/agent_06.png';
-import bannerMarketing from '@/assets/example_figma/banner_marketing.png';
-import bannerMedical from '@/assets/example_figma/banner_medical.png';
+import { agentItems, carouselItems, type AgentItem } from './data';
 
-interface AgentItem {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  stars: number;
-  likes: number;
-  comments: number;
-  categories: string[];
-  starred?: boolean;
-}
+const TAB_ALL = 'all';
+const TAB_MINE = 'mine';
 
-interface BannerItem {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-}
-
-function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
-  return (
-    <svg className="text-04 h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path
-        d={direction === 'left' ? 'M12 4L8 10L12 16' : 'M8 4L12 10L8 16'}
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg className="text-04 h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M14 14L18 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ShareIcon() {
-  return (
-    <svg className="text-04 h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path
-        d="M12 3H17V8M17 3L10 10"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M17 11V15C17 16.1 16.1 17 15 17H5C3.9 17 3 16.1 3 15V5C3 3.9 3.9 3 5 3H9"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-const bannerList: BannerItem[] = [
-  {
-    id: 'banner_1',
-    title: '医药研发智能体',
-    description: '基于丰富的医药研发经验，提供药物研发、临床试验分析等智能辅助，加速新药研发进程。',
-    image: bannerMedical,
-  },
-  {
-    id: 'banner_2',
-    title: '营销智能体',
-    description: '结合营销经验，提供市场分析、品牌推广、产品定位等智能建议，助力医药产品营销。',
-    image: bannerMarketing,
-  },
-  {
-    id: 'banner_3',
-    title: '医药研发智能体',
-    description: '聚焦药品立项到验证全流程，快速输出临床与研发洞察，帮助团队提升研发效率。',
-    image: bannerMedical,
-  },
-  {
-    id: 'banner_4',
-    title: '营销智能体',
-    description: '针对医药营销场景，提供内容策略与人群洞察建议，提升活动转化与品牌传播效率。',
-    image: bannerMarketing,
-  },
+const tabs = [
+  { key: TAB_ALL, label: '全部' },
+  { key: TAB_MINE, label: '我的作品' },
 ];
 
-const initialAgentList: AgentItem[] = [
-  {
-    id: 'agent_1',
-    title: 'DMS ChatBI数据助手',
-    description:
-      '专业的取数和分析助手，通过DMS MCP来提供取数、n2sql核心能力，帮助用户快速获取和分析数据。',
-    image: agent01,
-    stars: 321,
-    likes: 2305,
-    comments: 2305,
-    categories: ['工作助手', '文本创作'],
-    starred: true,
-  },
-  {
-    id: 'agent_2',
-    title: '基础法律问答助手',
-    description:
-      '基础法律知识的智能问答助手，基于现行法律法规、司法解释及权威案例，为用户提供专业的法律建议。',
-    image: agent02,
-    stars: 321,
-    likes: 2305,
-    comments: 2305,
-    categories: ['工作助手', '文本创作'],
-  },
-  {
-    id: 'agent_3',
-    title: '合同信息抽取',
-    description:
-      '本应用能够从合同文本中精准提取关联信息，包括基本信息、双方信息、权利义务等关键内容。',
-    image: agent03,
-    stars: 2233,
-    likes: 2305,
-    comments: 2305,
-    categories: ['商业助手'],
-  },
-  {
-    id: 'agent_4',
-    title: 'PPT自动生成',
-    description:
-      '本模板适用于需要快速制作结构清晰、内容专业的演示文稿的用户，广泛应用于商务汇报、学术演讲等场景。',
-    image: agent04,
-    stars: 221,
-    likes: 2305,
-    comments: 2305,
-    categories: ['文本创作', '工作助手'],
-  },
-  {
-    id: 'agent_5',
-    title: '行业策略分析',
-    description:
-      '本工作流专注文本转换行业深度分析，集成4P分析法、波特五力模型等多种分析工具，为用户提供全面的行业策略建议。',
-    image: agent05,
-    stars: 2233,
-    likes: 2305,
-    comments: 2305,
-    categories: ['商业助手'],
-  },
-  {
-    id: 'agent_6',
-    title: '市场调研分析',
-    description:
-      '本工作流专注市场调研全流程支持，提供三大核心功能：1.主题梳理；2.数据收集；3.分析报告生成。',
-    image: agent06,
-    stars: 221,
-    likes: 2305,
-    comments: 2305,
-    categories: ['文本创作', '工作助手'],
-  },
-];
+const iconArrowLeft = 'https://www.figma.com/api/mcp/asset/1e651623-0fce-492c-af46-2be0f56e0817';
+const iconArrowRight = 'https://www.figma.com/api/mcp/asset/da23f1ff-189c-407f-adce-001c388edb3f';
+const iconShare = 'https://www.figma.com/api/mcp/asset/f3847001-fe4a-4bdf-901c-65fdea1f6de0';
+const iconStar = 'https://www.figma.com/api/mcp/asset/69d2d646-bcd3-404e-b565-953c6deeb374';
+const iconStarActive = 'https://www.figma.com/api/mcp/asset/dbfd5d01-8d64-437e-a6a3-9668a7eeaf11';
+const iconStat1 = 'https://www.figma.com/api/mcp/asset/0c8071f6-ac99-4610-9ec3-03beffd0b0ce';
+const iconStat2 = 'https://www.figma.com/api/mcp/asset/3d1bb89a-db08-42a6-87a6-ef174806d666';
+const iconSearch = 'https://www.figma.com/api/mcp/asset/2da11ba5-5503-4e7f-9123-ff6e1e9af9b3';
+const iconEmptyStar = 'https://www.figma.com/api/mcp/asset/606a7ac0-901b-4994-b8c2-3a0a45b39fa0';
 
-function chunkBanners(list: BannerItem[]) {
-  const result: BannerItem[][] = [];
+type ArrowProps = {
+  className?: string;
+  style?: CSSProperties;
+  onClick?: () => void;
+  direction: 'left' | 'right';
+};
 
-  for (let i = 0; i < list.length; i += 2) {
-    result.push(list.slice(i, i + 2));
-  }
+const CarouselArrow = ({ className, style, onClick, direction }: ArrowProps) => {
+  const icon = direction === 'left' ? iconArrowLeft : iconArrowRight;
+  return (
+    <button
+      className={`${className ?? ''} !flex h-12 w-8 items-center justify-center bg-transparent text-slate-400 transition hover:text-slate-600`}
+      style={style}
+      onClick={onClick}
+      type="button"
+      aria-label={direction === 'left' ? '上一张' : '下一张'}
+    >
+      <img src={icon} alt="" className="h-10 w-3" />
+    </button>
+  );
+};
 
-  return result;
-}
+const AgentEmpty = ({ title }: { title: string }) => {
+  return (
+    <div className="flex h-[122px] w-full items-center gap-6 rounded-[12px] border border-dashed border-[#d4d5d8] bg-white/60 px-6 text-[#6f6f6f]">
+      <div className="flex h-[82px] w-[82px] items-center justify-center rounded-[12px] bg-[#f4f5fa]">
+        <img src={iconEmptyStar} alt="" className="h-11 w-11" />
+      </div>
+      <div>
+        <div className="text-[16px] font-semibold text-black">{title}</div>
+        <div className="mt-2 text-[14px] text-[#6f6f6f]">浏览智能体并点击⭐️图标进行收藏</div>
+      </div>
+    </div>
+  );
+};
 
-function ExampleFigmaPage() {
-  const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [agentList, setAgentList] = useState(initialAgentList);
-  const [selectedCategory, setSelectedCategory] = useState('所有分类');
-  const [keyword, setKeyword] = useState('');
-  const carouselRef = useRef<any>(null);
-
-  const activeTab = searchParams.get('tab') === 'mine' ? 'mine' : 'all';
-
-  const favoriteList = useMemo(() => {
-    return agentList.filter((item) => item.starred);
-  }, [agentList]);
-
-  const categoryList = useMemo(() => {
-    const dynamicCategories = new Set(agentList.flatMap((item) => item.categories));
-    return ['所有分类', ...dynamicCategories];
-  }, [agentList]);
-
-  const filteredAgentList = useMemo(() => {
-    const tabFilteredList =
-      activeTab === 'mine' ? agentList.filter((item) => item.starred) : agentList;
-    const categoryFilteredList =
-      selectedCategory === '所有分类'
-        ? tabFilteredList
-        : tabFilteredList.filter((item) => item.categories.includes(selectedCategory));
-    const lowerKeyword = keyword.trim().toLowerCase();
-
-    if (!lowerKeyword) {
-      return categoryFilteredList;
-    }
-
-    return categoryFilteredList.filter((item) => {
-      return (
-        item.title.toLowerCase().includes(lowerKeyword) ||
-        item.description.toLowerCase().includes(lowerKeyword)
-      );
-    });
-  }, [activeTab, agentList, keyword, selectedCategory]);
-
-  const bannerSlides = useMemo(() => chunkBanners(bannerList), []);
-
-  const handleTabChange = (nextTab: string) => {
-    const nextParams = new URLSearchParams(searchParams);
-    if (nextTab === 'mine') {
-      nextParams.set('tab', 'mine');
-    } else {
-      nextParams.delete('tab');
-    }
-    setSearchParams(nextParams);
-  };
-
-  const handleToggleStar = (agentId: string) => {
-    setAgentList((prev) => {
-      return prev.map((item) => {
-        if (item.id === agentId) {
-          return { ...item, starred: !item.starred };
-        }
-        return item;
-      });
-    });
-  };
-
-  const handleShare = (title: string) => {
-    message.success(t('agent.exampleFigma.shareSuccess', '已触发分享：{{title}}', { title }));
-  };
-
-  const renderAgentCard = (item: AgentItem): ReactNode => {
-    return (
-      <div key={item.id} className="bg-fill-elevated border-01 rounded-xl border p-4">
-        <div className="mb-3 flex items-start justify-between">
-          <div className="flex min-w-0 items-start gap-3">
-            <div className="bg-fill-tertiary h-20 w-20 shrink-0 overflow-hidden rounded-xl">
-              <img className="h-full w-full object-cover" src={item.image} alt={item.title} />
-            </div>
-            <div className="min-w-0">
-              <div className="text-01 truncate text-base font-semibold">{item.title}</div>
-              <p className="text-03 mt-2 line-clamp-2 text-sm leading-6">{item.description}</p>
-            </div>
-          </div>
-          <Button
-            size="small"
-            type="text"
-            icon={<ShareIcon />}
-            onClick={() => handleShare(item.title)}
-          />
-        </div>
-
-        <div className="mt-3 flex items-center justify-between gap-3">
-          <div className="text-04 flex items-center gap-4 text-sm">
+const AgentCard = ({
+  item,
+  onToggleStar,
+  onShare,
+}: {
+  item: AgentItem;
+  onToggleStar: (id: string) => void;
+  onShare: (id: string) => void;
+}) => {
+  return (
+    <div className="relative flex h-[148px] items-center gap-4 rounded-[12px] bg-white px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+      <div
+        className="flex h-[82px] w-[82px] items-center justify-center rounded-[12px]"
+        style={{ background: item.imageBg }}
+      >
+        <img src={item.image} alt="" className="h-[63px] w-[80px] object-contain" />
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className="truncate text-[16px] font-semibold text-black">{item.title}</div>
+        <div className="mt-2 line-clamp-2 text-[14px] text-[#6f6f6f]">{item.description}</div>
+        <div className="mt-auto flex items-center justify-between">
+          <div className="flex items-center gap-4 text-[14px] text-[#909090]">
             <button
               type="button"
-              className="flex cursor-pointer items-center gap-1 border-none bg-transparent p-0"
-              onClick={() => handleToggleStar(item.id)}
+              className="flex items-center gap-1"
+              onClick={() => onToggleStar(item.id)}
+              aria-label={item.starred ? '取消收藏' : '收藏'}
             >
-              <span className={item.starred ? 'text-primary' : 'text-04'}>★</span>
-              <span>{item.stars}</span>
+              <img src={item.starred ? iconStarActive : iconStar} alt="" className="h-5 w-5" />
+              <span className={item.starred ? 'text-[#214ad4]' : 'text-[#909090]'}>
+                {item.starCount}
+              </span>
             </button>
-            <span className="flex items-center gap-1">
-              <span className="text-04 text-xs">U</span>
-              {item.likes}
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="text-04 text-xs">C</span>
-              {item.comments}
-            </span>
+            <div className="flex items-center gap-1">
+              <img src={iconStat1} alt="" className="h-5 w-5" />
+              <span>{item.viewCount}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <img src={iconStat2} alt="" className="h-5 w-5" />
+              <span>{item.useCount}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            {item.categories.map((category) => (
-              <Tag key={`${item.id}_${category}`} className="m-0">
-                {category}
-              </Tag>
+          <div className="flex items-center gap-2">
+            {item.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-[4px] bg-[#f4f7ff] px-2 py-[2px] text-[12px] text-[#7f88a8]"
+              >
+                {tag}
+              </span>
             ))}
           </div>
         </div>
       </div>
+      <button
+        type="button"
+        className="absolute top-4 right-4 h-5 w-5"
+        onClick={() => onShare(item.id)}
+        aria-label="分享"
+      >
+        <img src={iconShare} alt="" className="h-5 w-5" />
+      </button>
+    </div>
+  );
+};
+
+const AgentList = ({
+  items,
+  emptyTitle,
+  onToggleStar,
+  onShare,
+}: {
+  items: AgentItem[];
+  emptyTitle: string;
+  onToggleStar: (id: string) => void;
+  onShare: (id: string) => void;
+}) => {
+  if (items.length === 0) {
+    return <AgentEmpty title={emptyTitle} />;
+  }
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-2">
+      {items.map((item) => (
+        <AgentCard key={item.id} item={item} onToggleStar={onToggleStar} onShare={onShare} />
+      ))}
+    </div>
+  );
+};
+
+function ExampleFigmaPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get('tab') ?? TAB_ALL;
+  const [category, setCategory] = useState('所有分类');
+  const [searchText, setSearchText] = useState('');
+  const [agents, setAgents] = useState(agentItems);
+
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(agents.map((item) => item.category)));
+    return ['所有分类', ...unique];
+  }, [agents]);
+
+  const starredAgents = useMemo(() => {
+    return agents.filter((item) => item.starred);
+  }, [agents]);
+
+  const filteredAgents = useMemo(() => {
+    const keyword = searchText.trim().toLowerCase();
+    return agents.filter((item) => {
+      if (activeTab === TAB_MINE && !item.isMine) {
+        return false;
+      }
+      if (category !== '所有分类' && item.category !== category) {
+        return false;
+      }
+      if (!keyword) {
+        return true;
+      }
+      return (
+        item.title.toLowerCase().includes(keyword) ||
+        item.description.toLowerCase().includes(keyword)
+      );
+    });
+  }, [agents, activeTab, category, searchText]);
+
+  const handleTabChange = (key: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.set('tab', key);
+    setSearchParams(next);
+  };
+
+  const handleToggleStar = (id: string) => {
+    setAgents((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, starred: !item.starred } : item)),
     );
   };
 
+  const handleShare = (id: string) => {
+    console.log('share agent', id);
+  };
+
+  const bannerSlides = useMemo(() => {
+    const result: (typeof carouselItems)[] = [];
+    for (let i = 0; i < carouselItems.length; i += 2) {
+      result.push(carouselItems.slice(i, i + 2));
+    }
+    return result;
+  }, []);
+
   return (
-    <div className="bg-fill-page min-h-full">
-      <header className="bg-01 fixed inset-x-0 top-0 z-20 h-[66px] shadow-[0_4px_4px_rgba(0,0,0,0.04)]">
-        <div className="mx-auto flex h-full max-w-[1600px] items-center justify-between px-10">
-          <h1 className="text-01 text-xl font-bold">
-            {t('agent.exampleFigma.pageTitle', '华润三九智能体广场')}
-          </h1>
-          <Button type="primary" size="large" className="px-10">
-            {t('agent.exampleFigma.registerCreator', '注册AI智能体创作者')}
+    <div className="h-full w-full overflow-y-auto bg-[#f7f8fb] text-[#1e1e1e]">
+      <div className="sticky top-0 z-20 bg-white shadow-[0_4px_4px_rgba(0,0,0,0.04)]">
+        <div className="mx-auto flex h-[66px] max-w-[1512px] items-center justify-between px-10">
+          <div className="font-['Alimama_ShuHeiTi','PingFang_SC',sans-serif] text-[20px] font-semibold text-[#1e1e1e]">
+            华润三九智能体广场
+          </div>
+          <Button
+            type="primary"
+            className="!h-10 !rounded-lg !border-none !bg-[#214ad4] !px-6 !text-[16px] !shadow-[0_4px_10px_rgba(12,34,109,0.3)]"
+          >
+            注册AI智能体创作者
           </Button>
         </div>
-      </header>
+      </div>
 
-      <main className="mx-auto max-w-[1600px] px-10 pt-[90px] pb-8">
-        <section className="mb-8">
-          <div className="flex items-center gap-3">
-            <Button
-              type="text"
-              icon={<ArrowIcon direction="left" />}
-              onClick={() => carouselRef.current?.prev()}
-            />
-            <div className="min-w-0 flex-1">
-              <Carousel ref={carouselRef} dots={false}>
-                {bannerSlides.map((slide, index) => (
-                  <div key={`banner_slide_${index}`}>
-                    <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-                      {slide.map((item) => (
-                        <div key={item.id} className="bg-fill-elevated overflow-hidden rounded-xl">
-                          <img
-                            className="h-[154px] w-full object-cover"
-                            src={item.image}
-                            alt={item.title}
-                          />
-                          <div className="p-3">
-                            <div className="text-01 truncate text-base font-semibold">
-                              {item.title}
-                            </div>
-                            <p className="text-03 mt-2 line-clamp-2 text-sm">{item.description}</p>
-                          </div>
-                        </div>
-                      ))}
+      <div className="mx-auto flex max-w-[1512px] flex-col gap-8 px-10 pt-6 pb-12">
+        <section>
+          <Carousel
+            dots={false}
+            arrows
+            prevArrow={<CarouselArrow direction="left" />}
+            nextArrow={<CarouselArrow direction="right" />}
+          >
+            {bannerSlides.map((slide, index) => (
+              <div key={`slide-${index}`}>
+                <div className="grid gap-6 lg:grid-cols-2">
+                  {slide.map((item) => (
+                    <div
+                      key={item.id}
+                      className="overflow-hidden rounded-[12px] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+                    >
+                      <div className="h-[154px] w-full overflow-hidden">
+                        <img src={item.image} alt="" className="h-full w-full object-cover" />
+                      </div>
+                      <div className="h-[84px] px-5 py-3">
+                        <div className="text-[16px] font-semibold text-black">{item.title}</div>
+                        <div className="mt-1 text-[14px] text-[#6f6f6f]">{item.description}</div>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </Carousel>
-            </div>
-            <Button
-              type="text"
-              icon={<ArrowIcon direction="right" />}
-              onClick={() => carouselRef.current?.next()}
-            />
-          </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </Carousel>
         </section>
 
-        <section className="mb-4">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-01 text-2xl font-semibold">
-              {t('agent.exampleFigma.favoriteTitle', '我收藏的智能体')}
-            </h2>
-            {favoriteList.length > 2 ? (
-              <Button type="link" onClick={() => handleTabChange('mine')}>
-                {t('agent.exampleFigma.viewMore', '查看更多')}
-              </Button>
-            ) : null}
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div className="text-[18px] font-medium text-[#171717]">我收藏的智能体</div>
+            {starredAgents.length > 2 && (
+              <button type="button" className="text-[14px] text-[#214ad4]">
+                查看更多
+              </button>
+            )}
           </div>
-
-          {favoriteList.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-              {favoriteList.slice(0, 2).map(renderAgentCard)}
-            </div>
-          ) : (
-            <div className="bg-fill-elevated border-01 rounded-xl border border-dashed p-4">
-              <div className="bg-fill-tertiary mb-3 flex h-14 w-14 items-center justify-center rounded-xl">
-                <span className="text-04 text-xl">*</span>
-              </div>
-              <div className="text-01 text-base font-semibold">
-                {t('agent.exampleFigma.favoriteEmptyTitle', '您还没有收藏任何智能体')}
-              </div>
-              <div className="text-03 mt-1 text-sm">
-                {t('agent.exampleFigma.favoriteEmptyDesc', '浏览智能体并点击星标图标进行收藏')}
-              </div>
-            </div>
-          )}
+          <AgentList
+            items={starredAgents.slice(0, 2)}
+            emptyTitle="您还没有收藏任何智能体"
+            onToggleStar={handleToggleStar}
+            onShare={handleShare}
+          />
         </section>
 
-        <section className="mb-4">
-          <div className="flex items-end justify-between">
-            <Tabs
-              activeKey={activeTab}
-              items={[
-                { key: 'all', label: t('agent.exampleFigma.tabAll', '全部') },
-                { key: 'mine', label: t('agent.exampleFigma.tabMine', '我的作品') },
-              ]}
-              onChange={handleTabChange}
-            />
+        <section className="flex flex-col gap-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-12">
+              {tabs.map((item) => {
+                const isActive = item.key === activeTab;
+                return (
+                  <button
+                    key={item.key}
+                    type="button"
+                    className={`h-[60px] border-b-2 px-1 text-[18px] ${
+                      isActive
+                        ? 'border-[#214ad4] font-semibold text-[#214ad4]'
+                        : 'border-transparent text-[#444]'
+                    }`}
+                    onClick={() => handleTabChange(item.key)}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
             <Input
-              allowClear
-              size="large"
-              value={keyword}
-              className="max-w-[260px]"
-              onChange={(event) => setKeyword(event.target.value)}
-              prefix={<SearchIcon />}
-              placeholder={t('agent.exampleFigma.searchPlaceholder', '搜索智能体')}
+              placeholder="搜索智能体"
+              prefix={<img src={iconSearch} alt="" className="h-4 w-4" />}
+              value={searchText}
+              onChange={(event) => setSearchText(event.target.value)}
+              className="!h-10 !w-[252px] !rounded-lg !border-[#bec7db]"
             />
           </div>
-        </section>
 
-        <section className="mb-6 flex flex-wrap gap-2">
-          {categoryList.map((category) => (
-            <Tag
-              key={category}
-              className="cursor-pointer rounded-full px-4 py-1"
-              color={selectedCategory === category ? 'primary' : 'default'}
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </Tag>
-          ))}
-        </section>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((item) => {
+              const isActive = item === category;
+              return (
+                <button
+                  key={item}
+                  type="button"
+                  className={`rounded-full px-4 py-1.5 text-[14px] ${
+                    isActive ? 'bg-[#e2e8fd] text-[#214ad4]' : 'bg-[#eef0f6] text-[#444]'
+                  }`}
+                  onClick={() => setCategory(item)}
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </div>
 
-        <section className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-          {filteredAgentList.length > 0 ? (
-            filteredAgentList.map(renderAgentCard)
-          ) : (
-            <div className="text-03 col-span-full py-16 text-center text-sm">
-              {t('agent.exampleFigma.noData', '暂无符合条件的智能体')}
-            </div>
-          )}
+          <AgentList
+            items={filteredAgents}
+            emptyTitle="暂无匹配的智能体"
+            onToggleStar={handleToggleStar}
+            onShare={handleShare}
+          />
         </section>
-      </main>
+      </div>
     </div>
   );
 }
