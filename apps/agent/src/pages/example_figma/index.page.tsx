@@ -114,7 +114,10 @@ function ExampleFigmaPage() {
         {/* Tab + 筛选 + 搜索 */}
         <Tabs
           activeKey={activeTab}
-          onChange={(k) => setActiveTab((k || 'all') as TabKey)}
+          onChange={(k) => {
+            if (k === 'mine') setActiveTab('mine');
+            else setActiveTab('all');
+          }}
           className="mt-8"
           items={tabItems.map((t) => ({ key: t.key, label: t.label }))}
         />
