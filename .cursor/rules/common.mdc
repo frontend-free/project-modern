@@ -1,5 +1,5 @@
 ---
-description: 本仓库前端技术栈与编码约定（React、antd、Tailwind、导出方式、路由、图标等）。在编写或生成本项目前端代码时遵循。
+description: 本仓库前端技术栈与编码约定。在编写或生成本项目前端代码时遵循。
 globs: ["apps/**/*.tsx", "apps/**/*.ts", "packages/**/src/**/*.tsx", "packages/**/src/**/*.ts"]
 alwaysApply: true
 ---
@@ -19,19 +19,19 @@ alwaysApply: true
 ## 技术栈
 
 - **运行时**：React@19，TypeScript/JavaScript。
-- **UI**：Antd@6（默认）、@ant-design/pro-components、@fe-free/core、@fe-free/icons、@fe-free/tool、@fe-free/file。
+- **组件库**：Antd@6（默认）、@ant-design/pro-components、@fe-free/core、@fe-free/icons、@fe-free/tool、@fe-free/file。
 - **生态**：ahooks@3、react-router@6、react-i18next@16、zustand@5、Tailwindcss@4。
-- **工程**：Vite 7，约定式路由（vite-plugin-react-router-pages）
-- **其他**：dayjs@1。
+- **工程**：Vite 7，约定式路由（vite-plugin-react-router-pages）。
+- **其他**：dayjs@1、axios（请求由各应用或 @lib/api 封装）。
 
 ## 组件
 
 - 单个组件不宜过重，可适当拆分。
 - **优先使用 antd 与 ProComponents**（Button、Input、Form、Table、Modal、Select、DatePicker、Card、Space、Layout、Menu、Tabs、Message、notification、ProTable、ProForm、ProLayout 等），避免手写等效 HTML 或重复造轮子；仅 antd 无法满足时再用自定义或原生。
-- 其次使用 @fe-free/core 的组件。@fe-free/core 的组件使用方式见 @fe-free/core/src/README.md 文档。
-- 以下组件优先使用 @fe-free/core 的组件：
-  - 布局使用 @fe-free/core 的 PageLayout 组件。
-  - Tabs使用 @fe-free/core 的 Tabs 组件。
+- 其次使用 @fe-free/core 的组件。@fe-free/core 的组件使用方式见包内文档（若有 README 等）。
+- 以下场景优先使用 @fe-free/core：
+  - 布局：PageLayout。
+  - Tabs：使用 @fe-free/core 的 Tabs 组件。
 
 ## 模块导出与路径别名
 
@@ -41,9 +41,9 @@ alwaysApply: true
 
 ## CSS / Tailwind
 
-- **IMPORTANT**：使用 **Tailwind** 写样式；设计变量参考 **`@fe-free/core/src/tailwind.css`**（如边框用 `border-01` 等），**禁止硬编码 hex 或随意数值**。
-- 自定义变量参考 `@fe-free/core/src/tailwind.css`；边框等用 `border-01` 等变量，避免硬编码 hex 或随意数值。
-- 覆盖第三方组件样式时用强制类名：`className="text-03!"`，不用 `className="text-03"`。
+- **IMPORTANT**：使用 **Tailwind** 写样式；尽量避免硬编码 hex 或随意数值。
+- 设计变量结合 **`@fe-free/core` 的 tailwind 配置**，在 `@fe-free/core/src/tailwind.css` 中定义，如边框用 `border-01` 等。
+- 覆盖第三方组件（antd、ProComponents、@fe-free/core）样式时用强制类名：`className="text-03!"`，不用 `className="text-03"`。
 
 ## 图标
 
@@ -61,10 +61,32 @@ import { Icon } from '@fe-free/icons';
 
 ## 路由
 
-- 约定式路由，具体使用方式见 vite-plugin-react-router-pages 文档，`vite-plugin-react-router-pages/AGENTS.md`
-- 跳转使用 `useNavigate` 或 `@fe-free/core` 的 `routeTool`。
-- 路由地址从 `virtual:react-pages` 的 `PagesRoutes` 中获取。
+- 约定式路由，具体使用方式见 vite-plugin-react-router-pages 文档（若有 AGENTS.md 等）。
+- 路由数据从 `virtual:react-pages` 获取：`PagesRoutes`（路径常量）、`pagesRoutes`（RouteObject[]）。跳转使用 `useNavigate` 或 @fe-free/core 的 `routeTool`。
+- 示例：
+
+```tsx
+import { useNavigate } from 'react-router-dom';
+import { PagesRoutes, pagesRoutes } from 'virtual:react-pages';
+
+// 使用常量跳转
+navigate(PagesRoutes.HOME);
+// 与 useRoutes 配合
+const routes = useMemo(() => [{ path: '/', element: <Navigate to={PagesRoutes.HOME} /> }, ...pagesRoutes], []);
+```
+
+## 国际化（i18n）
+
+- 组件内：`const { t } = useTranslation();`，并 `import { useTranslation } from 'react-i18next'`。
+- 组件外（模块顶层、枚举、工具函数）：`import { t } from 'i18next'`，直接用 `t(key, defaultText)` 或带插值 `t(key, defaultText, { key: value })`。
+- Key 命名：`project[.module.]name`，驼峰，同一语义同一 key。面向用户的可见中文均需迁移；详见 i18n 技能/文档。
+
+## 状态与请求
+
+- 全局状态使用 zustand（`create`），按应用放在 `src/stores/` 等约定目录。
+- 请求优先使用应用内封装的 API 或 workspace 的 `@lib/api`，避免在业务中直接写裸 `fetch`/axios 实例。
 
 ## 其他
 
 - 注意避免文本溢出（truncate / line-clamp 等）。
+- 从 Figma 设计稿还原页面时，遵循 `.cursor/skills/figma-design-to-code` 中的流程与约定。

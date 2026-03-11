@@ -1,4 +1,4 @@
-/** 智能体单项（列表卡片 / 轮播项） */
+/** 智能体单项（列表卡片） */
 export interface AgentItem {
   id: string;
   title: string;
