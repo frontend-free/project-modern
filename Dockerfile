@@ -10,7 +10,7 @@ WORKDIR /app
 
 COPY . .
 RUN pnpm install --frozen-lockfile
-RUN pnpm build:agent
+RUN pnpm build
 
 FROM nginx:1.27-alpine AS runner
 
