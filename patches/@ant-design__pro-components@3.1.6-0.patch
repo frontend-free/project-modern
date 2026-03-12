@@ -1,13 +1,405 @@
 diff --git a/es/form/components/FormItem/index.js b/es/form/components/FormItem/index.js
-index 7d4771f91a7c65c91c47fa9d2a9198435c27dda8..12ba0efdf3abfe0f0d6f679e0d06f5597c489c94 100644
+index 7d4771f91a7c65c91c47fa9d2a9198435c27dda8..e0cbb47b339075434dfd55665dd0b754864fdaf4 100644
 --- a/es/form/components/FormItem/index.js
 +++ b/es/form/components/FormItem/index.js
-@@ -196,6 +196,8 @@ const ProFormItem = props => {
+@@ -1,15 +1,18 @@
+ import { omit } from '@rc-component/util';
+ import { ConfigProvider, Form } from 'antd';
+-import React, { useContext, useEffect, useMemo } from 'react';
+-import { isDropdownValueType, omitUndefined, useDeepCompareMemo, useRefFunction } from "../../../utils";
+-import { LightWrapper } from "../../BaseForm";
+-import FieldContext from "../../FieldContext";
+-import { FormListContext } from "../List";
+-import { Fragment as _Fragment } from "react/jsx-runtime";
+-import { jsx as _jsx } from "react/jsx-runtime";
+-import { jsxs as _jsxs } from "react/jsx-runtime";
+-import { createElement as _createElement } from "react";
+-const FormItemProvide = /*#__PURE__*/React.createContext({});
++import React, { createElement as _createElement, useContext, useEffect, useMemo } from 'react';
++import { Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
++
++import {
++  isDropdownValueType,
++  omitUndefined,
++  useDeepCompareMemo,
++  useRefFunction,
++} from '../../../utils';
++import { LightWrapper } from '../../BaseForm';
++import FieldContext from '../../FieldContext';
++import { FormListContext } from '../List';
++const FormItemProvide = /*#__PURE__*/ React.createContext({});
+ 
+ /**
+  * 把value扔给 fieldProps，方便给自定义用
+@@ -17,7 +20,7 @@ const FormItemProvide = /*#__PURE__*/React.createContext({});
+  * @returns
+  * @param formFieldProps
+  */
+-const WithValueFomFiledProps = formFieldProps => {
++const WithValueFomFiledProps = (formFieldProps) => {
+   const {
+     children: filedChildren,
+     onChange,
+@@ -27,9 +30,9 @@ const WithValueFomFiledProps = formFieldProps => {
+     ...restProps
+   } = formFieldProps;
+   const isProFormComponent =
+-  // @ts-ignore
+-  filedChildren?.type?.displayName !== 'ProFormComponent';
+-  const isValidElementForFiledChildren = ! /*#__PURE__*/React.isValidElement(filedChildren);
++    // @ts-ignore
++    filedChildren?.type?.displayName !== 'ProFormComponent';
++  const isValidElementForFiledChildren = !(/*#__PURE__*/ React.isValidElement(filedChildren));
+   const onChangeMemo = useRefFunction(function (...restParams) {
+     onChange?.(...restParams);
+     if (isProFormComponent) return;
+@@ -44,11 +47,21 @@ const WithValueFomFiledProps = formFieldProps => {
+     filedChildren?.props?.onBlur?.(...restParams);
+     filedChildren?.props?.fieldProps?.onBlur?.(...restParams);
+   });
+-  const omitOnBlurAndOnChangeProps = useDeepCompareMemo(() => omit(
+-  // @ts-ignore
+-  filedChildren?.props?.fieldProps || {}, ['onBlur', 'onChange']), [omit(
+-  // @ts-ignore
+-  filedChildren?.props?.fieldProps || {}, ['onBlur', 'onChange'])]);
++  const omitOnBlurAndOnChangeProps = useDeepCompareMemo(
++    () =>
++      omit(
++        // @ts-ignore
++        filedChildren?.props?.fieldProps || {},
++        ['onBlur', 'onChange'],
++      ),
++    [
++      omit(
++        // @ts-ignore
++        filedChildren?.props?.fieldProps || {},
++        ['onBlur', 'onChange'],
++      ),
++    ],
++  );
+   const propsValuePropName = formFieldProps[valuePropName];
+   const fieldProps = useMemo(() => {
+     if (isProFormComponent) return undefined;
+@@ -62,42 +75,55 @@ const WithValueFomFiledProps = formFieldProps => {
+       onBlur: onBlurMemo,
+       // 这个 onChange 是 Form.Item 添加上的，
+       // 要通过 fieldProps 透传给 ProField 调用
+-      onChange: onChangeMemo
++      onChange: onChangeMemo,
+     });
+-  }, [propsValuePropName, omitOnBlurAndOnChangeProps, onBlurMemo, onChangeMemo, restProps.id, valuePropName]);
++  }, [
++    propsValuePropName,
++    omitOnBlurAndOnChangeProps,
++    onBlurMemo,
++    onChangeMemo,
++    restProps.id,
++    valuePropName,
++  ]);
+   const finalChange = useMemo(() => {
+     if (fieldProps) return undefined;
+-    if (! /*#__PURE__*/React.isValidElement(filedChildren)) return undefined;
++    if (!(/*#__PURE__*/ React.isValidElement(filedChildren))) return undefined;
+     return (...restParams) => {
+       onChange?.(...restParams);
+       filedChildren?.props?.onChange?.(...restParams);
+     };
+   }, [fieldProps, filedChildren, onChange]);
+-  if (! /*#__PURE__*/React.isValidElement(filedChildren)) return /*#__PURE__*/_jsx(_Fragment, {
+-    children: filedChildren
+-  });
++  if (!(/*#__PURE__*/ React.isValidElement(filedChildren)))
++    return /*#__PURE__*/ _jsx(_Fragment, {
++      children: filedChildren,
++    });
+ 
+   // restProps 可能来自 LightWrapper 的 cloneElement（light 模式下传入 variant/fieldProps），需保留以覆盖 filedChildren.props，避免内层控件线框双线
+   const variantFromRest = restProps.variant;
+   const fieldPropsFromRest = restProps.fieldProps;
+-  return /*#__PURE__*/React.cloneElement(filedChildren, omitUndefined({
+-    ...restProps,
+-    [valuePropName]: formFieldProps[valuePropName],
+-    ...filedChildren.props,
+-    onChange: finalChange,
+-    // 只有当子组件是 ProFormComponent 时才传递 fieldProps，避免传递给原生 DOM 元素
+-    ...(!isProFormComponent && fieldProps ? {
+-      fieldProps: {
+-        ...filedChildren.props?.fieldProps,
+-        ...fieldPropsFromRest,
+-        ...fieldProps
+-      }
+-    } : {}),
+-    ...(variantFromRest !== undefined && {
+-      variant: variantFromRest
++  return /*#__PURE__*/ React.cloneElement(
++    filedChildren,
++    omitUndefined({
++      ...restProps,
++      [valuePropName]: formFieldProps[valuePropName],
++      ...filedChildren.props,
++      onChange: finalChange,
++      // 只有当子组件是 ProFormComponent 时才传递 fieldProps，避免传递给原生 DOM 元素
++      ...(!isProFormComponent && fieldProps
++        ? {
++            fieldProps: {
++              ...filedChildren.props?.fieldProps,
++              ...fieldPropsFromRest,
++              ...fieldProps,
++            },
++          }
++        : {}),
++      ...(variantFromRest !== undefined && {
++        variant: variantFromRest,
++      }),
++      onBlur: isProFormComponent && !isValidElementForFiledChildren && onBlur,
+     }),
+-    onBlur: isProFormComponent && !isValidElementForFiledChildren && onBlur
+-  }));
++  );
+ };
+ /**
+  * 支持了一下前置 dom 和后置的 dom 同时包一个provide
+@@ -116,76 +142,88 @@ const WarpFormItem = ({
+   ...props
+ }) => {
+   const formDom = useMemo(() => {
+-    let getValuePropsFunc = value => {
++    let getValuePropsFunc = (value) => {
+       const newValue = convertValue?.(value, props.name) ?? value;
+       if (props.getValueProps) return props.getValueProps(newValue);
+       return {
+-        [valuePropName || 'value']: newValue
++        [valuePropName || 'value']: newValue,
+       };
+     };
+     if (!convertValue && !props.getValueProps) {
+       getValuePropsFunc = undefined;
+     }
+     if (!addonAfter && !addonBefore) {
+-      return /*#__PURE__*/_jsx(Form.Item, {
++      return /*#__PURE__*/ _jsx(Form.Item, {
+         ...props,
+         valuePropName: valuePropName,
+         getValueProps: getValuePropsFunc,
+-        children: children
++        children: children,
+       });
+     }
+-    return /*#__PURE__*/_jsx(Form.Item, {
++    return /*#__PURE__*/ _jsx(Form.Item, {
+       ...props,
+       help: typeof help !== 'function' ? help : undefined,
+-      valuePropName: valuePropName
++      valuePropName: valuePropName,
+       // @ts-ignore
+-      ,
+       _internalItemRender: {
+         mark: 'pro_table_render',
+-        render: (inputProps, doms) => /*#__PURE__*/_jsxs(_Fragment, {
+-          children: [/*#__PURE__*/_jsxs("div", {
+-            style: {
+-              display: 'flex',
+-              alignItems: 'center',
+-              flexWrap: 'wrap',
+-              ...addonWarpStyle
+-            },
+-            children: [addonBefore ? /*#__PURE__*/_jsx("div", {
+-              style: {
+-                marginInlineEnd: 8
+-              },
+-              children: addonBefore
+-            }) : null, doms.input, addonAfter ? /*#__PURE__*/_jsx("div", {
+-              style: {
+-                marginInlineStart: 8
+-              },
+-              children: addonAfter
+-            }) : null]
+-          }), typeof help === 'function' ? help({
+-            errors: inputProps.errors,
+-            warnings: inputProps.warnings
+-          }) : doms.errorList, doms.extra]
+-        })
++        render: (inputProps, doms) =>
++          /*#__PURE__*/ _jsxs(_Fragment, {
++            children: [
++              /*#__PURE__*/ _jsxs('div', {
++                style: {
++                  display: 'flex',
++                  alignItems: 'center',
++                  flexWrap: 'wrap',
++                  ...addonWarpStyle,
++                },
++                children: [
++                  addonBefore
++                    ? /*#__PURE__*/ _jsx('div', {
++                        style: {
++                          marginInlineEnd: 8,
++                        },
++                        children: addonBefore,
++                      })
++                    : null,
++                  doms.input,
++                  addonAfter
++                    ? /*#__PURE__*/ _jsx('div', {
++                        style: {
++                          marginInlineStart: 8,
++                        },
++                        children: addonAfter,
++                      })
++                    : null,
++                ],
++              }),
++              typeof help === 'function'
++                ? help({
++                    errors: inputProps.errors,
++                    warnings: inputProps.warnings,
++                  })
++                : doms.errorList,
++              doms.extra,
++            ],
++          }),
+       },
+       ...props,
+       getValueProps: getValuePropsFunc,
+-      children: children
++      children: children,
+     });
+   }, [addonAfter, addonBefore, children, convertValue?.toString(), props]);
+-  return /*#__PURE__*/_jsx(FormItemProvide.Provider, {
++  return /*#__PURE__*/ _jsx(FormItemProvide.Provider, {
+     value: {
+       name: props.name,
+-      label: props.label
++      label: props.label,
+     },
+-    children: formDom
++    children: formDom,
+   });
+ };
+-const ProFormItem = props => {
++const ProFormItem = (props) => {
+   /** 从 context 中拿到的值 */
+-  const {
+-    componentSize
+-  } = ConfigProvider?.useConfig?.() || {
+-    componentSize: 'middle'
++  const { componentSize } = ConfigProvider?.useConfig?.() || {
++    componentSize: 'middle',
+   };
+   const size = componentSize;
+   const {
+@@ -196,6 +234,10 @@ const ProFormItem = props => {
      lightProps,
      children: unusedChildren,
      fieldProps,
-+    // pnpm patch，移除 onBlur，避免奇怪的问题。
++    // pnpm patch，移除这些字段，避免奇怪的问题。
 +    onBlur,
++    cacheForSwr,
++    proFieldKey,
      ...rest
    } = props;
    const formListField = useContext(FormListContext);
+@@ -212,10 +254,7 @@ const ProFormItem = props => {
+   }, [formListField.name, props.name]);
+ 
+   /** 从 context 中拿到的值 */
+-  const {
+-    setFieldValueType,
+-    formItemProps
+-  } = React.useContext(FieldContext);
++  const { setFieldValueType, formItemProps } = React.useContext(FieldContext);
+   useEffect(() => {
+     // 如果 setFieldValueType 和 props.name 不存在不存入
+     if (!setFieldValueType || !props.name) {
+@@ -226,10 +265,12 @@ const ProFormItem = props => {
+     setFieldValueType(name, {
+       valueType: valueType || 'text',
+       dateFormat: dataFormat,
+-      transform
++      transform,
+     });
+   }, [name, dataFormat, props.name, setFieldValueType, transform, valueType]);
+-  const isDropdown = /*#__PURE__*/React.isValidElement(props.children) && isDropdownValueType(valueType || props.children.props.valueType);
++  const isDropdown =
++    /*#__PURE__*/ React.isValidElement(props.children) &&
++    isDropdownValueType(valueType || props.children.props.valueType);
+   const noLightFormItem = useMemo(() => {
+     if (!lightProps?.light || lightProps?.customLightMode || isDropdown) {
+       return true;
+@@ -239,35 +280,53 @@ const ProFormItem = props => {
+ 
+   // formItem 支持function，如果是function 我就直接不管了
+   if (typeof props.children === 'function') {
+-    return /*#__PURE__*/_createElement(WarpFormItem, {
+-      ...rest,
+-      name: name,
+-      key: rest.proFormFieldKey || rest.name?.toString()
+-    }, props.children);
++    return /*#__PURE__*/ _createElement(
++      WarpFormItem,
++      {
++        ...rest,
++        name: name,
++        key: rest.proFormFieldKey || rest.name?.toString(),
++      },
++      props.children,
++    );
+   }
+-  const children = /*#__PURE__*/_jsx(WithValueFomFiledProps, {
+-    valuePropName: props.valuePropName,
+-    children: props.children
+-  }, rest.proFormFieldKey || rest.name?.toString());
++  const children = /*#__PURE__*/ _jsx(
++    WithValueFomFiledProps,
++    {
++      valuePropName: props.valuePropName,
++      children: props.children,
++    },
++    rest.proFormFieldKey || rest.name?.toString(),
++  );
+   const lightPropsForWrapper = omitUndefined(lightProps || {});
+-  const lightDom = noLightFormItem ? children : /*#__PURE__*/_createElement(LightWrapper, {
+-    ...lightPropsForWrapper,
+-    key: rest.proFormFieldKey || rest.name?.toString(),
+-    size: size
+-  }, children);
++  const lightDom = noLightFormItem
++    ? children
++    : /*#__PURE__*/ _createElement(
++        LightWrapper,
++        {
++          ...lightPropsForWrapper,
++          key: rest.proFormFieldKey || rest.name?.toString(),
++          size: size,
++        },
++        children,
++      );
+   // 这里控制是否需要 LightWrapper，为了提升一点点性能
+   if (ignoreFormItem) {
+-    return /*#__PURE__*/_jsx(_Fragment, {
+-      children: lightDom
++    return /*#__PURE__*/ _jsx(_Fragment, {
++      children: lightDom,
+     });
+   }
+-  return /*#__PURE__*/_jsx(WarpFormItem, {
+-    ...formItemProps,
+-    ...rest,
+-    name: name,
+-    isListField: formListField.name !== undefined,
+-    children: lightDom
+-  }, rest.proFormFieldKey || rest.name?.toString());
++  return /*#__PURE__*/ _jsx(
++    WarpFormItem,
++    {
++      ...formItemProps,
++      ...rest,
++      name: name,
++      isListField: formListField.name !== undefined,
++      children: lightDom,
++    },
++    rest.proFormFieldKey || rest.name?.toString(),
++  );
+ };
+ export { FormItemProvide };
+ export default ProFormItem;
