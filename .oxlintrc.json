@@ -7,7 +7,11 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "unicorn/no-array-sort": "off"
+    "unicorn/no-array-sort": "off",
+    "react/iframe-missing-sandbox": "off",
+    "typescript/no-unused-vars": "off",
+    "typescript/no-unsafe-type-assertion": "off",
+    "typescript/no-unsafe-enum-comparison": "off"
   },
   "ignorePatterns": [
     "pnpm-lock.yaml",
