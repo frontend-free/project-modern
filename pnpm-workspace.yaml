@@ -1,3 +1,61 @@
 packages:
   - 'packages/*'
   - 'apps/*'
+catalog:
+  '@ant-design/pro-components': 3.1.6-0
+  '@fe-free/core': ^6.0.9
+  '@fe-free/file': ^6.0.9
+  '@fe-free/free-scripts': ^7.0.1
+  '@fe-free/icons': ^6.0.9
+  '@fe-free/tool': ^6.0.9
+  '@fe-free/vite-plugin-remove-svg-color': ^7.0.1
+  '@tailwindcss/vite': ^4.2.1
+  '@types/lodash-es': ^4.17.12
+  '@types/node': ^20.8.4
+  '@types/react': ^19.2.0
+  '@types/react-dom': ^19.2.0
+  '@types/react-router-dom': ^5.3.3
+  '@vitejs/plugin-react': ^4.3.1
+  ahooks: 3.8.4
+  antd: ^6.2.1
+  autoprefixer: ^10.4.19
+  axios: ^1.7.9
+  classnames: ^2.5.1
+  code-inspector-plugin: ^1.4.4
+  dayjs: ^1.11.12
+  dotenv-expand: ^12.0.3
+  fs-extra: ^11.2.0
+  husky: ^9.1.7
+  i18next: ^25.7.2
+  i18next-browser-languagedetector: ^8.2.0
+  i18next-cli: ^1.34.1
+  i18next-icu: ^2.4.1
+  js-cookie: ^3.0.5
+  lint-staged: ^15.2.7
+  lodash-es: ^4.17.21
+  path: ^0.12.7
+  react: ^19.2.0
+  react-dom: ^19.2.0
+  react-i18next: ^16.4.0
+  react-router: ^6.27.0
+  react-router-dom: ^6.25.1
+  sass: ^1.77.8
+  tailwindcss: ^4.2.1
+  typescript: 5.3.2
+  uuid: ^11.1.0
+  vite: npm:@voidzero-dev/vite-plus-core@latest
+  vite-plugin-react-router-pages: ^1.2.1
+  vite-plugin-svgr: ^4.5.0
+  vite-plus: latest
+  vitest: npm:@voidzero-dev/vite-plus-test@latest
+  zustand: ^5.0.8
+overrides:
+  vite: 'catalog:'
+  vitest: 'catalog:'
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: '*'
+    vitest: '*'

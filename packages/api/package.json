@@ -7,16 +7,16 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-api": "free-scripts build-api && oxfmt ./src",
-    "build-code": "free-scripts build-code && oxfmt ./src"
+    "build-api": "free-scripts build-api && vp fmt ./src",
+    "build-code": "free-scripts build-code && vp fmt ./src"
   },
   "devDependencies": {
-    "@fe-free/free-scripts": "^7.0.1"
+    "@fe-free/free-scripts": "catalog:"
   },
   "peerDependencies": {
-    "@fe-free/core": "^6.0.7",
+    "@fe-free/core": "catalog:",
     "antd": "^5.19.3",
-    "axios": "^1.7.9",
-    "i18next": "^25.7.2"
+    "axios": "catalog:",
+    "i18next": "catalog:"
   }
 }
