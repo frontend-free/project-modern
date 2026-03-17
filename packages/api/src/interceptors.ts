@@ -45,11 +45,6 @@ export function injectInterceptors(instance: AxiosInstance) {
         return response;
       }
 
-      // pivot_data_tools 特殊逻辑
-      if (config.url?.includes('/pivot_data_tools/auth/info') && data.state === 0) {
-        window.location.href = `${globalConfig.root === '/' ? '' : globalConfig.root}/login`;
-      }
-
       // 未登录
       if (data.state === 44000) {
         window.location.href = `${globalConfig.root === '/' ? '' : globalConfig.root}/login`;
