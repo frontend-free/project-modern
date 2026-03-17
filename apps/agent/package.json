@@ -42,7 +42,6 @@
     "@fe-free/vite-plugin-remove-svg-color": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "autoprefixer": "catalog:",
     "code-inspector-plugin": "catalog:",
     "dotenv-expand": "catalog:",
     "fs-extra": "catalog:",

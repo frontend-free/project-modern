@@ -54,9 +54,6 @@ catalogs:
     antd:
       specifier: ^6.2.1
       version: 6.3.3
-    autoprefixer:
-      specifier: ^10.4.19
-      version: 10.4.27
     axios:
       specifier: ^1.7.9
       version: 1.13.6
@@ -276,9 +273,6 @@ importers:
       '@vitejs/plugin-react':
         specifier: 'catalog:'
         version: 6.0.1(@voidzero-dev/vite-plus-core@0.1.12(@types/node@20.19.37)(jiti@2.6.1)(sass@1.98.0)(typescript@5.9.3)(yaml@2.8.2))
-      autoprefixer:
-        specifier: 'catalog:'
-        version: 10.4.27(postcss@8.5.8)
       code-inspector-plugin:
         specifier: 'catalog:'
         version: 1.4.4
@@ -2567,13 +2561,6 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  autoprefixer@10.4.27:
-    resolution: {integrity: sha512-NP9APE+tO+LuJGn7/9+cohklunJsXWiaWEfV3si4Gi/XHDwVNgkwr1J3RQYFIvPy76GmJ9/bW8vyoU1LcxwKHA==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
-
   aws-sign2@0.7.0:
     resolution: {integrity: sha512-08kcGqnYf/YmjoRhfxyu+CLxBjUtHLXLXX/vUfx9l2LYzG3c1m61nrpyFUZI6zeS+Li/wWMMidD9KgrqtGq3mA==}
 
@@ -3419,9 +3406,6 @@ packages:
   format@0.2.2:
     resolution: {integrity: sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==}
     engines: {node: '>=0.4.x'}
-
-  fraction.js@5.3.4:
-    resolution: {integrity: sha512-1X1NTtiJphryn/uLQz3whtY6jK3fTqoE3ohKs0tT+Ujr1W59oopxmoEh7Lu5p6vBaPbgoM0bzveAW4Qi5RyWDQ==}
 
   fs-constants@1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
@@ -4509,9 +4493,6 @@ packages:
   portfinder@1.0.38:
     resolution: {integrity: sha512-rEwq/ZHlJIKw++XtLAO8PPuOQA/zaPJOZJ37BVuN97nLpMJeuDVLVGRwbFoBgLudgdTMP2hdRJP++H+8QOA3vg==}
     engines: {node: '>= 10.12'}
-
-  postcss-value-parser@4.2.0:
-    resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
 
   postcss@8.5.8:
     resolution: {integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==}
@@ -8219,15 +8200,6 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  autoprefixer@10.4.27(postcss@8.5.8):
-    dependencies:
-      browserslist: 4.28.1
-      caniuse-lite: 1.0.30001780
-      fraction.js: 5.3.4
-      picocolors: 1.1.1
-      postcss: 8.5.8
-      postcss-value-parser: 4.2.0
-
   aws-sign2@0.7.0: {}
 
   aws4@1.13.2: {}
@@ -9110,8 +9082,6 @@ snapshots:
       mime-types: 2.1.35
 
   format@0.2.2: {}
-
-  fraction.js@5.3.4: {}
 
   fs-constants@1.0.0: {}
 
@@ -10230,8 +10200,6 @@ snapshots:
       debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
-
-  postcss-value-parser@4.2.0: {}
 
   postcss@8.5.8:
     dependencies:
