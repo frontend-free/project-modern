@@ -16,14 +16,14 @@ export default ({ mode }: { mode: string }) => {
   return defineConfig({
     base: mode === 'production' ? '/agent-static/' : '/',
     plugins: [
+      codeInspectorPlugin({
+        bundler: 'vite',
+      }),
       react(),
       tailwindcss(),
       pages(),
       rsc(),
       svgr(),
-      codeInspectorPlugin({
-        bundler: 'vite',
-      }),
       {
         name: 'preserve-data-name',
         transformIndexHtml(html) {
