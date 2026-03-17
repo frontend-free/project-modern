@@ -39,9 +39,9 @@
   },
   "engines": {
     "node": ">= 24.14.0",
-    "pnpm": ">= 10.18.2"
+    "pnpm": ">= 10.32.1"
   },
-  "packageManager": "pnpm@10.18.2",
+  "packageManager": "pnpm@10.32.1",
   "pnpm": {
     "patchedDependencies": {
       "@ant-design/pro-components@3.1.6-0": "patches/@ant-design__pro-components@3.1.6-0.patch"
