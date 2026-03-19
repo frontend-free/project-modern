@@ -17,6 +17,7 @@
     "@fe-free/core": "catalog:",
     "antd": "^5.19.3",
     "axios": "catalog:",
-    "i18next": "catalog:"
+    "i18next": "catalog:",
+    "react": "catalog:"
   }
 }
