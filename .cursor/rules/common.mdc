@@ -1,6 +1,6 @@
 ---
 description: 本仓库前端技术栈与编码约定。在编写或生成本项目前端代码时遵循。
-globs: ["apps/**/*.tsx", "apps/**/*.ts", "packages/**/src/**/*.tsx", "packages/**/src/**/*.ts"]
+globs: ['apps/**/*.tsx', 'apps/**/*.ts', 'packages/**/src/**/*.tsx', 'packages/**/src/**/*.ts']
 alwaysApply: true
 ---
 
@@ -72,13 +72,16 @@ import { PagesRoutes, pagesRoutes } from 'virtual:react-pages';
 // 使用常量跳转
 navigate(PagesRoutes.HOME);
 // 与 useRoutes 配合
-const routes = useMemo(() => [{ path: '/', element: <Navigate to={PagesRoutes.HOME} /> }, ...pagesRoutes], []);
+const routes = useMemo(
+  () => [{ path: '/', element: <Navigate to={PagesRoutes.HOME} /> }, ...pagesRoutes],
+  [],
+);
 ```
 
 ## 国际化（i18n）
 
 - 组件内：`const { t } = useTranslation();`，并 `import { useTranslation } from 'react-i18next'`。
-- 组件外（模块顶层、枚举、工具函数）：`import { t } from 'i18next'`，直接用 `t(key, defaultText)` 或带插值 `t(key, defaultText, { key: value })`。
+- 组件外（模块顶层、枚举、工具函数）：`import { t as i18nT } from 'i18next'`，直接用 `i18nT(key, defaultText)` 或带插值 `i18nT(key, defaultText, { key: value })`。
 - Key 命名：`project[.module.]name`，驼峰，同一语义同一 key。面向用户的可见中文均需迁移；详见 i18n 技能/文档。
 
 ## 状态与请求
