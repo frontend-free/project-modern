@@ -14,7 +14,7 @@ export default ({ mode }: { mode: string }) => {
   console.log('vite env', env);
 
   return defineConfig({
-    base: mode === 'production' ? '/agent-static/' : '/',
+    base: mode === 'production' ? '/agent/static/' : '/',
     plugins: [
       codeInspectorPlugin({
         bundler: 'vite',

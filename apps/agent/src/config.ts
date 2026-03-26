@@ -1,7 +1,7 @@
 const isDev = process.env.NODE_ENV === 'development';
 
 const globalConfig = {
-  basename: isDev ? '/dev-only' : '',
+  basename: isDev ? '/dev-only' : '/agent',
   name: 'Agent',
 };
 
