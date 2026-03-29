@@ -15,7 +15,7 @@
   },
   "peerDependencies": {
     "@fe-free/core": "catalog:",
-    "antd": "^5.19.3",
+    "antd": "catalog:",
     "axios": "catalog:",
     "i18next": "catalog:",
     "react": "catalog:"
