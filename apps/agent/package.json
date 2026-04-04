@@ -39,6 +39,7 @@
     "zustand": "catalog:"
   },
   "devDependencies": {
+    "@fe-free/vite-plugin-react-router-pages": "catalog:",
     "@fe-free/vite-plugin-remove-svg-color": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@vitejs/plugin-react": "catalog:",
@@ -49,7 +50,6 @@
     "sass": "catalog:",
     "tailwindcss": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-react-router-pages": "catalog:",
     "vite-plugin-svgr": "catalog:",
     "vite-plus": "catalog:"
   }

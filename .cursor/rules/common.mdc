@@ -21,7 +21,7 @@ alwaysApply: true
 - **运行时**：React@19，TypeScript/JavaScript。
 - **组件库**：Antd@6（默认）、@ant-design/pro-components、@fe-free/core、@fe-free/icons、@fe-free/tool、@fe-free/file。
 - **生态**：ahooks@3、react-router@6、react-i18next@16、zustand@5、Tailwindcss@4。
-- **工程**：Vite 7，约定式路由（vite-plugin-react-router-pages）。
+- **工程**：Vite 7，约定式路由（@fe-free/vite-plugin-react-router-pages）。
 - **其他**：dayjs@1、axios（请求由各应用或 @lib/api 封装）。
 
 ## 组件
@@ -61,7 +61,7 @@ import { Icon } from '@fe-free/icons';
 
 ## 路由
 
-- 约定式路由，具体使用方式见 vite-plugin-react-router-pages 文档（若有 AGENTS.md 等）。
+- 约定式路由，具体使用方式见 @fe-free/vite-plugin-react-router-pages 文档（若有 AGENTS.md 等）。
 - 路由数据从 `virtual:react-pages` 获取：`PagesRoutes`（路径常量）、`pagesRoutes`（RouteObject[]）。跳转使用 `useNavigate` 或 @fe-free/core 的 `routeTool`。
 - 示例：
 
